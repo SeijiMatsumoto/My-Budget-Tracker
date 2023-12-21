@@ -15,11 +15,20 @@
   border-radius: 3px;
   &:hover {
     text-decoration: none !important;
-    background-color: rgba(255, 255, 255, 0.178);
+    background-color: rgba(255, 255, 255, 0.075);
   }
   display: flex;
   align-items: center;
   transition: 0.2s ease;
+  cursor: pointer;
+}
+
+.active {
+  background-color: rgba(255, 255, 255, 0.178);
+  font-weight: 600;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.178);
+  }
 }
 
 .line {
@@ -28,6 +37,6 @@
 }
 
 .icon {
-  margin: 0 10px 0 5px;
+  margin: 0 10px;
   font-size: 20px;
 }
