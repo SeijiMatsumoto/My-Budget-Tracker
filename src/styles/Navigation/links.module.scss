@@ -1,26 +1,30 @@
-.heading {
-  font-weight: 500;
-  font-size: 14px;
-}
-
-.category {
-  margin-bottom: 10px;
+.collapsed {
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  padding: 0;
 }
 
 .link {
   padding: 10px 0;
-  margin: 3px 0;
+  margin: 5px 0;
   width: 100%;
   color: white !important;
   border-radius: 3px;
-  &:hover {
-    text-decoration: none !important;
-    background-color: rgba(255, 255, 255, 0.075);
-  }
   display: flex;
   align-items: center;
   transition: 0.2s ease;
   cursor: pointer;
+  &:hover {
+    text-decoration: none !important;
+    background-color: rgba(255, 255, 255, 0.075);
+  }
+}
+
+.heading {
+  font-weight: 500;
+  font-size: 14px;
 }
 
 .active {
@@ -36,7 +40,12 @@
   color: rgba(255, 255, 255, 0.527);
 }
 
-.icon {
+.iconExpanded {
   margin: 0 10px;
+  font-size: 20px;
+}
+
+.iconCollapsed {
+  margin: 0;
   font-size: 20px;
 }
