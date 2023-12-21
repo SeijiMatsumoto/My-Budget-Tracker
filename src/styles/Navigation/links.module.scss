@@ -1,0 +1,33 @@
+.heading {
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.category {
+  margin-bottom: 10px;
+}
+
+.link {
+  padding: 10px 0;
+  margin: 3px 0;
+  width: 100%;
+  color: white !important;
+  border-radius: 3px;
+  &:hover {
+    text-decoration: none !important;
+    background-color: rgba(255, 255, 255, 0.178);
+  }
+  display: flex;
+  align-items: center;
+  transition: 0.2s ease;
+}
+
+.line {
+  margin-bottom: 10px;
+  color: rgba(255, 255, 255, 0.527);
+}
+
+.icon {
+  margin: 0 10px 0 5px;
+  font-size: 20px;
+}
