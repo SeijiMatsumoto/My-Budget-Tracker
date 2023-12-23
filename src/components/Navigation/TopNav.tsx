@@ -10,12 +10,13 @@ import { Skeleton } from '@chakra-ui/react'
 type Props = {}
 
 function TopNav({ }: Props) {
-  const { page } = useMyNavigationContext();
+  const { page, menuExpanded } = useMyNavigationContext();
 
   return (
     <Flex
       className={styles.wrapper}
       justifyContent="space-between"
+      width={`calc(100vw - ${menuExpanded ? '300px' : '50px'})`}
     >
       <Heading size={"lg"} fontWeight={300} textTransform="uppercase">
         <Skeleton isLoaded={page.length}>

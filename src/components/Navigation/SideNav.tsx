@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from 'react'
+import { useMyNavigationContext } from '@/contexts/NavigationContext';
 import styles from '../../styles/Navigation/sideNav.module.scss'
 import { Heading, Icon } from '@chakra-ui/react';
 import Links from './Links';
@@ -7,20 +8,17 @@ import { GiHummingbird } from "react-icons/gi";
 import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
 
 export default function SideNav() {
-  const [expanded, setExpanded] = useState(true);
+  const { menuExpanded, setMenuExpanded } = useMyNavigationContext();
 
   return (
-    <header className={[styles.wrapper, expanded ? styles.expanded : styles.collapsed].join(" ")}>
+    <header className={[styles.wrapper, menuExpanded ? styles.expanded : styles.collapsed].join(" ")}>
       <Heading size={'md'} mt={"10px"} className={styles.heading}>
         <Icon as={GiHummingbird} className={styles.icon} />
-        {expanded && "CJ Fin"}
+        {menuExpanded && "CJ Fin"}
       </Heading>
-      <Links expanded={expanded} />
-      <div
-        className={styles.drawer}
-        onClick={() => setExpanded(!expanded)}
-      >
-        <Icon as={expanded ? MdArrowBackIosNew : MdArrowForwardIos} />
+      <Links menuExpanded={menuExpanded} />
+      <div className={styles.drawer} onClick={() => setMenuExpanded(!menuExpanded)}>
+        <Icon as={menuExpanded ? MdArrowBackIosNew : MdArrowForwardIos} />
       </div>
     </header>
   )

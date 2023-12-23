@@ -7,29 +7,29 @@ import { links } from '@/data/links'
 import { Link } from '@chakra-ui/next-js';
 
 interface Props {
-  expanded: boolean;
+  menuExpanded: boolean;
 }
 
-function Links({ expanded }: Props) {
+function Links({ menuExpanded }: Props) {
   const { page, setPage } = useMyNavigationContext();
 
   return (
-    <Flex mt="50px" flexDir={"column"} fontSize={16} className={!expanded ? styles.collapsed : ""}>
+    <Flex mt="50px" flexDir={"column"} fontSize={16} className={!menuExpanded ? styles.collapsed : ""}>
       {links.map((link, i) => {
         return (
-          <Flex key={link.title + i} flexDir={"column"} className={!expanded ? styles.collapsed : ""}>
-            {expanded && <h4 className={styles.heading}>{link.title}</h4>}
+          <Flex key={link.title + i} flexDir={"column"} className={!menuExpanded ? styles.collapsed : ""}>
+            {menuExpanded && <h4 className={styles.heading}>{link.title}</h4>}
             {link.children.map((child, j) => {
               return (
                 <Link
                   key={child.title + j}
                   href={child.href}
-                  className={[styles.link, page.toLowerCase() === child.title.toLowerCase() ? styles.active : "", !expanded ? styles.collapsed : ""].join(" ")}
+                  className={[styles.link, page.toLowerCase() === child.title.toLowerCase() ? styles.active : "", !menuExpanded ? styles.collapsed : ""].join(" ")}
                   onClick={() => setPage(child.title)}
-                  paddingX={expanded ? "10px" : "0"}
+                  paddingX={menuExpanded ? "10px" : "0"}
                 >
-                  <Icon as={child.icon} className={expanded ? styles.iconExpanded : styles.iconCollapsed} />
-                  {expanded && child.title}
+                  <Icon as={child.icon} className={menuExpanded ? styles.iconExpanded : styles.iconCollapsed} />
+                  {menuExpanded && child.title}
                 </Link>
               )
             })}

@@ -26,7 +26,7 @@ export default function RootLayout({
           <div>
             <TopNav />
             <main className={inter.className}>
-              <Box m={10}>
+              <Box m={5} height={"calc(100vh - 120px)"}>
                 {children}
               </Box>
             </main>

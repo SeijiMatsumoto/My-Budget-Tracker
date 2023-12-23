@@ -1,4 +1,10 @@
+body {
+  background-color: #2d7d8f !important;
+}
+
 .main {
   display: flex;
   flex-direction: row;
+  overflow-x: hidden;
+  background-color: white;
 }

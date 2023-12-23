@@ -5,6 +5,7 @@ const MyNavigationContext = createContext();
 
 export const MyProvider = ({ children }) => {
   const [page, setPage] = useState("");
+  const [menuExpanded, setMenuExpanded] = useState(true);
 
   useEffect(() => {
     const path = window.location.pathname;
@@ -13,7 +14,9 @@ export const MyProvider = ({ children }) => {
   }, []);
 
   return (
-    <MyNavigationContext.Provider value={{ page, setPage }}>
+    <MyNavigationContext.Provider
+      value={{ page, setPage, menuExpanded, setMenuExpanded }}
+    >
       {children}
     </MyNavigationContext.Provider>
   );
