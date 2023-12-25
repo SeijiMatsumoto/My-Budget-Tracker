@@ -1,4 +1,5 @@
-import React from 'react'
+"use client"
+import React, { useEffect, useState } from 'react'
 import { Card, CardHeader, CardBody, Heading } from '@chakra-ui/react'
 import {
   Table,
@@ -15,11 +16,19 @@ import { spendingData } from '@/data/overview'
 import { getWeeksInMonthWithDateRanges } from '@/utils/getDates'
 
 function Overview() {
+  const [tableSize, setTableSize] = useState("sm");
   const date = new Date();
   const weeks = getWeeksInMonthWithDateRanges(date.getFullYear(), date.getMonth() + 1);
 
+  useEffect(() => {
+    const width = window.innerWidth;
+    if (width > 2400) setTableSize("lg");
+    else if (width > 1920) setTableSize("md");
+    else setTableSize("sm")
+  }, [])
+
   return (
-    <Card display="flex" flex={1}>
+    <Card display="flex" flex={1} overflow="scroll">
       <CardHeader>
         <Heading size="md">
           Spending Overview
@@ -27,7 +36,7 @@ function Overview() {
       </CardHeader>
       <CardBody>
         <TableContainer>
-          <Table variant="striped" size="md">
+          <Table variant="striped" size={tableSize}>
             <TableCaption>Amount spent in past month</TableCaption>
             <Thead>
               <Tr>

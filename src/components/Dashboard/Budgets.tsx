@@ -21,7 +21,7 @@ function Budgets() {
   ];
 
   return (
-    <Card display="flex" flex={1} ml={"20px"}>
+    <Card display="flex" flex={1} ml={5}>
       <CardHeader>
         <Heading size="md">
           {monthNames[date.getMonth()]}'s Budget

@@ -17,7 +17,7 @@ type Props = {}
 
 function Transactions({ }: Props) {
   return (
-    <Card className={styles.wrapper}>
+    <Card className={styles.wrapper} height={"48%"} mt={5}>
       <CardHeader display="flex" flexDir={"row"} justifyContent={"space-between"}>
         <Heading size="md">
           Recent Transactions

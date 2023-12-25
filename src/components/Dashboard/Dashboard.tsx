@@ -8,8 +8,8 @@ type Props = {}
 
 function Dashboard({ }: Props) {
   return (
-    <Flex flexDir="column">
-      <Flex flexDir="row" justifyContent={'space-between'}>
+    <Flex flexDir="column" height={"100%"}>
+      <Flex flexDir="row" justifyContent={'space-between'} height={"48%"}>
         <Overview />
         <Budgets />
       </Flex>
