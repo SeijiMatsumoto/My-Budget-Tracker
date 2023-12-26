@@ -1,12 +1,20 @@
 .wrapper {
   padding: 15px;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+  box-shadow:
+    rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
+    rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
   display: flex;
   flex-direction: column;
-  background-color: #2d7d8f;
+  justify-content: space-between;
+  background-color: #0088cc;
   color: rgb(250, 250, 250);
   position: relative;
   transition: 0.3s ease;
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
 }
 
 .expanded {
@@ -34,7 +42,7 @@
 
 .drawer {
   position: absolute;
-  background-color: #2d7d8f;
+  background-color: #0088cc;
   padding: 20px 5px;
   right: -20px;
   top: calc(100vh / 2);
@@ -44,4 +52,27 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.button {
+  border-radius: 10px;
+  padding: 30px 10px;
+  border: 2px solid white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 0.3s ease;
+  &:hover {
+    background-color: white;
+    color: #0088cc;
+  }
+  &:active {
+    transform: translateY(1px);
+  }
+  svg {
+    margin-right: 5px;
+  }
+}
+
+.buttonCollapsed {
 }

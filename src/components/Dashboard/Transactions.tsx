@@ -22,7 +22,7 @@ function Transactions({ }: Props) {
         <Heading size="md">
           Recent Transactions
         </Heading>
-        <Button variant="outline" backgroundColor='#2d7d8f' color="white" size="sm">
+        <Button variant="outline" backgroundColor='#0088cc' color="white" size="sm">
           View More
         </Button>
       </CardHeader>

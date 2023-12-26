@@ -1,25 +1,37 @@
 "use client";
-import React, { useState } from 'react'
+import React from 'react'
 import { useMyNavigationContext } from '@/contexts/NavigationContext';
 import styles from '../../styles/Navigation/sideNav.module.scss'
 import { Heading, Icon } from '@chakra-ui/react';
 import Links from './Links';
 import { GiHummingbird } from "react-icons/gi";
 import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
+import { FaPlusCircle } from "react-icons/fa";
+import NewItemModal from './NewItemModal';
 
 export default function SideNav() {
-  const { menuExpanded, setMenuExpanded } = useMyNavigationContext();
+  const { menuExpanded, setMenuExpanded, newItemModalOpen, setNewItemModalOpen } = useMyNavigationContext();
 
   return (
     <header className={[styles.wrapper, menuExpanded ? styles.expanded : styles.collapsed].join(" ")}>
-      <Heading size={'md'} mt={"10px"} className={styles.heading}>
-        <Icon as={GiHummingbird} className={styles.icon} />
-        {menuExpanded && "CJ Fin"}
-      </Heading>
-      <Links menuExpanded={menuExpanded} />
-      <div className={styles.drawer} onClick={() => setMenuExpanded(!menuExpanded)}>
-        <Icon as={menuExpanded ? MdArrowBackIosNew : MdArrowForwardIos} />
+      <div className="top">
+        <Heading size={'md'} mt={"10px"} className={styles.heading}>
+          <Icon as={GiHummingbird} className={styles.icon} />
+          {menuExpanded && "CJ Fin"}
+        </Heading>
+        <Links menuExpanded={menuExpanded} />
+        <div className={styles.drawer} onClick={() => setMenuExpanded(!menuExpanded)}>
+          <Icon as={menuExpanded ? MdArrowBackIosNew : MdArrowForwardIos} />
+        </div>
       </div>
+      <button
+        className={menuExpanded ? styles.button : styles.buttonCollapsed}
+        onClick={() => setNewItemModalOpen(true)}
+      >
+        <Icon as={FaPlusCircle} />
+        Add transaction or income
+      </button>
+      <NewItemModal open={newItemModalOpen} onClose={() => setNewItemModalOpen(false)} />
     </header>
   )
 }
