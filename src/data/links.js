@@ -27,11 +27,6 @@ export const links = [
         href: "/budgets",
         icon: FaPiggyBank,
       },
-      {
-        title: "Charts",
-        href: "/charts",
-        icon: MdBarChart,
-      },
     ],
   },
   {

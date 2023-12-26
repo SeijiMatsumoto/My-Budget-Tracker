@@ -1,5 +1,5 @@
 "use client";
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   ModalBody,
   FormControl,
@@ -15,7 +15,7 @@ import {
   Select
 } from '@chakra-ui/react'
 import styles from '@/styles/Navigation/newItemModal.module.scss'
-import { categories } from '@/data/categories'
+import { transactionCategories, incomeCategories } from '@/data/categories'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -43,10 +43,16 @@ const NewItemModalBody = ({
   submitHandler
 }: Props) => {
 
+  useEffect(() => {
+    if (itemType === 'Income') {
+      setSelectedCategory("Income")
+    }
+  }, [itemType])
+
   return (
     <ModalBody>
       <FormControl onSubmit={submitHandler}>
-        <FormLabel>➕ Type of item:</FormLabel>
+        <FormLabel>➕ Item type:</FormLabel>
         <RadioGroup
           defaultValue={itemType}
           value={itemType}
@@ -66,21 +72,26 @@ const NewItemModalBody = ({
           >
             $
           </InputLeftElement>
-          <Input placeholder='Enter amount' value={amount} onChange={(e: any) => setAmount(e.target.value)} />
+          <Input placeholder='Enter amount' value={amount} onChange={(e: any) => setAmount(e.target.value)} autoComplete='off' />
         </InputGroup>
-        <FormLabel>📒 Select category</FormLabel>
+        <FormLabel>📒 Category</FormLabel>
         <Select placeholder='Select category' mb="20px" value={selectedCategory} onChange={(e: any) => setSelectedCategory(e.target.value)}>
-          {categories.map(category => {
+          {itemType === "Transaction" && transactionCategories.map(category => {
+            return (
+              <option key={category}>{category}</option>
+            )
+          })}
+          {itemType === "Income" && incomeCategories.map(category => {
             return (
               <option key={category}>{category}</option>
             )
           })}
         </Select>
-        <FormLabel>📆 Select date</FormLabel>
+        <FormLabel>📆 Date</FormLabel>
         <DatePicker
           className={styles.datePicker}
           selected={startDate}
-          onChange={(date) => setStartDate(date)} />
+          onChange={(date: Date) => setStartDate(date)} />
       </FormControl>
     </ModalBody>
   )

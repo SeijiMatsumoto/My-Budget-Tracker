@@ -1,7 +1,10 @@
-"use client"
-import React from 'react'
-import { Card, CardHeader, CardBody, Flex, CardFooter, Heading } from '@chakra-ui/react'
-import { PieChart } from '@mui/x-charts/PieChart';
+"use client";
+import React, { useEffect, useState } from 'react';
+import { Card, CardHeader, CardBody, Flex, CardFooter, Heading } from '@chakra-ui/react';
+import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
+import { BarChart } from '@mui/x-charts/BarChart';
+import styles from '@/styles/Dashboard/dashboard.module.scss';
+import { budgetData } from '@/data/budgets';
 
 function Budgets() {
   const date = new Date();
@@ -20,28 +23,58 @@ function Budgets() {
     'December',
   ];
 
+  const valueFormatter = (value: number) => `$${value}`;
+  const [chartWidth, setChartWidth] = useState<number>();
+  const [chartHeight, setChartHeight] = useState<number>();
+
+  useEffect(() => {
+    getWidth();
+    getHeight();
+  }, [])
+
+  const getWidth = () => {
+    const width = window.innerWidth;
+    setChartWidth(width < 1920 ? 300 : 450);
+  }
+
+  const getHeight = () => {
+    const width = window.innerWidth;
+    setChartHeight(width < 1920 ? 300 : 400);
+  }
+
   return (
-    <Card display="flex" flex={1} ml={5}>
+    <Card ml={5} className={styles.card}>
       <CardHeader>
         <Heading size="md">
           {monthNames[date.getMonth()]}'s Budget
         </Heading>
       </CardHeader>
       <CardBody>
-        <Flex flexDir="column">
-          <Heading size="small">50/30/20</Heading>
+        <Heading size="small">50/30/20</Heading>
+        <Flex flexDir="row">
           <PieChart
             series={[
               {
-                data: [
-                  { id: 0, value: 2500, label: 'Needs' },
-                  { id: 1, value: 800, label: 'Wants' },
-                  { id: 2, value: 1000, label: 'Savings' },
-                ],
+                arcLabel: (item) => `${item.label}`,
+                data: budgetData
               },
             ]}
-            width={400}
-            height={200}
+            sx={{
+              [`& .${pieArcLabelClasses.root}`]: {
+                fill: 'white',
+              },
+            }}
+            width={chartWidth}
+            height={chartHeight}
+          />
+          <BarChart
+            xAxis={[{ scaleType: 'band', data: ['Needs', 'Wants', 'Savings'] }]}
+            series={[
+              { data: [budgetData[0].value, budgetData[1].value, budgetData[2].value], label: "Spent", valueFormatter },
+              { data: [budgetData[0].budget, budgetData[1].budget, budgetData[2].budget], label: "Budget", valueFormatter }
+            ]}
+            width={chartWidth}
+            height={chartHeight}
           />
         </Flex>
       </CardBody>

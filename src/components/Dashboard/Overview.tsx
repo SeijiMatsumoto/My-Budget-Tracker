@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import { Card, CardHeader, CardBody, Heading } from '@chakra-ui/react'
+import styles from '@/styles/Dashboard/dashboard.module.scss';
 import {
   Table,
   Thead,
@@ -28,7 +29,7 @@ function Overview() {
   }, [])
 
   return (
-    <Card display="flex" flex={1} overflow="scroll">
+    <Card className={styles.card}>
       <CardHeader>
         <Heading size="md">
           Spending Overview

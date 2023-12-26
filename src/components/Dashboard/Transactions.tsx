@@ -1,6 +1,6 @@
 import React from 'react'
-import { Card, CardHeader, CardBody, Heading, Button, ButtonGroup } from '@chakra-ui/react'
-import styles from '@/styles/Dashboard/transactions.module.scss';
+import { Card, CardHeader, CardBody, Heading, Button } from '@chakra-ui/react'
+import styles from '@/styles/Dashboard/dashboard.module.scss';
 import { transactions } from '@/data/transactions';
 import {
   Table,
@@ -17,7 +17,7 @@ type Props = {}
 
 function Transactions({ }: Props) {
   return (
-    <Card className={styles.wrapper} height={"48%"} mt={5}>
+    <Card className={styles.card} height={"48%"} mt={5}>
       <CardHeader display="flex" flexDir={"row"} justifyContent={"space-between"}>
         <Heading size="md">
           Recent Transactions

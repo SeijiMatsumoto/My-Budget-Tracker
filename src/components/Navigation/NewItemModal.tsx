@@ -40,7 +40,7 @@ const NewItemModal = ({ open, onClose }: Props) => {
   }
 
   return (
-    <Modal isOpen={open} onClose={onClose} size={'xl'}>
+    <Modal isOpen={open} onClose={onClose} size={'xl'} isCentered>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Add New Item</ModalHeader>

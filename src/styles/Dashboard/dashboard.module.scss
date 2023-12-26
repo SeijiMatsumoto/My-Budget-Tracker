@@ -1,0 +1,17 @@
+.wrapper {
+  display: flex;
+  overflow: scroll;
+}
+
+.card {
+  display: flex;
+  flex: 1;
+  overflow: scroll;
+  &::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(212, 210, 210);
+  }
+}
