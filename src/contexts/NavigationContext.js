@@ -3,7 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 
 const MyNavigationContext = createContext();
 
-export const MyProvider = ({ children }) => {
+export const MyNavigationProvider = ({ children }) => {
   const [page, setPage] = useState("");
   const [menuExpanded, setMenuExpanded] = useState(true);
   const [newItemModalOpen, setNewItemModalOpen] = useState(false);

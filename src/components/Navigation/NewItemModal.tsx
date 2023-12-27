@@ -32,6 +32,7 @@ const NewItemModal = ({ open, onClose }: Props) => {
   const submitHandler = () => {
     if (isValidDollar(amount) && selectedCategory.length) {
       window.alert("Valid! Submitting...");
+
       onClose();
       resetStates();
     } else {

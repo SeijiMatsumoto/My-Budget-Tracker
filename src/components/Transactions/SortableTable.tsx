@@ -11,7 +11,7 @@ import {
   TableContainer,
 } from '@chakra-ui/react'
 import styles from '@/styles/Transactions/transactions.module.scss'
-import { transactions } from '@/data/transactions'
+import { useMyDataContext } from '@/contexts/DataContext';
 
 interface Transaction {
   title: string;
@@ -36,8 +36,10 @@ interface Props {
 }
 
 const SortableTable = ({ startDate, endDate, searchInput }: Props) => {
+  const { transactionsData } = useMyDataContext();
+
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
-  const [sortedData, setSortedData] = useState(transactions);
+  const [sortedData, setSortedData] = useState(transactionsData);
 
   const handleSort = (key: keyof Transaction) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -76,16 +78,16 @@ const SortableTable = ({ startDate, endDate, searchInput }: Props) => {
   }
 
   useEffect(() => {
-    const filteredData = filterRange(transactions);
+    const filteredData = filterRange(transactionsData);
     setSortedData(filteredData);
   }, [startDate, endDate])
 
   useEffect(() => {
     if (searchInput.input.length) {
-      const searchOutput = transactions.filter(transaction => searchInput.type === "title" ? transaction.title.toLowerCase().includes(searchInput.input) : transaction.category.toLowerCase().includes(searchInput.input));
+      const searchOutput = transactionsData.filter((transaction: Transaction) => searchInput.type === "title" ? transaction.title.toLowerCase().includes(searchInput.input) : transaction.category.toLowerCase().includes(searchInput.input));
       setSortedData(filterRange(searchOutput));
     } else {
-      setSortedData(filterRange(transactions));
+      setSortedData(filterRange(transactionsData));
     }
   }, [searchInput])
 
@@ -102,7 +104,7 @@ const SortableTable = ({ startDate, endDate, searchInput }: Props) => {
           </Tr>
         </Thead>
         <Tbody>
-          {sortedData.map((row, i) => {
+          {sortedData.map((row: Transaction, i: number) => {
             return (
               <Tr key={row.title + i}>
                 <Td>{row.title}</Td>

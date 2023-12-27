@@ -202,7 +202,6 @@ export const transactions = [
     date: "12-29-2023",
     type: "Transaction",
   },
-  // Changing type to "Income" for the following entries
   {
     title: "Salary",
     amount: 5000.0,

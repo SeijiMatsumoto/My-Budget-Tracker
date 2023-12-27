@@ -2,7 +2,7 @@
 import React from 'react'
 import { Card, CardHeader, CardBody, Heading, Button } from '@chakra-ui/react'
 import styles from '@/styles/Dashboard/dashboard.module.scss';
-import { transactions } from '@/data/transactions'
+import { useMyDataContext } from '@/contexts/DataContext';
 import { useMyNavigationContext } from '@/contexts/NavigationContext';
 import {
   Table,
@@ -16,11 +16,19 @@ import {
 } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 
-type Props = {}
+interface Transaction {
+  title: string;
+  amount: number;
+  category: string;
+  date: string;
+  type: string;
+}
 
-function Transactions({ }: Props) {
+
+function Transactions() {
   const router = useRouter()
   const { setPage } = useMyNavigationContext();
+  const { transactionsData } = useMyDataContext();
 
   const clickHandler = () => {
     setPage('Transactions');
@@ -44,19 +52,21 @@ function Transactions({ }: Props) {
             <Thead>
               <Tr>
                 <Th>Transaction</Th>
+                <Th>Type</Th>
                 <Th>Category</Th>
                 <Th>Date</Th>
                 <Th>Amount</Th>
               </Tr>
             </Thead>
             <Tbody>
-              {transactions.slice(0, 10).map((row, i) => {
+              {[...transactionsData].slice(0, 10).map((row: Transaction, i: number) => {
                 return (
                   <Tr key={row.title + i}>
                     <Td>{row.title}</Td>
+                    <Td>{row.type}</Td>
                     <Td>{row.category}</Td>
                     <Td>{row.date}</Td>
-                    <Td>${row.amount.toFixed(2)}</Td>
+                    {row.type === "Transaction" ? <Td>-${row.amount.toFixed(2)}</Td> : <Td>+${row.amount.toFixed(2)}</Td>}
                   </Tr>
                 )
               })}
