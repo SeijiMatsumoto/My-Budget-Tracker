@@ -1,7 +1,9 @@
+"use client"
 import React from 'react'
 import { Card, CardHeader, CardBody, Heading, Button } from '@chakra-ui/react'
 import styles from '@/styles/Dashboard/dashboard.module.scss';
-import { transactions } from '@/data/transactions';
+import { transactions } from '@/data/transactions'
+import { useMyNavigationContext } from '@/contexts/NavigationContext';
 import {
   Table,
   Thead,
@@ -12,17 +14,26 @@ import {
   TableCaption,
   TableContainer,
 } from '@chakra-ui/react'
+import { useRouter } from 'next/navigation'
 
 type Props = {}
 
 function Transactions({ }: Props) {
+  const router = useRouter()
+  const { setPage } = useMyNavigationContext();
+
+  const clickHandler = () => {
+    setPage('Transactions');
+    router.push('/transactions');
+  }
+
   return (
     <Card className={styles.card} height={"48%"} mt={5}>
-      <CardHeader display="flex" flexDir={"row"} justifyContent={"space-between"}>
+      <CardHeader className={styles.heading}>
         <Heading size="md">
           Recent Transactions
         </Heading>
-        <Button variant="outline" backgroundColor='#0088cc' color="white" size="sm">
+        <Button variant="outline" backgroundColor='#0088cc' color="white" size="sm" onClick={clickHandler}>
           View More
         </Button>
       </CardHeader>

@@ -54,6 +54,7 @@ const NewItemModal = ({ open, onClose }: Props) => {
           startDate={startDate}
           setStartDate={setStartDate}
           submitHandler={submitHandler}
+          onClose={onClose}
         />
         <ModalFooter>
           <Button variant="outline" mr={3} onClick={() => { onClose(); resetStates(); }}>Cancel</Button>

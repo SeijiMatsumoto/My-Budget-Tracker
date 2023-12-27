@@ -12,12 +12,16 @@ import {
   InputGroup,
   Input,
   InputLeftElement,
-  Select
+  Select,
+  Box,
+  Flex,
 } from '@chakra-ui/react'
 import styles from '@/styles/Navigation/newItemModal.module.scss'
 import { transactionCategories, incomeCategories } from '@/data/categories'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { Link } from '@chakra-ui/next-js';
+import { useMyNavigationContext } from '@/contexts/NavigationContext';
 
 interface Props {
   itemType: string;
@@ -29,6 +33,7 @@ interface Props {
   startDate: any;
   setStartDate: Function;
   submitHandler: any;
+  onClose: Function
 }
 
 const NewItemModalBody = ({
@@ -40,8 +45,10 @@ const NewItemModalBody = ({
   setSelectedCategory,
   startDate,
   setStartDate,
-  submitHandler
+  submitHandler,
+  onClose
 }: Props) => {
+  const { setPage } = useMyNavigationContext();
 
   useEffect(() => {
     if (itemType === 'Income') {
@@ -49,49 +56,67 @@ const NewItemModalBody = ({
     }
   }, [itemType])
 
+  const editCategories = () => {
+    setPage("Settings");
+    onClose();
+  }
+
   return (
     <ModalBody>
       <FormControl onSubmit={submitHandler}>
-        <FormLabel>➕ Item type:</FormLabel>
-        <RadioGroup
-          defaultValue={itemType}
-          value={itemType}
-          onChange={setItemType}
-          mb="20px">
-          <HStack spacing='24px'>
-            <Radio value='Transaction'>Transaction (money out)</Radio>
-            <Radio value='Income'>Income (money in)</Radio>
-          </HStack>
-        </RadioGroup>
-        <FormLabel>💰 Enter {itemType.toLowerCase()} amount in dollars</FormLabel>
-        <InputGroup mb="20px">
-          <InputLeftElement
-            pointerEvents='none'
-            color={amount ? 'black' : 'gray.300'}
-            fontSize='1.2em'
+        <Box mb="20px">
+          <FormLabel>➕ Item type:</FormLabel>
+          <RadioGroup
+            defaultValue={itemType}
+            value={itemType}
+            onChange={setItemType}
           >
-            $
-          </InputLeftElement>
-          <Input placeholder='Enter amount' value={amount} onChange={(e: any) => setAmount(e.target.value)} autoComplete='off' />
-        </InputGroup>
-        <FormLabel>📒 Category</FormLabel>
-        <Select placeholder='Select category' mb="20px" value={selectedCategory} onChange={(e: any) => setSelectedCategory(e.target.value)}>
-          {itemType === "Transaction" && transactionCategories.map(category => {
-            return (
-              <option key={category}>{category}</option>
-            )
-          })}
-          {itemType === "Income" && incomeCategories.map(category => {
-            return (
-              <option key={category}>{category}</option>
-            )
-          })}
-        </Select>
-        <FormLabel>📆 Date</FormLabel>
-        <DatePicker
-          className={styles.datePicker}
-          selected={startDate}
-          onChange={(date: Date) => setStartDate(date)} />
+            <HStack spacing='24px'>
+              <Radio value='Transaction'>Transaction (money out)</Radio>
+              <Radio value='Income'>Income (money in)</Radio>
+            </HStack>
+          </RadioGroup>
+        </Box>
+        <Box mb="20px">
+          <FormLabel>📆 Date</FormLabel>
+          <DatePicker
+            className={styles.datePicker}
+            selected={startDate}
+            onChange={(date: Date) => setStartDate(date)} />
+        </Box>
+        <Box mb="20px">
+          <Flex justifyContent="space-between" alignItems="center">
+            <FormLabel>📒 Category</FormLabel>
+            <FormHelperText position="relative" top="-2px">
+              <Link href="/settings" onClick={editCategories}>Edit categories</Link>
+            </FormHelperText>
+          </Flex>
+          <Select placeholder='Select category' value={selectedCategory} onChange={(e: any) => setSelectedCategory(e.target.value)}>
+            {itemType === "Transaction" && transactionCategories.map(category => {
+              return (
+                <option key={category}>{category}</option>
+              )
+            })}
+            {itemType === "Income" && incomeCategories.map(category => {
+              return (
+                <option key={category}>{category}</option>
+              )
+            })}
+          </Select>
+        </Box>
+        <Box>
+          <FormLabel>💰 {itemType} amount</FormLabel>
+          <InputGroup>
+            <InputLeftElement
+              pointerEvents='none'
+              color={amount ? 'black' : 'gray.300'}
+              fontSize='1.2em'
+            >
+              $
+            </InputLeftElement>
+            <Input placeholder='Enter amount' value={amount} onChange={(e: any) => setAmount(e.target.value)} autoComplete='off' />
+          </InputGroup>
+        </Box>
       </FormControl>
     </ModalBody>
   )
