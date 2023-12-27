@@ -33,7 +33,7 @@ function Links({ menuExpanded }: Props) {
                 </Link>
               )
             })}
-            {i !== links.length - 1 ? <hr className={styles.line} /> : null}
+            {i !== links.length - 1 && menuExpanded ? <hr className={styles.line} /> : null}
           </Flex>
         )
       })}

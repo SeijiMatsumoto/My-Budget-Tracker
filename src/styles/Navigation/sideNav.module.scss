@@ -15,6 +15,7 @@
 .top {
   display: flex;
   flex-direction: column;
+  width: 100%;
 }
 
 .expanded {
@@ -22,12 +23,19 @@
 }
 
 .collapsed {
-  width: 50px;
+  width: 80px;
   padding: 15px 5px;
   align-items: center;
   svg {
     margin: 0;
   }
+}
+
+.topExpanded {
+}
+
+.topCollapsed {
+  align-items: center;
 }
 
 .heading {
@@ -75,4 +83,14 @@
 }
 
 .buttonCollapsed {
+  svg {
+    font-size: 26px;
+    transition: 0.2s ease;
+    &:hover {
+      transform: scale(1.1);
+    }
+    &:active {
+      transform: scale(1);
+    }
+  }
 }

@@ -16,7 +16,7 @@ function TopNav({ }: Props) {
     <Flex
       className={styles.wrapper}
       justifyContent="space-between"
-      width={`calc(100vw - ${menuExpanded ? '300px' : '50px'})`}
+      width={`calc(100vw - ${menuExpanded ? '300px' : '80px'})`}
     >
       <Heading size={"lg"} fontWeight={300} textTransform="uppercase">
         <Skeleton isLoaded={page.length}>

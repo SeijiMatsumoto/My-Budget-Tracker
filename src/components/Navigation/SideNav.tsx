@@ -14,7 +14,7 @@ export default function SideNav() {
 
   return (
     <header className={[styles.wrapper, menuExpanded ? styles.expanded : styles.collapsed].join(" ")}>
-      <div className="top">
+      <div className={[styles.top, menuExpanded ? styles.topExpanded : styles.topCollapsed].join(" ")}>
         <Heading size={'md'} mt={"10px"} className={styles.heading}>
           <Icon as={GiHummingbird} className={styles.icon} />
           {menuExpanded && "CJ Fin"}
@@ -29,7 +29,7 @@ export default function SideNav() {
         onClick={() => setNewItemModalOpen(true)}
       >
         <Icon as={FaPlusCircle} />
-        Add transaction or income
+        {menuExpanded ? <span>Add transaction or income</span> : null}
       </button>
       <NewItemModal open={newItemModalOpen} onClose={() => setNewItemModalOpen(false)} />
     </header>
