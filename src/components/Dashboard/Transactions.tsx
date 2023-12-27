@@ -56,7 +56,7 @@ function Transactions({ }: Props) {
                     <Td>{row.title}</Td>
                     <Td>{row.category}</Td>
                     <Td>{row.date}</Td>
-                    <Td>{row.amount}</Td>
+                    <Td>${row.amount.toFixed(2)}</Td>
                   </Tr>
                 )
               })}

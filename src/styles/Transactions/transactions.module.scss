@@ -1,0 +1,23 @@
+.cardBody {
+  &::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(212, 210, 210);
+  }
+  overflow-y: scroll;
+}
+
+.colHeader {
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.datePicker {
+  * {
+    color: black !important;
+  }
+}
