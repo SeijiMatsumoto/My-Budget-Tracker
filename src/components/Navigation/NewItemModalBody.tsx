@@ -26,6 +26,8 @@ import { useMyNavigationContext } from '@/contexts/NavigationContext';
 interface Props {
   itemType: string;
   setItemType: any;
+  title: string;
+  setTitle: Function;
   amount: any;
   setAmount: Function;
   selectedCategory: string;
@@ -39,6 +41,8 @@ interface Props {
 const NewItemModalBody = ({
   itemType,
   setItemType,
+  title,
+  setTitle,
   amount,
   setAmount,
   selectedCategory,
@@ -83,6 +87,12 @@ const NewItemModalBody = ({
             className={styles.datePicker}
             selected={startDate}
             onChange={(date: Date) => setStartDate(date)} />
+        </Box>
+        <Box mb="20px">
+          <FormLabel>✏️ Title</FormLabel>
+          <InputGroup>
+            <Input placeholder='Enter title' value={title} onChange={(e) => setTitle(e.target.value)} autoComplete='off' />
+          </InputGroup>
         </Box>
         <Box mb="20px">
           <Flex justifyContent="space-between" alignItems="center">

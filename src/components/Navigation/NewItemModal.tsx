@@ -10,6 +10,7 @@ import {
 } from '@chakra-ui/react'
 import NewItemModalBody from './NewItemModalBody';
 import { isValidDollar } from '@/utils/formValidator'
+import { useMyDataContext } from '@/contexts/DataContext';
 
 type Props = {
   open: boolean;
@@ -17,22 +18,41 @@ type Props = {
 }
 
 const NewItemModal = ({ open, onClose }: Props) => {
-  const [itemType, setItemType] = useState('Transaction')
-  const [amount, setAmount] = useState<string | null>();
-  const [selectedCategory, setSelectedCategory] = useState("");
+  const [itemType, setItemType] = useState<string>('Transaction')
+  const [title, setTitle] = useState<string>("");
+  const [amount, setAmount] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [startDate, setStartDate] = useState<any>(new Date());
+  const { transactionsData, setTransactionsData } = useMyDataContext();
 
   const resetStates = () => {
     setItemType("Transaction");
-    setAmount(null);
+    setTitle("");
+    setAmount("");
     setSelectedCategory("");
     setStartDate(new Date());
   }
 
-  const submitHandler = () => {
-    if (isValidDollar(amount) && selectedCategory.length) {
-      window.alert("Valid! Submitting...");
+  const formatDate = (date: Date) => {
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
 
+    return `${month}-${day}-${year}`;
+  }
+
+  const submitHandler = () => {
+    if (isValidDollar(amount) && selectedCategory.length && title.length) {
+      const newItem = {
+        type: itemType,
+        title: title,
+        amount: parseInt(amount),
+        category: selectedCategory,
+        date: formatDate(startDate)
+      }
+      console.log([newItem, ...transactionsData])
+      window.alert("Valid! Submitting...");
+      setTransactionsData([newItem, ...transactionsData])
       onClose();
       resetStates();
     } else {
@@ -48,6 +68,8 @@ const NewItemModal = ({ open, onClose }: Props) => {
         <NewItemModalBody
           itemType={itemType}
           setItemType={setItemType}
+          title={title}
+          setTitle={setTitle}
           amount={amount}
           setAmount={setAmount}
           selectedCategory={selectedCategory}
