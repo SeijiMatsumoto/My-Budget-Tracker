@@ -13,6 +13,7 @@ import {
 } from '@chakra-ui/react'
 import styles from '@/styles/Transactions/transactions.module.scss'
 import { useMyDataContext } from '@/contexts/DataContext';
+import { convertDollarsToString } from '@/utils/convertDollars';
 
 interface Transaction {
   title: string;
@@ -101,17 +102,9 @@ const SortableTable = ({ startDate, endDate, searchInput, type }: Props) => {
     }
   }, [type])
 
-  const convertDollarsToString = (amount: number) => {
-    if (amount < 0) {
-      return `-$${amount.toFixed(2).toString().slice(1)}`
-    } else {
-      return `+$${amount.toFixed(2)}`
-    }
-  }
-
   return (
     <TableContainer>
-      <Table variant="striped" size="md">
+      <Table variant="striped" size="sm">
         <Thead>
           <Tr>
             <Th className={styles.colHeader} onClick={() => handleSort('title')}>Title</Th>
@@ -143,7 +136,7 @@ const SortableTable = ({ startDate, endDate, searchInput, type }: Props) => {
             <Th >${sortedData.reduce((sum: number, transaction: Transaction) => sum + transaction.amount, 0).toFixed(2)}</Th>
           </Tr>
         </Tfoot>
-        <TableCaption>All Transactions</TableCaption>
+        <TableCaption>All Transactions from {startDate.toLocaleDateString()} to {endDate.toLocaleDateString()}</TableCaption>
       </Table>
     </TableContainer>
   )

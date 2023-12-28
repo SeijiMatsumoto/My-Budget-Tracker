@@ -35,8 +35,9 @@ function Transactions() {
   return (
     <Flex justifyContent={"space-between"} height="100%">
       <Card flexDir="column" width="75%">
-        <CardHeader>
-          <Heading size="md">Transactions ({startDate.toLocaleDateString()} - {endDate.toLocaleDateString()})</Heading>
+        <CardHeader justifyContent="space-between" display="flex" flexDir="row">
+          <Heading size="md">Transactions</Heading>
+          <Heading size="md">{startDate.toDateString()} - {endDate.toDateString()}</Heading>
         </CardHeader>
         <CardBody overflow="scroll" className={styles.cardBody}>
           <SortableTable startDate={startDate} endDate={endDate} searchInput={searchInput} type={type} />

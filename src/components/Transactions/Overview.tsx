@@ -1,5 +1,5 @@
 "use client"
-import { Box, Flex, Grid, Heading, StylesProvider, Text } from '@chakra-ui/react'
+import { Box, Flex, Grid, Heading } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useMyDataContext } from '@/contexts/DataContext';
 import AnimatedNumber from '@crossfox/react-animated-number';

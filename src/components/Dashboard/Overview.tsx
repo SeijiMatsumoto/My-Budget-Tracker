@@ -13,11 +13,35 @@ import {
   TableCaption,
   TableContainer,
 } from '@chakra-ui/react'
-import { spendingData } from '@/data/overview'
 import { getWeeksInMonthWithDateRanges } from '@/utils/getDates'
+import { useMyDataContext } from '@/contexts/DataContext';
+
+interface DataByWeek {
+  week: string;
+  totalAmount: number;
+}
+
+interface Transaction {
+  title: string;
+  amount: number;
+  category: string;
+  date: string;
+  type: string;
+}
+
+interface TransactionWithDate {
+  title: string;
+  amount: number;
+  category: string;
+  date: Date;
+  type: string;
+}
 
 function Overview() {
-  const [tableSize, setTableSize] = useState("sm");
+  const { transactionsData } = useMyDataContext();
+  const [tableSize, setTableSize] = useState<string>("sm");
+  const [dataByWeek, setDataByWeek] = useState<DataByWeek[]>([]);
+
   const date = new Date();
   const weeks = getWeeksInMonthWithDateRanges(date.getFullYear(), date.getMonth() + 1);
 
@@ -27,6 +51,45 @@ function Overview() {
     else if (width > 1920) setTableSize("md");
     else setTableSize("sm")
   }, [])
+
+  const getWeek = (date: Date): string => {
+    const year = date.getFullYear();
+    const day = date.getDate();
+
+    const firstDayOfYear = new Date(year, 0, 1);
+    const daysOffset = firstDayOfYear.getDay() - 1;
+    const startOfWeek = new Date(year, 0, 1 - daysOffset);
+
+    const weekNumber = Math.ceil(((day - startOfWeek.getDate()) + 1) / 7);
+    return `${year}-W${String(weekNumber).padStart(2, '0')}`;
+  }
+
+  useEffect(() => {
+    const transactionsWithDate: TransactionWithDate[] = transactionsData.map((transaction: Transaction) => ({
+      ...transaction,
+      date: new Date(transaction.date),
+    }));
+
+    const weeklySum: DataByWeek[] = transactionsWithDate.reduce((result: DataByWeek[], transaction: TransactionWithDate) => {
+      if (transaction.type === "Transaction") {
+        const parsedDate: Date = new Date(transaction.date);
+        const week = getWeek(parsedDate);
+        const existingWeek = result.find((item) => item.week === week);
+        if (existingWeek) {
+          existingWeek.totalAmount += transaction.amount;
+        } else {
+          result.push({
+            week,
+            totalAmount: transaction.amount,
+          });
+        }
+      }
+
+      return result;
+    }, []);
+
+    setDataByWeek(weeklySum);
+  }, [transactionsData])
 
   return (
     <Card className={styles.card}>
@@ -46,11 +109,11 @@ function Overview() {
               </Tr>
             </Thead>
             <Tbody>
-              {spendingData.map((row, i) => {
+              {dataByWeek.map((row: DataByWeek, i: number) => {
                 return (
-                  <Tr key={row.time + i}>
-                    <Td>{`${row.time} (${weeks[i]})`}</Td>
-                    <Td isNumeric>${row.total}</Td>
+                  <Tr key={row.week + i}>
+                    <Td>{`Week ${i + 1} (${weeks[i]})`}</Td>
+                    <Td isNumeric>${(row.totalAmount * -1).toFixed(2)}</Td>
                   </Tr>
                 )
               })}
@@ -58,7 +121,7 @@ function Overview() {
             <Tfoot>
               <Tr>
                 <Th>Total Spent</Th>
-                <Th isNumeric fontSize="16px">${spendingData.reduce((a, b) => a + b.total, 0).toFixed(2)}</Th>
+                <Th isNumeric fontSize="16px">${(dataByWeek.reduce((a: number, b: DataByWeek) => a + b.totalAmount, 0) * -1).toFixed(2)}</Th>
               </Tr>
             </Tfoot>
           </Table>

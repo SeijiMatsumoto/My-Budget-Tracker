@@ -17,7 +17,7 @@ export const transactions = [
     title: "Movie Tickets",
     amount: -25.0,
     category: "Entertainment",
-    date: "12-03-2023",
+    date: "12-31-2023",
     type: "Transaction",
   },
   {

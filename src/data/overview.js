@@ -20,7 +20,7 @@ export const spendingData = [
     total: 200.09,
   },
   {
-    time: "Week 5",
+    time: "Week 6",
     total: 10.11,
   },
 ];

@@ -15,6 +15,7 @@ import {
   TableContainer,
 } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
+import { convertDollarsToString } from '@/utils/convertDollars';
 
 interface Transaction {
   title: string;
@@ -65,7 +66,7 @@ function Transactions() {
                     <Td>{row.type}</Td>
                     <Td>{row.category}</Td>
                     <Td>{row.date}</Td>
-                    {row.type === "Transaction" ? <Td>-${row.amount.toFixed(2)}</Td> : <Td>+${row.amount.toFixed(2)}</Td>}
+                    <Td>{convertDollarsToString(row.amount)}</Td>
                   </Tr>
                 )
               })}
