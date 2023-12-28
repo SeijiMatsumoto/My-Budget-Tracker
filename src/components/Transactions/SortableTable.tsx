@@ -9,6 +9,7 @@ import {
   Td,
   TableCaption,
   TableContainer,
+  Tfoot,
 } from '@chakra-ui/react'
 import styles from '@/styles/Transactions/transactions.module.scss'
 import { useMyDataContext } from '@/contexts/DataContext';
@@ -33,13 +34,13 @@ interface Props {
     input: string;
     type: string;
   };
+  type: string;
 }
 
-const SortableTable = ({ startDate, endDate, searchInput }: Props) => {
-  const { transactionsData } = useMyDataContext();
+const SortableTable = ({ startDate, endDate, searchInput, type }: Props) => {
+  const { transactionsData, sortedData, setSortedData } = useMyDataContext();
 
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
-  const [sortedData, setSortedData] = useState(transactionsData);
 
   const handleSort = (key: keyof Transaction) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -91,6 +92,23 @@ const SortableTable = ({ startDate, endDate, searchInput }: Props) => {
     }
   }, [searchInput])
 
+  useEffect(() => {
+    if (type === "All") {
+      setSortedData(filterRange(transactionsData))
+    } else {
+      const searchOutput = transactionsData.filter((transaction: Transaction) => transaction.type === type);
+      setSortedData(filterRange(searchOutput));
+    }
+  }, [type])
+
+  const convertDollarsToString = (amount: number) => {
+    if (amount < 0) {
+      return `-$${amount.toFixed(2).toString().slice(1)}`
+    } else {
+      return `+$${amount.toFixed(2)}`
+    }
+  }
+
   return (
     <TableContainer>
       <Table variant="striped" size="md">
@@ -111,11 +129,20 @@ const SortableTable = ({ startDate, endDate, searchInput }: Props) => {
                 <Td>{row.type}</Td>
                 <Td>{row.category}</Td>
                 <Td>{row.date}</Td>
-                {row.type === "Transaction" ? <Td>-${row.amount.toFixed(2)}</Td> : <Td>+${row.amount.toFixed(2)}</Td>}
+                <Td>{convertDollarsToString(row.amount)}</Td>
               </Tr>
             )
           })}
         </Tbody>
+        <Tfoot>
+          <Tr>
+            <Th>Total</Th>
+            <Th />
+            <Th />
+            <Th />
+            <Th >${sortedData.reduce((sum: number, transaction: Transaction) => sum + transaction.amount, 0).toFixed(2)}</Th>
+          </Tr>
+        </Tfoot>
         <TableCaption>All Transactions</TableCaption>
       </Table>
     </TableContainer>

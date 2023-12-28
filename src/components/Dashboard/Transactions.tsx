@@ -24,7 +24,6 @@ interface Transaction {
   type: string;
 }
 
-
 function Transactions() {
   const router = useRouter()
   const { setPage } = useMyNavigationContext();
@@ -41,8 +40,8 @@ function Transactions() {
         <Heading size="md">
           Recent Transactions
         </Heading>
-        <Button variant="outline" backgroundColor='#0088cc' color="white" size="sm" onClick={clickHandler}>
-          View More
+        <Button backgroundColor='#0088cc' color="white" size="sm" onClick={clickHandler}>
+          View All
         </Button>
       </CardHeader>
       <CardBody>
@@ -51,7 +50,7 @@ function Transactions() {
             <TableCaption>Last 10 transactions</TableCaption>
             <Thead>
               <Tr>
-                <Th>Transaction</Th>
+                <Th>Title</Th>
                 <Th>Type</Th>
                 <Th>Category</Th>
                 <Th>Date</Th>

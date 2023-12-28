@@ -1,9 +1,10 @@
 import React from 'react'
-import DateRange from './DateRange'
+import DateRange from './Filters/DateRange'
 import { Box, Button, Flex, Heading, Icon } from '@chakra-ui/react';
 import { useMyNavigationContext } from '@/contexts/NavigationContext';
 import { FaPlusCircle } from "react-icons/fa";
-import Search from './Search';
+import Search from './Filters/Search';
+import Type from './Filters/Type';
 
 type Props = {
   startDate: Date;
@@ -15,9 +16,11 @@ type Props = {
     type: string;
   };
   setInput: Function;
+  type: string;
+  setType: (nextValue: string) => void;
 }
 
-const Filters = ({ startDate, endDate, setStartDate, setEndDate, searchInput, setInput }: Props) => {
+const Filters = ({ startDate, endDate, setStartDate, setEndDate, searchInput, setInput, type, setType }: Props) => {
   const { setNewItemModalOpen } = useMyNavigationContext();
 
   return (
@@ -33,12 +36,16 @@ const Filters = ({ startDate, endDate, setStartDate, setEndDate, searchInput, se
         </Button>
       </Box>
       <Box mb={10}>
+        <Heading size="sm" mb={3}>Search</Heading>
+        <Search searchInput={searchInput} setInput={setInput} />
+      </Box>
+      <Box mb={10}>
         <Heading size="sm" mb={3}>Date Range</Heading>
         <DateRange startDate={startDate} endDate={endDate} setStartDate={setStartDate} setEndDate={setEndDate} />
       </Box>
       <Box mb={10}>
-        <Heading size="sm" mb={3}>Search</Heading>
-        <Search searchInput={searchInput} setInput={setInput} />
+        <Heading size="sm" mb={3}>Type</Heading>
+        <Type type={type} setType={setType} />
       </Box>
     </Flex>
   )

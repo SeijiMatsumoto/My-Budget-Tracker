@@ -63,7 +63,7 @@ function Budgets() {
         </Button>
       </CardHeader>
       <CardBody>
-        <Flex flexDir="row">
+        <Flex flexDir="row" justifyContent="space-between">
           <Box flexGrow={1}>
             <PieChart
               series={[

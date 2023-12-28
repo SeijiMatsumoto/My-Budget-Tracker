@@ -5,13 +5,14 @@ import { transactions } from "@/data/transactions";
 
 export const MyDataProvider = ({ children }) => {
   const [transactionsData, setTransactionsData] = useState([]);
+  const [sortedData, setSortedData] = useState(transactionsData);
 
   useEffect(() => {
-    setTransactionsData(
-      transactions.sort(
-        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-      )
+    const sorted = transactions.sort(
+      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
+    setTransactionsData(sorted);
+    setSortedData(sorted);
   }, []);
 
   return (
@@ -19,6 +20,8 @@ export const MyDataProvider = ({ children }) => {
       value={{
         transactionsData,
         setTransactionsData,
+        sortedData,
+        setSortedData,
       }}
     >
       {children}

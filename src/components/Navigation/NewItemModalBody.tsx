@@ -76,8 +76,9 @@ const NewItemModalBody = ({
             onChange={setItemType}
           >
             <HStack spacing='24px'>
-              <Radio value='Transaction'>Transaction (money out)</Radio>
-              <Radio value='Income'>Income (money in)</Radio>
+              <Radio value='Transaction'>Transaction</Radio>
+              <Radio value='Income'>Income</Radio>
+              <Radio value='Savings'>Savings</Radio>
             </HStack>
           </RadioGroup>
         </Box>
