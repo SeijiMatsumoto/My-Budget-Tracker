@@ -6,21 +6,7 @@ import { FaPlusCircle } from "react-icons/fa";
 import Search from './Filters/Search';
 import Type from './Filters/Type';
 
-type Props = {
-  startDate: Date;
-  endDate: Date;
-  setStartDate: Function;
-  setEndDate: Function;
-  searchInput: {
-    input: string;
-    type: string;
-  };
-  setInput: Function;
-  type: string;
-  setType: (nextValue: string) => void;
-}
-
-const Filters = ({ startDate, endDate, setStartDate, setEndDate, searchInput, setInput, type, setType }: Props) => {
+const Filters = () => {
   const { setNewItemModalOpen } = useMyNavigationContext();
 
   return (
@@ -37,15 +23,15 @@ const Filters = ({ startDate, endDate, setStartDate, setEndDate, searchInput, se
       </Box>
       <Box mb={10}>
         <Heading size="sm" mb={3}>Search</Heading>
-        <Search searchInput={searchInput} setInput={setInput} />
+        <Search />
       </Box>
       <Box mb={10}>
         <Heading size="sm" mb={3}>Date Range</Heading>
-        <DateRange startDate={startDate} endDate={endDate} setStartDate={setStartDate} setEndDate={setEndDate} />
+        <DateRange />
       </Box>
       <Box mb={10}>
         <Heading size="sm" mb={3}>Type</Heading>
-        <Type type={type} setType={setType} />
+        <Type />
       </Box>
     </Flex>
   )

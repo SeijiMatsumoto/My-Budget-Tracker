@@ -28,35 +28,9 @@ interface SortConfig {
   direction: 'asc' | 'desc';
 }
 
-interface Props {
-  startDate: Date;
-  endDate: Date;
-  searchInput: {
-    input: string;
-    type: string;
-  };
-  type: string;
-}
-
-const SortableTable = ({ startDate, endDate, searchInput, type }: Props) => {
-  const { transactionsData, sortedData, setSortedData } = useMyDataContext();
-
+const SortableTable = () => {
+  const { transactionsData, sortedData, setSortedData, handleSort, sortByKey, filterRange, startDate, endDate, searchInput, type } = useMyDataContext();
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
-
-  const handleSort = (key: keyof Transaction) => {
-    let direction: 'asc' | 'desc' = 'asc';
-    if (sortConfig.key === key && sortConfig.direction === 'asc') {
-      direction = 'desc';
-    }
-    setSortConfig({ key, direction });
-  };
-
-  const sortByKey = (a: Transaction, b: Transaction, key: keyof Transaction) => {
-    if (key === 'amount') {
-      return a[key] - b[key];
-    }
-    return a[key] > b[key] ? 1 : -1;
-  };
 
   useEffect(() => {
     setSortedData([...sortedData].sort((a, b) => {
@@ -67,38 +41,26 @@ const SortableTable = ({ startDate, endDate, searchInput, type }: Props) => {
     ))
   }, [sortConfig])
 
-  const filterRange = (data: Transaction[]) => {
-    return data.filter((transaction: Transaction) => {
-      const parts = transaction.date.split('-');
-      const year = parseInt(parts[2], 10);
-      const month = parseInt(parts[0], 10) - 1;
-      const day = parseInt(parts[1], 10);
-
-      const dateObject = new Date(year, month, day);
-      return dateObject >= startDate && dateObject <= endDate;
-    })
-  }
-
   useEffect(() => {
-    const filteredData = filterRange(transactionsData);
+    const filteredData = filterRange(transactionsData, startDate, endDate);
     setSortedData(filteredData);
   }, [startDate, endDate])
 
   useEffect(() => {
     if (searchInput.input.length) {
       const searchOutput = transactionsData.filter((transaction: Transaction) => searchInput.type === "title" ? transaction.title.toLowerCase().includes(searchInput.input) : transaction.category.toLowerCase().includes(searchInput.input));
-      setSortedData(filterRange(searchOutput));
+      setSortedData(filterRange(searchOutput, startDate, endDate));
     } else {
-      setSortedData(filterRange(transactionsData));
+      setSortedData(filterRange(transactionsData, startDate, endDate));
     }
   }, [searchInput])
 
   useEffect(() => {
     if (type === "All") {
-      setSortedData(filterRange(transactionsData))
+      setSortedData(filterRange(transactionsData, startDate, endDate))
     } else {
       const searchOutput = transactionsData.filter((transaction: Transaction) => transaction.type === type);
-      setSortedData(filterRange(searchOutput));
+      setSortedData(filterRange(searchOutput, startDate, endDate));
     }
   }, [type])
 
@@ -107,11 +69,11 @@ const SortableTable = ({ startDate, endDate, searchInput, type }: Props) => {
       <Table variant="striped" size="sm">
         <Thead>
           <Tr>
-            <Th className={styles.colHeader} onClick={() => handleSort('title')}>Title</Th>
-            <Th className={styles.colHeader} onClick={() => handleSort('type')}>Type</Th>
-            <Th className={styles.colHeader} onClick={() => handleSort('category')}>Category</Th>
-            <Th className={styles.colHeader} onClick={() => handleSort('date')}>Date</Th>
-            <Th className={styles.colHeader} onClick={() => handleSort('amount')}>Amount</Th>
+            <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'title')}>Title</Th>
+            <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'type')}>Type</Th>
+            <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'category')}>Category</Th>
+            <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'date')}>Date</Th>
+            <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'amount')}>Amount</Th>
           </Tr>
         </Thead>
         <Tbody>

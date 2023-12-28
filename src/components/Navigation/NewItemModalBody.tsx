@@ -17,7 +17,7 @@ import {
   Flex,
 } from '@chakra-ui/react'
 import styles from '@/styles/Navigation/newItemModal.module.scss'
-import { transactionCategories, incomeCategories } from '@/data/categories'
+import { transactionCategories, incomeCategories } from '@/data/dummyData/categories'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Link } from '@chakra-ui/next-js';

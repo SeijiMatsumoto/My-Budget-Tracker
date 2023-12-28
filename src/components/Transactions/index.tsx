@@ -11,18 +11,10 @@ import styles from '@/styles/Transactions/transactions.module.scss'
 import SortableTable from './SortableTable'
 import Filters from './Filters'
 import Overview from './Overview'
-
-interface Search {
-  input: string;
-  type: string;
-}
+import { useMyDataContext } from '@/contexts/DataContext';
 
 function Transactions() {
-  const currentDate = new Date();
-  const [startDate, setStartDate] = useState<Date>(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1));
-  const [endDate, setEndDate] = useState<Date>(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0));
-  const [searchInput, setInput] = useState<Search>({ input: "", type: "title" });
-  const [type, setType] = useState<string>("All");
+  const { startDate, endDate, setEndDate } = useMyDataContext();
 
   useEffect(() => {
     if (startDate > endDate) {
@@ -40,7 +32,7 @@ function Transactions() {
           <Heading size="md">{startDate.toDateString()} - {endDate.toDateString()}</Heading>
         </CardHeader>
         <CardBody overflow="scroll" className={styles.cardBody}>
-          <SortableTable startDate={startDate} endDate={endDate} searchInput={searchInput} type={type} />
+          <SortableTable />
         </CardBody>
       </Card>
       <Flex width="24%" flexDir="column">
@@ -57,16 +49,7 @@ function Transactions() {
             <Heading size="md">Filters and Options</Heading>
           </CardHeader>
           <CardBody className={styles.cardBody}>
-            <Filters
-              startDate={startDate}
-              endDate={endDate}
-              setStartDate={setStartDate}
-              setEndDate={setEndDate}
-              searchInput={searchInput}
-              setInput={setInput}
-              type={type}
-              setType={setType}
-            />
+            <Filters />
           </CardBody>
         </Card>
       </Flex>

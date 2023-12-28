@@ -1,13 +1,11 @@
 "use client"
 import React from 'react'
 import { Flex, Radio, RadioGroup, Stack } from '@chakra-ui/react'
+import { useMyDataContext } from '@/contexts/DataContext';
 
-interface Props {
-  type: string;
-  setType: (nextValue: string) => void;
-}
+const Type = () => {
+  const { type, setType } = useMyDataContext();
 
-const Type = ({ type, setType }: Props) => {
   return (
     <Flex flexDir="column">
       <RadioGroup onChange={setType} value={type} mb={2}>

@@ -47,7 +47,7 @@ function Transactions() {
       </CardHeader>
       <CardBody>
         <TableContainer>
-          <Table variant="simple" size="sm">
+          <Table variant="striped" size="sm">
             <TableCaption>Last 10 transactions</TableCaption>
             <Thead>
               <Tr>

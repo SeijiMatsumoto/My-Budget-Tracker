@@ -1,10 +1,10 @@
 "use client";
 import React, { useEffect, useState } from 'react';
-import { Card, CardHeader, CardBody, Flex, CardFooter, Heading, Box, Button } from '@chakra-ui/react';
+import { Card, CardHeader, CardBody, Flex, Heading, Box, Button } from '@chakra-ui/react';
 import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
 import { BarChart } from '@mui/x-charts/BarChart';
 import styles from '@/styles/Dashboard/dashboard.module.scss';
-import { budgetData } from '@/data/budgets';
+import { budgetData } from '@/data/dummyData/budgets';
 import { useRouter } from 'next/navigation'
 import { useMyNavigationContext } from '@/contexts/NavigationContext';
 
@@ -39,12 +39,12 @@ function Budgets() {
 
   const getWidth = () => {
     const width = window.innerWidth;
-    setChartWidth(width < 1920 ? 300 : 450);
+    setChartWidth(width < 1920 ? 250 : 400);
   }
 
   const getHeight = () => {
     const width = window.innerWidth;
-    setChartHeight(width < 1920 ? 300 : 400);
+    setChartHeight(width < 1920 ? 250 : 350);
   }
 
   const clickHandler = () => {
@@ -63,8 +63,8 @@ function Budgets() {
         </Button>
       </CardHeader>
       <CardBody>
-        <Flex flexDir="row" justifyContent="space-between">
-          <Box flexGrow={1}>
+        <Flex flexDir="row" justifyContent="space-evenly">
+          <Box>
             <PieChart
               series={[
                 {
@@ -86,7 +86,7 @@ function Budgets() {
               }}
             />
           </Box>
-          <Box flexGrow={1}>
+          <Box>
             <BarChart
               xAxis={[{ scaleType: 'band', data: ['Needs', 'Wants', 'Savings'] }]}
               series={[

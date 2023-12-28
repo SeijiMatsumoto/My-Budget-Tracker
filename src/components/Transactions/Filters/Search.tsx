@@ -1,17 +1,11 @@
 "use client"
 import { Flex, Input, Radio, RadioGroup, Stack } from '@chakra-ui/react'
 import React, { ChangeEvent, useState } from 'react'
+import { useMyDataContext } from '@/contexts/DataContext';
 
-type Props = {
-  searchInput: {
-    input: string;
-    type: string;
-  };
-  setInput: Function;
-}
-
-const Search = ({ searchInput, setInput }: Props) => {
+const Search = () => {
   const [type, setType] = useState<string>("title");
+  const { searchInput, setInput } = useMyDataContext();
 
   return (
     <Flex flexDir="column">

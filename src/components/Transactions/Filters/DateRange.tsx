@@ -4,18 +4,14 @@ import React, { useEffect, useState } from 'react'
 import { DatePicker, InputGroup } from 'rsuite';
 import 'rsuite/dist/rsuite.min.css';
 import styles from '@/styles/Transactions/transactions.module.scss'
+import { useMyDataContext } from '@/contexts/DataContext';
 
-type Props = {
-  startDate: Date;
-  endDate: Date;
-  setStartDate: Function;
-  setEndDate: Function;
-}
-
-const DateRange = ({ startDate, endDate, setStartDate, setEndDate }: Props) => {
+const DateRange = () => {
   const currentDate = new Date();
 
   const [radioValue, setValue] = useState<string>('month')
+  const { startDate, endDate, setStartDate, setEndDate } = useMyDataContext();
+
 
   useEffect(() => {
     const year = currentDate.getFullYear();
