@@ -23,7 +23,7 @@ function Overview() {
 
   useEffect(() => {
     const width = window.innerWidth;
-    if (width > 2400) setTableSize("lg");
+    if (width > 2560) setTableSize("lg");
     else if (width > 1920) setTableSize("md");
     else setTableSize("sm")
   }, [])
