@@ -5,6 +5,7 @@ import { useMyNavigationContext } from '@/contexts/NavigationContext';
 import { FaPlusCircle } from "react-icons/fa";
 import Search from './Filters/Search';
 import Type from './Filters/Type';
+import Budget from './Filters/Budget';
 
 const Filters = () => {
   const { setNewItemModalOpen } = useMyNavigationContext();
@@ -32,6 +33,10 @@ const Filters = () => {
       <Box mb={10}>
         <Heading size="sm" mb={3}>Type</Heading>
         <Type />
+      </Box>
+      <Box mb={10}>
+        <Heading size="sm" mb={3}>Budget</Heading>
+        <Budget />
       </Box>
     </Flex>
   )

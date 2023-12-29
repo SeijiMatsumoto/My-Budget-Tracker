@@ -6,6 +6,9 @@
 .card {
   display: flex;
   flex: 1;
+}
+
+.cardBody {
   overflow: scroll;
   &::-webkit-scrollbar {
     width: 8px;

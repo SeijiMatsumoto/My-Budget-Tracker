@@ -10,20 +10,6 @@ import { useMyNavigationContext } from '@/contexts/NavigationContext';
 
 function Budgets() {
   const date = new Date();
-  const monthNames = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
 
   const valueFormatter = (value: number) => `$${value}`;
   const router = useRouter()
@@ -48,21 +34,21 @@ function Budgets() {
   }
 
   const clickHandler = () => {
-    setPage('Budgets');
-    router.push('/budgets');
+    setPage('Settings');
+    router.push('/settings');
   }
 
   return (
     <Card ml={5} className={styles.card}>
       <CardHeader className={styles.heading}>
         <Heading size="md">
-          {monthNames[date.getMonth()]}'s Budget
+          {date.toLocaleString('en-US', { month: 'long' })}'s Budget
         </Heading>
         <Button variant="outline" backgroundColor='#0088cc' color="white" size="sm" onClick={clickHandler}>
-          View Details
+          Edit
         </Button>
       </CardHeader>
-      <CardBody>
+      <CardBody className={styles.cardBody}>
         <Flex flexDir="row" justifyContent="space-evenly">
           <Box>
             <PieChart

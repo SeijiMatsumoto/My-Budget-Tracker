@@ -26,6 +26,8 @@ import { useMyNavigationContext } from '@/contexts/NavigationContext';
 interface Props {
   itemType: string;
   setItemType: any;
+  budgetType: string;
+  setBudgetType: any;
   title: string;
   setTitle: Function;
   amount: any;
@@ -41,6 +43,8 @@ interface Props {
 const NewItemModalBody = ({
   itemType,
   setItemType,
+  budgetType,
+  setBudgetType,
   title,
   setTitle,
   amount,
@@ -71,7 +75,6 @@ const NewItemModalBody = ({
         <Box mb="20px">
           <FormLabel>➕ Item type:</FormLabel>
           <RadioGroup
-            defaultValue={itemType}
             value={itemType}
             onChange={setItemType}
           >
@@ -79,6 +82,19 @@ const NewItemModalBody = ({
               <Radio value='Transaction'>Transaction</Radio>
               <Radio value='Income'>Income</Radio>
               <Radio value='Savings'>Savings</Radio>
+            </HStack>
+          </RadioGroup>
+        </Box>
+        <Box mb="20px">
+          <FormLabel>🤔 BudgetType:</FormLabel>
+          <RadioGroup
+            value={budgetType}
+            onChange={setBudgetType}
+          >
+            <HStack spacing='24px'>
+              <Radio value='Need'>Need (50%)</Radio>
+              <Radio value='Want'>Want (30%)</Radio>
+              <Radio value='Savings'>Savings (20%)</Radio>
             </HStack>
           </RadioGroup>
         </Box>

@@ -23,6 +23,7 @@ interface Transaction {
   category: string;
   date: string;
   type: string;
+  budget: string;
 }
 
 function Transactions() {
@@ -45,14 +46,15 @@ function Transactions() {
           View All
         </Button>
       </CardHeader>
-      <CardBody>
+      <CardBody className={styles.cardBody}>
         <TableContainer>
           <Table variant="striped" size="sm">
             <TableCaption>Last 10 transactions</TableCaption>
             <Thead>
               <Tr>
-                <Th>Title</Th>
                 <Th>Type</Th>
+                <Th>Title</Th>
+                <Th>Budget</Th>
                 <Th>Category</Th>
                 <Th>Date</Th>
                 <Th>Amount</Th>
@@ -62,8 +64,9 @@ function Transactions() {
               {[...transactionsData].slice(0, 10).map((row: Transaction, i: number) => {
                 return (
                   <Tr key={row.title + i}>
-                    <Td>{row.title}</Td>
                     <Td>{row.type}</Td>
+                    <Td>{row.title}</Td>
+                    <Td>{row.budget}</Td>
                     <Td>{row.category}</Td>
                     <Td>{row.date}</Td>
                     <Td>{convertDollarsToString(row.amount)}</Td>

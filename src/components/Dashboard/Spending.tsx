@@ -25,17 +25,13 @@ interface DataByWeek {
 }
 
 interface Transaction {
-  title: string;
   amount: number;
-  category: string;
   date: string;
   type: string;
 }
 
 interface TransactionWithDate {
-  title: string;
   amount: number;
-  category: string;
   date: Date;
   type: string;
 }
@@ -101,7 +97,7 @@ function Spending() {
           Spending
         </Heading>
       </CardHeader>
-      <CardBody>
+      <CardBody className={styles.cardBody}>
         <TableContainer>
           <Table variant="striped" size={tableSize}>
             <TableCaption>Amount spent in past month</TableCaption>

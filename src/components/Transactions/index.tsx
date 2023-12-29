@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import {
   Card,
   CardHeader,
@@ -25,8 +25,8 @@ function Transactions() {
   }, [startDate])
 
   return (
-    <Flex justifyContent={"space-between"} height="100%">
-      <Card flexDir="column" width="75%">
+    <Flex justifyContent="space-between" height="100%">
+      <Card flexDir="column" width="75%" mr={5}>
         <CardHeader justifyContent="space-between" display="flex" flexDir="row">
           <Heading size="md">Transactions</Heading>
           <Heading size="md">{startDate.toDateString()} - {endDate.toDateString()}</Heading>
@@ -35,7 +35,7 @@ function Transactions() {
           <SortableTable />
         </CardBody>
       </Card>
-      <Flex width="24%" flexDir="column">
+      <Flex width="25%" flexDir="column">
         <Card mb={5} height="30%" >
           <CardHeader>
             <Heading size="md">Overview</Heading>

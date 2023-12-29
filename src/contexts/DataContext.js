@@ -16,6 +16,7 @@ export const MyDataProvider = ({ children }) => {
   );
   const [searchInput, setInput] = useState({ input: "", type: "title" });
   const [type, setType] = useState("All");
+  const [budgetType, setBudgetType] = useState("All");
 
   const [savedAmount, setSavedAmount] = useState(0.0);
   const [spentAmount, setSpentAmount] = useState(0.0);
@@ -100,6 +101,8 @@ export const MyDataProvider = ({ children }) => {
         totalNet,
         setTotalNet,
         getTotalAmount,
+        budgetType,
+        setBudgetType,
       }}
     >
       {children}

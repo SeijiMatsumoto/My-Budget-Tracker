@@ -53,7 +53,7 @@ const Overview = () => {
         <CardHeader>
           <Heading size="md">Hello, {userData.fullName.split(" ")[0]}!</Heading>
         </CardHeader>
-        <CardBody>
+        <CardBody className={styles.cardBody}>
           <Flex flexDir="column" height="100%" justifyContent="space-between">
             <Grid width="100%" gridTemplateColumns={'1fr'} gridGap={2}>
               <Box textAlign="center">

@@ -22,7 +22,8 @@ const NewItemModal = ({ open, onClose }: Props) => {
   const [title, setTitle] = useState<string>("");
   const [amount, setAmount] = useState<string>("");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [startDate, setStartDate] = useState<any>(new Date());
+  const [startDate, setStartDate] = useState<Date>(new Date());
+  const [budgetType, setBudgetType] = useState<string>("Need")
   const { transactionsData, setTransactionsData } = useMyDataContext();
 
   const resetStates = () => {
@@ -68,6 +69,8 @@ const NewItemModal = ({ open, onClose }: Props) => {
         <NewItemModalBody
           itemType={itemType}
           setItemType={setItemType}
+          budgetType={budgetType}
+          setBudgetType={setBudgetType}
           title={title}
           setTitle={setTitle}
           amount={amount}

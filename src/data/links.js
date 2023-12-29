@@ -22,11 +22,6 @@ export const links = [
         href: "/transactions",
         icon: MdAttachMoney,
       },
-      {
-        title: "Budgets",
-        href: "/budgets",
-        icon: FaPiggyBank,
-      },
     ],
   },
   {

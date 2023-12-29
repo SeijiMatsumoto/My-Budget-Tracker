@@ -21,6 +21,7 @@ interface Transaction {
   category: string;
   date: string;
   type: string;
+  budget: string;
 }
 
 interface SortConfig {
@@ -29,7 +30,7 @@ interface SortConfig {
 }
 
 const SortableTable = () => {
-  const { transactionsData, sortedData, setSortedData, handleSort, sortByKey, filterRange, startDate, endDate, searchInput, type } = useMyDataContext();
+  const { transactionsData, sortedData, setSortedData, handleSort, sortByKey, filterRange, startDate, endDate, searchInput, type, budgetType } = useMyDataContext();
   const [sortConfig, setSortConfig] = useState<SortConfig>({ key: null, direction: 'asc' });
 
   useEffect(() => {
@@ -64,13 +65,23 @@ const SortableTable = () => {
     }
   }, [type])
 
+  useEffect(() => {
+    if (budgetType === "All") {
+      setSortedData(filterRange(transactionsData, startDate, endDate))
+    } else {
+      const searchOutput = transactionsData.filter((transaction: Transaction) => transaction.budget === budgetType);
+      setSortedData(filterRange(searchOutput, startDate, endDate));
+    }
+  }, [budgetType])
+
   return (
     <TableContainer>
       <Table variant="striped" size="sm">
         <Thead>
           <Tr>
-            <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'title')}>Title</Th>
             <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'type')}>Type</Th>
+            <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'title')}>Title</Th>
+            <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'budget')}>Budget</Th>
             <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'category')}>Category</Th>
             <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'date')}>Date</Th>
             <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'amount')}>Amount</Th>
@@ -80,8 +91,9 @@ const SortableTable = () => {
           {sortedData.map((row: Transaction, i: number) => {
             return (
               <Tr key={row.title + i}>
-                <Td>{row.title}</Td>
                 <Td>{row.type}</Td>
+                <Td>{row.title}</Td>
+                <Td>{row.budget}</Td>
                 <Td>{row.category}</Td>
                 <Td>{row.date}</Td>
                 <Td>{convertDollarsToString(row.amount)}</Td>
@@ -92,6 +104,7 @@ const SortableTable = () => {
         <Tfoot>
           <Tr>
             <Th>Total</Th>
+            <Th />
             <Th />
             <Th />
             <Th />
