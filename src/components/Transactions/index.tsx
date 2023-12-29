@@ -26,7 +26,7 @@ function Transactions() {
 
   return (
     <Flex justifyContent="space-between" height="100%">
-      <Card flexDir="column" width="75%" mr={5}>
+      <Card flexDir="column" width="75%" mr={5} className={styles.tableWrapper}>
         <CardHeader justifyContent="space-between" display="flex" flexDir="row">
           <Heading size="md">Transactions</Heading>
           <Heading size="md">{startDate.toDateString()} - {endDate.toDateString()}</Heading>
@@ -35,7 +35,7 @@ function Transactions() {
           <SortableTable />
         </CardBody>
       </Card>
-      <Flex width="25%" flexDir="column">
+      <Flex width="25%" flexDir="column" className={styles.filterWrapper}>
         <Card mb={5} height="30%" >
           <CardHeader>
             <Heading size="md">Overview</Heading>

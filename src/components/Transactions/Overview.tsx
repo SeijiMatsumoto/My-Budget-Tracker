@@ -22,7 +22,7 @@ const Overview = () => {
 
   return (
     <Flex flexDir="column" alignItems="center" justifyContent="space-evenly" height="100%">
-      <Grid width="100%" gridTemplateColumns={'1fr 1fr'} gridGap={10}>
+      <Grid width="100%" gridTemplateColumns={'1fr 1fr'} gridGap={8} className={styles.overviewGrid}>
         <Box textAlign="center">
           <AnimatedNumber prefix="$" round={2} value={parseFloat(incomeAmount.toFixed(2))} className={styles.amount} />
           <Heading size="sm">Amount of Income</Heading>

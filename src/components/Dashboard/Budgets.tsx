@@ -49,7 +49,7 @@ function Budgets() {
         </Button>
       </CardHeader>
       <CardBody className={styles.cardBody}>
-        <Flex flexDir="row" justifyContent="space-evenly">
+        <Flex flexDir="row" justifyContent="space-evenly" className={styles.budgetsWrapper}>
           <Box>
             <PieChart
               series={[

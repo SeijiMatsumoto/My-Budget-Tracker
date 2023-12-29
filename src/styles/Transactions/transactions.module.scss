@@ -22,6 +22,39 @@
   }
 }
 
+.overviewGrid {
+  @media screen and (max-width: 1439px) {
+    // grid-template-columns: 1fr !important;
+    grid-gap: 10px !important;
+  }
+  &::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(212, 210, 210);
+  }
+  overflow-y: scroll;
+}
+
 .amount {
   font-size: 36px;
+  @media screen and (max-width: 1919px) {
+    font-size: 24px !important;
+  }
+  @media screen and (max-width: 1439px) {
+    font-size: 18px !important;
+  }
+}
+
+.tableWrapper {
+  @media screen and (max-width: 1919px) {
+    width: 65% !important;
+  }
+}
+
+.filterWrapper {
+  @media screen and (max-width: 1919px) {
+    width: 35% !important;
+  }
 }

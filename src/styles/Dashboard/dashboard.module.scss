@@ -17,6 +17,10 @@
   &::-webkit-scrollbar-thumb {
     background-color: rgb(212, 210, 210);
   }
+
+  @media screen and (max-width: 1919px) {
+    padding: 8px 8px 0 8px !important;
+  }
 }
 
 .heading {
@@ -41,6 +45,10 @@
   padding: 10px 0;
   font-weight: bold;
   font-size: 24px;
+
+  @media screen and (max-width: 1919px) {
+    font-size: 18px;
+  }
 }
 
 .day {
@@ -64,6 +72,10 @@
 
 .amount {
   font-size: 24px;
+
+  @media screen and (max-width: 1919px) {
+    font-size: 18px;
+  }
 }
 
 .smallCard {
@@ -76,5 +88,12 @@
   }
   &::-webkit-scrollbar-thumb {
     background-color: rgb(212, 210, 210);
+  }
+}
+
+.budgetsWrapper {
+  @media screen and (max-width: 1440px) {
+    flex-direction: column !important;
+    align-items: center !important;
   }
 }
