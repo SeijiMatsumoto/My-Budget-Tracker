@@ -1,24 +1,12 @@
 "use client"
 import { Box, Flex, Grid, Heading } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useMyDataContext } from '@/contexts/DataContext';
 import AnimatedNumber from '@crossfox/react-animated-number';
 import styles from '@/styles/Transactions/transactions.module.scss'
 
-interface Transaction {
-  title: string;
-  amount: number;
-  category: string;
-  date: string;
-  type: string;
-}
-
 const Overview = () => {
-  const { sortedData } = useMyDataContext();
-  const [savedAmount, setSavedAmount] = useState<number>(0.00);
-  const [spentAmount, setSpentAmount] = useState<number>(0.00);
-  const [incomeAmount, setIncomeAmount] = useState<number>(0.00);
-  const [totalNet, setTotalNet] = useState<number>(0.00);
+  const { sortedData, savedAmount, setSavedAmount, spentAmount, setSpentAmount, incomeAmount, setIncomeAmount, totalNet, setTotalNet, getTotalAmount } = useMyDataContext();
 
   useEffect(() => {
     if (sortedData.length) {
@@ -31,16 +19,6 @@ const Overview = () => {
       setTotalNet(totalIncome - totalSavings - totalSpent);
     }
   }, [sortedData])
-
-  const getTotalAmount = (type: string) => {
-    const temp = sortedData.filter((transaction: Transaction) => transaction.type === type)
-    if (temp.length) {
-      const sum = temp.reduce((sum: number, transaction: Transaction) => sum + transaction.amount, 0);
-      return sum;
-    } else {
-      return 0;
-    }
-  }
 
   return (
     <Flex flexDir="column" alignItems="center" justifyContent="space-evenly" height="100%">

@@ -17,6 +17,11 @@ export const MyDataProvider = ({ children }) => {
   const [searchInput, setInput] = useState({ input: "", type: "title" });
   const [type, setType] = useState("All");
 
+  const [savedAmount, setSavedAmount] = useState(0.0);
+  const [spentAmount, setSpentAmount] = useState(0.0);
+  const [incomeAmount, setIncomeAmount] = useState(0.0);
+  const [totalNet, setTotalNet] = useState(0.0);
+
   useEffect(() => {
     const sorted = transactions.sort(
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
@@ -52,6 +57,22 @@ export const MyDataProvider = ({ children }) => {
     });
   };
 
+  const getTotalAmount = (type) => {
+    const transactionsOfType = sortedData.filter(
+      (transaction) => transaction.type === type
+    );
+
+    if (transactionsOfType.length > 0) {
+      const sum = transactionsOfType.reduce(
+        (total, transaction) => total + transaction.amount,
+        0
+      );
+      return sum;
+    }
+
+    return 0;
+  };
+
   return (
     <MyDataContext.Provider
       value={{
@@ -70,6 +91,15 @@ export const MyDataProvider = ({ children }) => {
         setInput,
         type,
         setType,
+        savedAmount,
+        setSavedAmount,
+        spentAmount,
+        setSpentAmount,
+        incomeAmount,
+        setIncomeAmount,
+        totalNet,
+        setTotalNet,
+        getTotalAmount,
       }}
     >
       {children}
