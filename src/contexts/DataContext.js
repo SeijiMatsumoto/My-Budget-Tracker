@@ -6,6 +6,7 @@ import { transactions } from "@/data/dummyData/transactions";
 export const MyDataProvider = ({ children }) => {
   const [transactionsData, setTransactionsData] = useState([]);
   const [sortedData, setSortedData] = useState([]);
+  const [budgetData, setBudgetData] = useState([]);
 
   const currentDate = new Date();
   const [startDate, setStartDate] = useState(
@@ -33,6 +34,18 @@ export const MyDataProvider = ({ children }) => {
   useEffect(() => {
     const filteredRangeData = filterRange(transactionsData, startDate, endDate);
     setSortedData(filteredRangeData || []);
+
+    const budget = [];
+    const needs = { id: 0, label: "Needs", budget: 3000, value: 0 };
+    const wants = { id: 1, label: "Wants", budget: 1500, value: 0 };
+    const savings = { id: 2, label: "Savings", budget: 1500, value: 0 };
+
+    filteredRangeData.forEach((item) => {
+      if (item.budget === "Needs") needs.value = needs.value + item.amount;
+      else if (item.budget === "Wants") wants.value = wants.value + item.amount;
+      else if (item.budget === "Savings")
+        savings.value = savings.value + item.amount;
+    });
   }, [transactionsData]);
 
   const handleSort = (sortConfig, setSortConfig, key) => {
@@ -107,6 +120,7 @@ export const MyDataProvider = ({ children }) => {
         getTotalAmount,
         budgetType,
         setBudgetType,
+        budgetData,
       }}
     >
       {children}

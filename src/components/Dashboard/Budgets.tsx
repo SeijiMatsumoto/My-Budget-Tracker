@@ -4,9 +4,9 @@ import { Card, CardHeader, CardBody, Flex, Heading, Box, Button } from '@chakra-
 import { PieChart, pieArcLabelClasses } from '@mui/x-charts/PieChart';
 import { BarChart } from '@mui/x-charts/BarChart';
 import styles from '@/styles/Dashboard/dashboard.module.scss';
-import { budgetData } from '@/data/dummyData/budgets';
 import { useRouter } from 'next/navigation'
 import { useMyNavigationContext } from '@/contexts/NavigationContext';
+import { useMyDataContext } from '@/contexts/DataContext';
 
 function Budgets() {
   const date = new Date();
@@ -14,6 +14,7 @@ function Budgets() {
   const valueFormatter = (value: number) => `$${value}`;
   const router = useRouter()
   const { setPage } = useMyNavigationContext();
+  const { budgetData } = useMyDataContext();
 
   const [chartWidth, setChartWidth] = useState<number>();
   const [chartHeight, setChartHeight] = useState<number>();
@@ -49,7 +50,7 @@ function Budgets() {
         </Button>
       </CardHeader>
       <CardBody className={styles.cardBody}>
-        <Flex flexDir="row" justifyContent="space-evenly" className={styles.budgetsWrapper}>
+        {budgetData.length ? <Flex flexDir="row" justifyContent="space-evenly" className={styles.budgetsWrapper}>
           <Box>
             <PieChart
               series={[
@@ -83,7 +84,7 @@ function Budgets() {
               height={chartHeight}
             />
           </Box>
-        </Flex>
+        </Flex> : <span>No data this month</span>}
       </CardBody>
     </Card>
   )
