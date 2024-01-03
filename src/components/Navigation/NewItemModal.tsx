@@ -43,16 +43,16 @@ const NewItemModal = ({ open, onClose }: Props) => {
   }
 
   const submitHandler = () => {
-    if (isValidDollar(amount) && selectedCategory.length && title.length) {
+    if (amount && selectedCategory.length && title.length) {
+      let thisAmount = itemType === "Income" ? parseInt(amount) : parseInt(amount) * -1;
       const newItem = {
         type: itemType,
         title: title,
-        amount: parseInt(amount),
+        amount: thisAmount,
         category: selectedCategory,
         date: formatDate(startDate)
       }
       console.log([newItem, ...transactionsData])
-      window.alert("Valid! Submitting...");
       setTransactionsData([newItem, ...transactionsData])
       onClose();
       resetStates();

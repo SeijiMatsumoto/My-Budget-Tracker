@@ -37,7 +37,7 @@ const Overview = () => {
 
   const getMessage = () => {
     if (totalNet < 0) {
-      return <Text>You overspent this month!</Text>
+      return <Text>You are overspending this month!</Text>
     } else if (totalNet < 500) {
       return <Text>You are almost running out.</Text>
     } else if (totalNet < 1500) {
@@ -55,22 +55,10 @@ const Overview = () => {
         </CardHeader>
         <CardBody className={styles.cardBody}>
           <Flex flexDir="column" height="100%" justifyContent="space-between">
-            <Grid width="100%" gridTemplateColumns={'1fr'} gridGap={2}>
+            <Grid width="100%" gridTemplateColumns={'1fr'}>
               <Box textAlign="center">
-                <Heading size="sm">Income</Heading>
-                <AnimatedNumber prefix="$" round={2} value={parseFloat(incomeAmount.toFixed(2))} className={styles.amount} />
-              </Box>
-              <Box textAlign="center">
-                <Heading size="sm">Saved</Heading>
-                <AnimatedNumber prefix="$" round={2} value={parseFloat(savedAmount.toFixed(2))} className={styles.amount} />
-              </Box>
-              <Box textAlign="center">
-                <Heading size="sm">Spent</Heading>
-                <AnimatedNumber prefix="$" round={2} value={parseFloat(spentAmount.toFixed(2))} className={styles.amount} />
-              </Box>
-              <Box textAlign="center">
-                <Heading size="sm">Total Remaining</Heading>
                 <AnimatedNumber prefix="$" round={2} value={parseFloat(totalNet.toFixed(2))} className={styles.amount} />
+                <Heading size="sm" fontWeight="normal">remaining in {month}</Heading>
               </Box>
             </Grid>
             <Box className={styles.message}>

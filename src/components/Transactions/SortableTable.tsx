@@ -108,7 +108,7 @@ const SortableTable = () => {
             <Th />
             <Th />
             <Th />
-            <Th >${sortedData.reduce((sum: number, transaction: Transaction) => sum + transaction.amount, 0).toFixed(2)}</Th>
+            <Th >${sortedData.reduce((sum: number, transaction: Transaction) => sum + transaction.amount, 0).toFixed(2) * -1}</Th>
           </Tr>
         </Tfoot>
         <TableCaption>All Transactions from {startDate.toLocaleDateString()} to {endDate.toLocaleDateString()}</TableCaption>

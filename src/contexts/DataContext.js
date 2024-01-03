@@ -5,7 +5,7 @@ import { transactions } from "@/data/dummyData/transactions";
 
 export const MyDataProvider = ({ children }) => {
   const [transactionsData, setTransactionsData] = useState([]);
-  const [sortedData, setSortedData] = useState(transactionsData);
+  const [sortedData, setSortedData] = useState([]);
 
   const currentDate = new Date();
   const [startDate, setStartDate] = useState(
@@ -28,8 +28,12 @@ export const MyDataProvider = ({ children }) => {
       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
     );
     setTransactionsData(sorted);
-    setSortedData(sorted);
   }, []);
+
+  useEffect(() => {
+    const filteredRangeData = filterRange(transactionsData, startDate, endDate);
+    setSortedData(filteredRangeData || []);
+  }, [transactionsData]);
 
   const handleSort = (sortConfig, setSortConfig, key) => {
     let direction = "asc";

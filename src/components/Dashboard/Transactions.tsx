@@ -49,7 +49,8 @@ function Transactions() {
       <CardBody className={styles.cardBody}>
         <TableContainer>
           <Table variant="striped" size="sm">
-            <TableCaption>Last 10 transactions</TableCaption>
+            {transactionsData.length ? <TableCaption>Last 10 transactions</TableCaption>
+              : <TableCaption>No transactions found.</TableCaption>}
             <Thead>
               <Tr>
                 <Th>Type</Th>
@@ -62,6 +63,7 @@ function Transactions() {
             </Thead>
             <Tbody>
               {[...transactionsData].slice(0, 10).map((row: Transaction, i: number) => {
+                console.log(row.title, row.amount)
                 return (
                   <Tr key={row.title + i}>
                     <Td>{row.type}</Td>

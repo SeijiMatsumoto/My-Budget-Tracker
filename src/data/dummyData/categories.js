@@ -51,3 +51,5 @@ export const transactionCategories = [
 ];
 
 export const incomeCategories = ["Salary", "Gift", "Pay back", "Other"];
+
+export const savingsCategories = ["401k", "Ally Bank", "Roth IRA"];

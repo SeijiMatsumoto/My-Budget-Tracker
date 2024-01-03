@@ -17,7 +17,7 @@ import {
   Flex,
 } from '@chakra-ui/react'
 import styles from '@/styles/Navigation/newItemModal.module.scss'
-import { transactionCategories, incomeCategories } from '@/data/dummyData/categories'
+import { transactionCategories, incomeCategories, savingsCategories } from '@/data/dummyData/categories'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Link } from '@chakra-ui/next-js';
@@ -80,24 +80,24 @@ const NewItemModalBody = ({
           >
             <HStack spacing='24px'>
               <Radio value='Transaction'>Transaction</Radio>
-              <Radio value='Income'>Income</Radio>
               <Radio value='Savings'>Savings</Radio>
+              <Radio value='Income'>Income</Radio>
             </HStack>
           </RadioGroup>
         </Box>
-        <Box mb="20px">
+        {itemType !== "Income" ? <Box mb="20px">
           <FormLabel>🤔 BudgetType:</FormLabel>
           <RadioGroup
             value={budgetType}
             onChange={setBudgetType}
           >
             <HStack spacing='24px'>
-              <Radio value='Need'>Need (50%)</Radio>
-              <Radio value='Want'>Want (30%)</Radio>
-              <Radio value='Savings'>Savings (20%)</Radio>
+              {itemType === "Transaction" ? <Radio value='Need'>Need (50%)</Radio> : null}
+              {itemType === "Transaction" ? <Radio value='Want'>Want (30%)</Radio> : null}
+              {itemType === "Savings" ? <Radio value='Savings' defaultChecked>Savings (20%)</Radio> : null}
             </HStack>
           </RadioGroup>
-        </Box>
+        </Box> : null}
         <Box mb="20px">
           <FormLabel>📆 Date</FormLabel>
           <DatePicker
@@ -125,6 +125,11 @@ const NewItemModalBody = ({
               )
             })}
             {itemType === "Income" && incomeCategories.map(category => {
+              return (
+                <option key={category}>{category}</option>
+              )
+            })}
+            {itemType === "Savings" && savingsCategories.map(category => {
               return (
                 <option key={category}>{category}</option>
               )
