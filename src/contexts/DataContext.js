@@ -35,17 +35,23 @@ export const MyDataProvider = ({ children }) => {
     const filteredRangeData = filterRange(transactionsData, startDate, endDate);
     setSortedData(filteredRangeData || []);
 
-    const budget = [];
-    const needs = { id: 0, label: "Needs", budget: 3000, value: 0 };
-    const wants = { id: 1, label: "Wants", budget: 1500, value: 0 };
-    const savings = { id: 2, label: "Savings", budget: 1500, value: 0 };
+    const budget = [
+      { id: 0, label: "Needs", budget: 3000, value: 0 },
+      { id: 1, label: "Wants", budget: 1500, value: 0 },
+      { id: 2, label: "Savings", budget: 1500, value: 0 },
+    ];
 
     filteredRangeData.forEach((item) => {
-      if (item.budget === "Needs") needs.value = needs.value + item.amount;
-      else if (item.budget === "Wants") wants.value = wants.value + item.amount;
+      console.log(item.budget);
+      if (item.budget === "Need")
+        budget[0].value = budget[0].value + item.amount * -1;
+      else if (item.budget === "Want")
+        budget[1].value = budget[1].value + item.amount * -1;
       else if (item.budget === "Savings")
-        savings.value = savings.value + item.amount;
+        budget[1].value = budget[1].value + item.amount * -1;
     });
+    console.log(filteredRangeData, budget);
+    setBudgetData(budget);
   }, [transactionsData]);
 
   const handleSort = (sortConfig, setSortConfig, key) => {

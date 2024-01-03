@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Modal,
   ModalOverlay,
@@ -34,6 +34,12 @@ const NewItemModal = ({ open, onClose }: Props) => {
     setStartDate(new Date());
   }
 
+  useEffect(() => {
+    if (itemType === "Savings") setBudgetType("Savings")
+    else if (itemType === "Transaction") setBudgetType("Need");
+    else if (itemType === "Income") setBudgetType("");
+  }, [itemType])
+
   const formatDate = (date: Date) => {
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
@@ -44,15 +50,16 @@ const NewItemModal = ({ open, onClose }: Props) => {
 
   const submitHandler = () => {
     if (amount && selectedCategory.length && title.length) {
-      let thisAmount = itemType === "Income" ? parseInt(amount) : parseInt(amount) * -1;
+      let thisAmount = itemType === "Income" ? parseInt(amount) : parseInt
+        (amount) * -1;
       const newItem = {
         type: itemType,
         title: title,
         amount: thisAmount,
+        budget: budgetType,
         category: selectedCategory,
         date: formatDate(startDate)
       }
-      console.log([newItem, ...transactionsData])
       setTransactionsData([newItem, ...transactionsData])
       onClose();
       resetStates();

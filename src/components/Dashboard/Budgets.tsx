@@ -39,6 +39,11 @@ function Budgets() {
     router.push('/settings');
   }
 
+  const showBudgets = () => {
+    if (!budgetData.length) return false;
+    if (budgetData[0].value !== 0 || budgetData[1].value !== 0 || budgetData[2].value !== 0) return true;
+  }
+
   return (
     <Card ml={5} className={styles.card}>
       <CardHeader className={styles.heading}>
@@ -50,7 +55,7 @@ function Budgets() {
         </Button>
       </CardHeader>
       <CardBody className={styles.cardBody}>
-        {budgetData.length ? <Flex flexDir="row" justifyContent="space-evenly" className={styles.budgetsWrapper}>
+        {showBudgets() ? <Flex flexDir="row" justifyContent="space-evenly" className={styles.budgetsWrapper}>
           <Box>
             <PieChart
               series={[
