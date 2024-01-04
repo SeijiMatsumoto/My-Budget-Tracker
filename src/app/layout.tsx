@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
-import SideNav from '@/components/Navigation/SideNav'
+import MainNav from '@/components/Navigation/MainNav'
 import TopNav from '@/components/Navigation/TopNav'
 import { Box } from '@chakra-ui/react'
 
@@ -22,7 +22,7 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Providers>
-          <SideNav />
+          <MainNav />
           <div>
             <TopNav />
             <main className={inter.className}>
