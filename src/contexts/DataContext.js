@@ -1,11 +1,10 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 const MyDataContext = createContext();
-// import { transactions } from "@/data/dummyData/transactions";
 
 export const MyDataProvider = ({ children }) => {
   const [transactionsData, setTransactionsData] = useState([]);
-  const [sortedData, setSortedData] = useState([]);
+  const [dataToShow, setdataToShow] = useState([]);
   const [budgetData, setBudgetData] = useState([]);
 
   const currentDate = new Date();
@@ -15,7 +14,7 @@ export const MyDataProvider = ({ children }) => {
   const [endDate, setEndDate] = useState(
     new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
   );
-  const [searchInput, setInput] = useState({ input: "", type: "title" });
+  const [searchInput, setSearchInput] = useState("");
   const [type, setType] = useState("All");
   const [budgetType, setBudgetType] = useState("All");
 
@@ -37,7 +36,7 @@ export const MyDataProvider = ({ children }) => {
       );
     }
     const filteredRangeData = filterRange(transactionsData, startDate, endDate);
-    setSortedData(filteredRangeData || []);
+    setdataToShow(filteredRangeData || []);
 
     const budget = [
       { id: 0, label: "Needs", budget: 3000, value: 0 },
@@ -85,7 +84,7 @@ export const MyDataProvider = ({ children }) => {
   };
 
   const getTotalAmount = (type) => {
-    const transactionsOfType = sortedData.filter(
+    const transactionsOfType = dataToShow.filter(
       (transaction) => transaction.type === type
     );
 
@@ -96,7 +95,6 @@ export const MyDataProvider = ({ children }) => {
       );
       return sum;
     }
-
     return 0;
   };
 
@@ -105,8 +103,8 @@ export const MyDataProvider = ({ children }) => {
       value={{
         transactionsData,
         setTransactionsData,
-        sortedData,
-        setSortedData,
+        dataToShow,
+        setdataToShow,
         handleSort,
         sortByKey,
         filterRange,
@@ -115,7 +113,7 @@ export const MyDataProvider = ({ children }) => {
         endDate,
         setEndDate,
         searchInput,
-        setInput,
+        setSearchInput,
         type,
         setType,
         savedAmount,

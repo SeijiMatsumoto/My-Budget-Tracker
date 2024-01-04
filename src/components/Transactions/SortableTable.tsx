@@ -1,7 +1,8 @@
 "use client"
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import {
   Box,
+  CardBody,
   Text,
 } from '@chakra-ui/react'
 import styles from '@/styles/Transactions/transactions.module.scss'
@@ -28,10 +29,10 @@ interface SortConfig {
 }
 
 const SortableTable = ({ sortConfig }: Props) => {
-  const { transactionsData, sortedData, setSortedData, sortByKey, filterRange, startDate, endDate, searchInput, type, budgetType } = useMyDataContext();
+  const { transactionsData, dataToShow, setdataToShow, sortByKey, filterRange, startDate, endDate, searchInput, type, budgetType } = useMyDataContext();
 
   useEffect(() => {
-    setSortedData([...sortedData].sort((a, b) => {
+    setdataToShow([...dataToShow].sort((a, b) => {
       return sortConfig.direction === 'asc' ?
         sortByKey(a, b, sortConfig.key as keyof Transaction)
         : sortByKey(b, a, sortConfig.key as keyof Transaction);
@@ -41,44 +42,49 @@ const SortableTable = ({ sortConfig }: Props) => {
 
   useEffect(() => {
     const filteredData = filterRange(transactionsData, startDate, endDate);
-    setSortedData(filteredData);
+    setdataToShow(filteredData);
   }, [startDate, endDate])
 
   useEffect(() => {
-    if (searchInput.input.length) {
-      const searchOutput = transactionsData.filter((transaction: Transaction) => searchInput.type === "title" ? transaction.title.toLowerCase().includes(searchInput.input) : transaction.category.toLowerCase().includes(searchInput.input));
-      setSortedData(filterRange(searchOutput, startDate, endDate));
+    if (searchInput.length) {
+      const searchOutput =
+        transactionsData.filter((transaction: Transaction) =>
+          transaction.title.toLowerCase().includes(searchInput.toLowerCase()) ||
+          transaction.category.toLowerCase().includes(searchInput.toLowerCase()));
+      setdataToShow(filterRange(searchOutput, startDate, endDate));
     } else {
-      setSortedData(filterRange(transactionsData, startDate, endDate));
+      setdataToShow(filterRange(transactionsData, startDate, endDate));
     }
   }, [searchInput])
 
   useEffect(() => {
     if (type === "All") {
-      setSortedData(filterRange(transactionsData, startDate, endDate))
+      setdataToShow(filterRange(transactionsData, startDate, endDate))
     } else {
       const searchOutput = transactionsData.filter((transaction: Transaction) => transaction.type === type);
-      setSortedData(filterRange(searchOutput, startDate, endDate));
+      setdataToShow(filterRange(searchOutput, startDate, endDate));
     }
   }, [type])
 
   useEffect(() => {
     if (budgetType === "All") {
-      setSortedData(filterRange(transactionsData, startDate, endDate))
+      setdataToShow(filterRange(transactionsData, startDate, endDate))
     } else {
       const searchOutput = transactionsData.filter((transaction: Transaction) => transaction.budget === budgetType);
-      setSortedData(filterRange(searchOutput, startDate, endDate));
+      setdataToShow(filterRange(searchOutput, startDate, endDate));
     }
   }, [budgetType])
 
   return (
-    <Box className={styles.tableWrapper}>
-      {sortedData.length ? sortedData.map((row: Transaction, i: number) => {
-        return (
-          <TableItem key={row.title + i} data={row} index={i} />
-        )
-      }) : <Text>There are no transactions recorded yet.</Text>}
-    </Box>
+    <CardBody overflow="scroll" className={styles.cardBody} pt={0}>
+      <Box className={styles.tableWrapper}>
+        {dataToShow.length ? dataToShow.map((row: Transaction, i: number) => {
+          return (
+            <TableItem key={row.title + i} data={row} index={i} />
+          )
+        }) : <Text>There are no transactions recorded yet.</Text>}
+      </Box>
+    </CardBody>
   )
 }
 

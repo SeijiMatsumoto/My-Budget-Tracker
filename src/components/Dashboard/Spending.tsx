@@ -37,7 +37,7 @@ interface TransactionWithDate {
 }
 
 function Spending() {
-  const { sortedData } = useMyDataContext();
+  const { dataToShow } = useMyDataContext();
   const [tableSize, setTableSize] = useState<string>("sm");
   const [dataByWeek, setDataByWeek] = useState<DataByWeek[]>([]);
 
@@ -64,7 +64,7 @@ function Spending() {
   }
 
   useEffect(() => {
-    const transactionsWithDate: TransactionWithDate[] = sortedData.map((transaction: Transaction) => ({
+    const transactionsWithDate: TransactionWithDate[] = dataToShow.map((transaction: Transaction) => ({
       ...transaction,
       date: new Date(transaction.date),
     }));
@@ -88,7 +88,7 @@ function Spending() {
     }, []);
 
     setDataByWeek(weeklySum);
-  }, [sortedData])
+  }, [dataToShow])
 
   return (
     <Card className={styles.card}>

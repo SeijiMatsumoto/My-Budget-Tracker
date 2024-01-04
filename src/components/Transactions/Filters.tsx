@@ -1,46 +1,38 @@
 "use client";
-import React, { useState } from 'react'
+import React from 'react'
 import DateRange from './Filters/DateRange'
-import { Box, Button, Flex, Heading, Icon } from '@chakra-ui/react';
-import { FaPlusCircle } from "react-icons/fa";
-import Search from './Filters/Search';
+import { Box, Card, CardBody, CardHeader, Flex, Heading } from '@chakra-ui/react';
 import Type from './Filters/Type';
 import Budget from './Filters/Budget';
-import PopUpModal from '../Modal/PopUpModal';
+import styles from '@/styles/Transactions/transactions.module.scss'
 
 const Filters = () => {
-  const [modalOpen, setModalOpen] = useState(false);
 
   return (
-    <Flex flexDir="column">
-      <Box mb={10}>
-        <Button
-          width="100%"
-          height="80px"
-          onClick={() => setModalOpen(true)}
-        >
-          <Icon as={FaPlusCircle} mr="5px" />
-          Add new transaction or income
-        </Button>
-      </Box>
-      <Box mb={10}>
-        <Heading size="sm" mb={3}>Search</Heading>
-        <Search />
-      </Box>
-      <Box mb={10}>
-        <Heading size="sm" mb={3}>Date Range</Heading>
-        <DateRange />
-      </Box>
-      <Box mb={10}>
-        <Heading size="sm" mb={3}>Type</Heading>
-        <Type />
-      </Box>
-      <Box mb={10}>
-        <Heading size="sm" mb={3}>Budget</Heading>
-        <Budget />
-      </Box>
-      <PopUpModal isNewItem={true} data={null} index={0} open={modalOpen} onClose={() => setModalOpen(false)} />
-    </Flex>
+    <Card height="100%">
+      <CardHeader>
+        <Heading size="md">Filters</Heading>
+      </CardHeader>
+      <CardBody className={styles.cardBody}>
+        <Flex flexDir="column">
+          <Box mb={10}>
+            <Heading size="xs" mb={3}>Date Range</Heading>
+            <DateRange />
+          </Box>
+          <Box mb={10} display="flex" flexDir="row">
+            <Box mr={5} width="50%">
+              <Heading size="xs" mb={3}>Expense Type</Heading>
+              <Type />
+            </Box>
+            <Box width="50%">
+              <Heading size="xs" mb={3}>Budget Type</Heading>
+              <Budget />
+            </Box>
+          </Box>
+
+        </Flex>
+      </CardBody>
+    </Card>
   )
 }
 

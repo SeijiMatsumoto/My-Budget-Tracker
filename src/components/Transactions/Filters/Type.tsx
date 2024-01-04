@@ -1,22 +1,34 @@
 "use client"
 import React from 'react'
-import { Flex, Radio, RadioGroup, Stack } from '@chakra-ui/react'
+import {
+  Box,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Button
+} from '@chakra-ui/react'
 import { useMyDataContext } from '@/contexts/DataContext';
+import { FaChevronDown } from "react-icons/fa";
 
 const Type = () => {
   const { type, setType } = useMyDataContext();
 
   return (
-    <Flex flexDir="column">
-      <RadioGroup onChange={setType} value={type} mb={2}>
-        <Stack direction="row">
-          <Radio value="All">All</Radio>
-          <Radio value="Income">Income</Radio>
-          <Radio value="Savings">Savings</Radio>
-          <Radio value="Transaction">Transaction</Radio>
-        </Stack>
-      </RadioGroup>
-    </Flex>)
+    <Box>
+      <Menu>
+        <MenuButton as={Button} rightIcon={<FaChevronDown />} width="100%">
+          {type}
+        </MenuButton>
+        <MenuList>
+          <MenuItem onClick={() => setType("All")}>All</MenuItem>
+          <MenuItem onClick={() => setType('Transaction')}>Transaction</MenuItem>
+          <MenuItem onClick={() => setType('Income')}>Income</MenuItem>
+          <MenuItem onClick={() => setType('Savings')}>Savings</MenuItem>
+        </MenuList>
+      </Menu>
+    </Box>
+  )
 }
 
 export default Type

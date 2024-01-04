@@ -16,7 +16,7 @@ import { userData } from '@/data/dummyData/user';
 import AnimatedNumber from '@crossfox/react-animated-number';
 
 const Overview = () => {
-  const { sortedData, savedAmount, setSavedAmount, spentAmount, setSpentAmount, incomeAmount, setIncomeAmount, totalNet, setTotalNet, getTotalAmount } = useMyDataContext();
+  const { dataToShow, savedAmount, setSavedAmount, spentAmount, setSpentAmount, incomeAmount, setIncomeAmount, totalNet, setTotalNet, getTotalAmount } = useMyDataContext();
 
   const date = new Date();
   const month = date.toLocaleString('en-US', { month: 'long' });
@@ -24,7 +24,7 @@ const Overview = () => {
   const daysLeft = Math.ceil((lastDayOfMonth.valueOf() - date.valueOf()) / (1000 * 60 * 60 * 24));
 
   useEffect(() => {
-    if (sortedData.length) {
+    if (dataToShow.length) {
       const totalSavings = getTotalAmount("Savings") * -1;
       const totalSpent = getTotalAmount("Transaction") * -1;
       const totalIncome = getTotalAmount("Income");
@@ -33,7 +33,7 @@ const Overview = () => {
       setIncomeAmount(totalIncome);
       setTotalNet(totalIncome - totalSavings - totalSpent);
     }
-  }, [sortedData])
+  }, [dataToShow])
 
   const getMessage = () => {
     if (totalNet < 0) {
@@ -62,7 +62,7 @@ const Overview = () => {
               </Box>
             </Grid>
             <Box className={styles.message}>
-              {sortedData.length && getMessage()}
+              {dataToShow.length && getMessage()}
             </Box>
           </Flex>
         </CardBody>

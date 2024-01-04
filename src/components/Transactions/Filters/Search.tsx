@@ -1,26 +1,18 @@
 "use client"
-import { Flex, Input, Radio, RadioGroup, Stack } from '@chakra-ui/react'
-import React, { ChangeEvent, useState } from 'react'
+import { Flex, Input } from '@chakra-ui/react'
+import React, { ChangeEvent } from 'react'
 import { useMyDataContext } from '@/contexts/DataContext';
 
 const Search = () => {
-  const [type, setType] = useState<string>("title");
-  const { searchInput, setInput } = useMyDataContext();
+  const { searchInput, setSearchInput } = useMyDataContext();
 
   return (
-    <Flex flexDir="column">
-      <RadioGroup onChange={setType} value={type} mb={2}>
-        <Stack direction="row">
-          <Radio value="title">Title</Radio>
-          <Radio value="category">Category</Radio>
-        </Stack>
-      </RadioGroup>
+    <Flex flexDir="column" mr={4} width="300px">
       <Input
         htmlSize={4}
-        width='100%'
-        placeholder={`Search for transaction ${type.toLowerCase()}`}
-        value={searchInput.input}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => setInput({ input: e.target.value.toLowerCase(), type: "" })}
+        placeholder="Search for title or category"
+        value={searchInput}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => setSearchInput(e.target.value)}
         mr={2}
       />
     </Flex>

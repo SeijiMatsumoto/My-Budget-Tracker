@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from 'react'
 import styles from '@/styles/Transactions/sortableTable.module.scss'
-import { Box, Flex, Grid } from '@chakra-ui/react'
+import { Box, Flex } from '@chakra-ui/react'
 import { convertDollarsToString } from '@/utils/convertDollars';
 import PopUpModal from '../Modal/PopUpModal';
 
