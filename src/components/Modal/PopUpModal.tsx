@@ -148,7 +148,7 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
           <Button variant="outline" mr={3} onClick={onClose}>Cancel</Button>
           {!isNewItem && <Button mr={3} colorScheme='red' onClick={onOpen}>Delete</Button>}
           <Button colorScheme='telegram' onClick={submitHandler}>{isNewItem ? "Add" : "Save"}</Button>
-          <AreYouSure isOpen={isOpen} onClose={onClosePopup} deleteItem={deleteItem} />
+          <AreYouSure isOpen={isOpen} onClose={onClosePopup} deleteItem={deleteItem} title={title} />
         </ModalFooter>
       </ModalContent>
     </Modal>

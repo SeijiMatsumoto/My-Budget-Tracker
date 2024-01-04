@@ -16,9 +16,10 @@ type Props = {
   isOpen: boolean;
   onClose: () => void;
   deleteItem: () => void;
+  title: string;
 }
 
-const AreYouSure = ({ isOpen, onClose, deleteItem }: Props) => {
+const AreYouSure = ({ isOpen, onClose, deleteItem, title }: Props) => {
   const cancelRef = React.useRef<HTMLButtonElement>(null);
 
   return (
@@ -30,7 +31,7 @@ const AreYouSure = ({ isOpen, onClose, deleteItem }: Props) => {
       <AlertDialogOverlay>
         <AlertDialogContent>
           <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-            Delete Expense
+            Delete "{title}"
           </AlertDialogHeader>
 
           <AlertDialogBody>

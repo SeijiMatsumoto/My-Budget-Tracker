@@ -5,6 +5,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   transition: 0.1s ease;
   cursor: pointer;
   &:hover {
@@ -14,8 +15,20 @@
 
 .plusAmount {
   color: rgb(37, 123, 159);
+  font-weight: 500;
 }
 
 .minusAmount {
   color: rgb(132, 0, 0);
+  font-weight: 500;
+}
+
+.category {
+  width: 120px;
+  font-size: 12px;
+  color: rgb(167, 167, 167);
+}
+
+.title {
+  font-weight: bold;
 }
