@@ -75,14 +75,14 @@ const PopUpModalBody = ({
     return (
       <Flex flexDir="column">
         <Box mb="20px">
-          <FormLabel>📆 Date</FormLabel>
+          <FormLabel fontWeight="bold">Date</FormLabel>
           <DatePicker
             className={styles.datePicker}
             selected={startDate}
             onChange={(date: Date) => setStartDate(date)} />
         </Box>
         {itemType !== "Income" ? <Box mb="20px">
-          <FormLabel>🤔 Budget Type:</FormLabel>
+          <FormLabel fontWeight="bold">Budget Type</FormLabel>
           <RadioGroup
             value={budgetType}
             onChange={setBudgetType}
@@ -95,14 +95,14 @@ const PopUpModalBody = ({
           </RadioGroup>
         </Box> : null}
         <Box mb="20px">
-          <FormLabel>✏️ Title</FormLabel>
+          <FormLabel fontWeight="bold">Title</FormLabel>
           <InputGroup>
             <Input placeholder='Enter title' value={title} onChange={(e) => setTitle(e.target.value)} autoComplete='off' />
           </InputGroup>
         </Box>
         <Box mb="20px">
           <Flex justifyContent="space-between" alignItems="center">
-            <FormLabel>📒 Category</FormLabel>
+            <FormLabel fontWeight="bold">Category</FormLabel>
             <FormHelperText position="relative" top="-2px">
               <Link href="/settings" onClick={editCategories}>Edit categories</Link>
             </FormHelperText>
@@ -126,7 +126,7 @@ const PopUpModalBody = ({
           </Select>
         </Box>
         <Box>
-          <FormLabel>💰 {itemType} amount</FormLabel>
+          <FormLabel fontWeight="bold">{itemType} amount</FormLabel>
           <InputGroup>
             <InputLeftElement
               pointerEvents='none'

@@ -8,6 +8,7 @@ export const convertDollarsToString = (amount) => {
 };
 
 export const positiveOrNegative = (amount) => {
+  if (!amount) return "";
   if (amount > 0) {
     return amount.toString();
   } else {

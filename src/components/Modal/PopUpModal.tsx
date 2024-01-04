@@ -40,7 +40,7 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
   const toast = useToast()
   const [itemType, setItemType] = useState<string>(data?.type || "Transaction")
   const [title, setTitle] = useState<string>(data?.title || "");
-  const [amount, setAmount] = useState<string>(positiveOrNegative(data?.amount) || "0");
+  const [amount, setAmount] = useState<string>(positiveOrNegative(data?.amount) || "");
   const [selectedCategory, setSelectedCategory] = useState<string>(data?.category || "");
   const [startDate, setStartDate] = useState<Date>(data && convertDate(data?.date) || new Date());
   const [budgetType, setBudgetType] = useState<string>(data?.budget || "");
@@ -82,13 +82,13 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
       }
       if (isNewItem) {
         setTransactionsData([newItem, ...transactionsData]);
-        resetStates();
       } else {
         const copy = transactionsData.slice();
         copy[index] = newItem;
         console.log(transactionsData, copy)
         setTransactionsData(copy)
       }
+      resetStates();
       showSuccess();
       onClose();
     } else {
