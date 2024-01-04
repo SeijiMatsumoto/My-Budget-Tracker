@@ -9,7 +9,7 @@ import Budget from './Filters/Budget';
 import PopUpModal from '../Modal/PopUpModal';
 
 const Filters = () => {
-  const [showEditModal, setShowEditModal] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <Flex flexDir="column">
@@ -17,7 +17,7 @@ const Filters = () => {
         <Button
           width="100%"
           height="80px"
-          onClick={() => setShowEditModal(true)}
+          onClick={() => setModalOpen(true)}
         >
           <Icon as={FaPlusCircle} mr="5px" />
           Add new transaction or income
@@ -39,7 +39,7 @@ const Filters = () => {
         <Heading size="sm" mb={3}>Budget</Heading>
         <Budget />
       </Box>
-      <PopUpModal isNewItem={true} data={null} index={0} open={showEditModal} onClose={() => setShowEditModal(false)} />
+      <PopUpModal isNewItem={true} data={null} index={0} open={modalOpen} onClose={() => setModalOpen(false)} />
     </Flex>
   )
 }

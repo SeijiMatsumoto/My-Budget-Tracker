@@ -21,11 +21,11 @@ type Props = {
 }
 
 const TableItem = ({ data, index }: Props) => {
-  const [showEditModal, setShowEditModal] = useState<boolean>(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const { category, title, amount } = data;
   return (
-    <Box className={styles.itemWrapper} onClick={() => setShowEditModal(true)}>
+    <Box className={styles.itemWrapper} onClick={() => setModalOpen(true)}>
       <Flex flexDir="row">
         <span className={styles.category}>{category}</span>
         <span className={styles.title}>{title}</span>
@@ -33,7 +33,7 @@ const TableItem = ({ data, index }: Props) => {
       <span className={amount > 0 ? styles.plusAmount : styles.minusAmount}>
         {convertDollarsToString(amount)}
       </span>
-      <PopUpModal isNewItem={false} data={data} index={index} open={showEditModal} onClose={() => setShowEditModal(false)} />
+      <PopUpModal isNewItem={false} data={data} index={index} open={modalOpen} onClose={() => setModalOpen(false)} />
     </Box>
   )
 }

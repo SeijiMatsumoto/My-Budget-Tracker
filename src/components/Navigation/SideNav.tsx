@@ -1,5 +1,5 @@
 "use client";
-import React from 'react'
+import React, { useState } from 'react'
 import { useMyNavigationContext } from '@/contexts/NavigationContext';
 import styles from '../../styles/Navigation/sideNav.module.scss'
 import { Heading, Icon } from '@chakra-ui/react';
@@ -10,7 +10,9 @@ import { FaPlusCircle } from "react-icons/fa";
 import PopUpModal from '../Modal/PopUpModal';
 
 export default function SideNav() {
-  const { menuExpanded, setMenuExpanded, newItemModalOpen, setNewItemModalOpen } = useMyNavigationContext();
+  const { menuExpanded, setMenuExpanded } = useMyNavigationContext();
+
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <header className={[styles.wrapper, menuExpanded ? styles.expanded : styles.collapsed].join(" ")}>
@@ -26,12 +28,12 @@ export default function SideNav() {
       </div>
       <button
         className={menuExpanded ? styles.button : styles.buttonCollapsed}
-        onClick={() => setNewItemModalOpen(true)}
+        onClick={() => setModalOpen(true)}
       >
         <Icon as={FaPlusCircle} />
         {menuExpanded ? <span>Add new expense</span> : null}
       </button>
-      <PopUpModal isNewItem={true} data={null} index={0} open={newItemModalOpen} onClose={() => setNewItemModalOpen(false)} />
+      <PopUpModal isNewItem={true} data={null} index={0} open={modalOpen} onClose={() => setModalOpen(false)} />
     </header>
   )
 }

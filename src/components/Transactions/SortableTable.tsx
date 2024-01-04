@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import {
-  Box,
+  Box, Text,
 } from '@chakra-ui/react'
 import styles from '@/styles/Transactions/transactions.module.scss'
 import { useMyDataContext } from '@/contexts/DataContext';
@@ -69,11 +69,11 @@ const SortableTable = () => {
 
   return (
     <Box className={styles.tableWrapper}>
-      {sortedData.map((row: Transaction, i: number) => {
+      {sortedData.length ? sortedData.map((row: Transaction, i: number) => {
         return (
           <TableItem key={row.title + i} data={row} index={i} />
         )
-      })}
+      }) : <Text>There are no transactions recorded yet.</Text>}
     </Box>
     // <TableContainer>
     //   <Table variant="striped" size="sm">
