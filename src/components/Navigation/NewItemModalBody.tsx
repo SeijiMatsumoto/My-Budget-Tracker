@@ -15,6 +15,7 @@ import {
   Select,
   Box,
   Flex,
+  Tabs, TabList, TabPanels, Tab, TabPanel
 } from '@chakra-ui/react'
 import styles from '@/styles/Navigation/newItemModal.module.scss'
 import { transactionCategories, incomeCategories, savingsCategories } from '@/data/dummyData/categories'
@@ -57,6 +58,7 @@ const NewItemModalBody = ({
   onClose
 }: Props) => {
   const { setPage } = useMyNavigationContext();
+  const tabs = ['Transaction', 'Savings', 'Income']
 
   useEffect(() => {
     if (itemType === 'Income') {
@@ -69,24 +71,18 @@ const NewItemModalBody = ({
     onClose();
   }
 
-  return (
-    <ModalBody>
-      <FormControl onSubmit={submitHandler}>
+  const InnerBody: React.FC = () => {
+    return (
+      <Flex flexDir="column">
         <Box mb="20px">
-          <FormLabel>➕ Item type:</FormLabel>
-          <RadioGroup
-            value={itemType}
-            onChange={setItemType}
-          >
-            <HStack spacing='24px'>
-              <Radio value='Transaction'>Transaction</Radio>
-              <Radio value='Savings'>Savings</Radio>
-              <Radio value='Income'>Income</Radio>
-            </HStack>
-          </RadioGroup>
+          <FormLabel>📆 Date</FormLabel>
+          <DatePicker
+            className={styles.datePicker}
+            selected={startDate}
+            onChange={(date: Date) => setStartDate(date)} />
         </Box>
         {itemType !== "Income" ? <Box mb="20px">
-          <FormLabel>🤔 BudgetType:</FormLabel>
+          <FormLabel>🤔 Budget Type:</FormLabel>
           <RadioGroup
             value={budgetType}
             onChange={setBudgetType}
@@ -98,13 +94,6 @@ const NewItemModalBody = ({
             </HStack>
           </RadioGroup>
         </Box> : null}
-        <Box mb="20px">
-          <FormLabel>📆 Date</FormLabel>
-          <DatePicker
-            className={styles.datePicker}
-            selected={startDate}
-            onChange={(date: Date) => setStartDate(date)} />
-        </Box>
         <Box mb="20px">
           <FormLabel>✏️ Title</FormLabel>
           <InputGroup>
@@ -149,6 +138,21 @@ const NewItemModalBody = ({
             <Input placeholder='Enter amount' value={amount} onChange={(e: any) => setAmount(e.target.value)} autoComplete='off' />
           </InputGroup>
         </Box>
+      </Flex>
+    )
+  }
+
+  return (
+    <ModalBody>
+      <FormControl onSubmit={submitHandler}>
+        <Tabs isFitted variant='enclosed' onChange={(index) => setItemType(tabs[index])}>
+          <TabList mb='1em'>
+            {tabs.map(tab => <Tab>{tab}</Tab>)}
+          </TabList>
+          <TabPanels>
+            {tabs.map(tab => <TabPanel><InnerBody /></TabPanel>)}
+          </TabPanels>
+        </Tabs>
       </FormControl>
     </ModalBody>
   )

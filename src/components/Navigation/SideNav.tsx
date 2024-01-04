@@ -29,7 +29,7 @@ export default function SideNav() {
         onClick={() => setNewItemModalOpen(true)}
       >
         <Icon as={FaPlusCircle} />
-        {menuExpanded ? <span>Add transaction or income</span> : null}
+        {menuExpanded ? <span>Add new expense</span> : null}
       </button>
       <NewItemModal open={newItemModalOpen} onClose={() => setNewItemModalOpen(false)} />
     </header>

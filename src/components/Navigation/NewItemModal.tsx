@@ -9,7 +9,6 @@ import {
   Button,
 } from '@chakra-ui/react'
 import NewItemModalBody from './NewItemModalBody';
-import { isValidDollar } from '@/utils/formValidator'
 import { useMyDataContext } from '@/contexts/DataContext';
 
 type Props = {
@@ -72,7 +71,7 @@ const NewItemModal = ({ open, onClose }: Props) => {
     <Modal isOpen={open} onClose={onClose} size={'xl'} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Add New Item</ModalHeader>
+        <ModalHeader>Add New Expense</ModalHeader>
         <NewItemModalBody
           itemType={itemType}
           setItemType={setItemType}
