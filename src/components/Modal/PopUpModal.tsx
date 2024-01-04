@@ -80,12 +80,13 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
         category: selectedCategory,
         date: formatDate(startDate)
       }
+      const copy = transactionsData.slice();
       if (isNewItem) {
-        setTransactionsData([newItem, ...transactionsData]);
+        copy.push(newItem);
+        copy.sort((a: Transaction, b: Transaction) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
+        setTransactionsData([...copy]);
       } else {
-        const copy = transactionsData.slice();
         copy[index] = newItem;
-        console.log(transactionsData, copy)
         setTransactionsData(copy)
       }
       resetStates();

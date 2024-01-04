@@ -1,7 +1,7 @@
 "use client"
 import React, { useState } from 'react'
 import styles from '@/styles/Transactions/sortableTable.module.scss'
-import { Box, Flex } from '@chakra-ui/react'
+import { Box, Flex, Grid } from '@chakra-ui/react'
 import { convertDollarsToString } from '@/utils/convertDollars';
 import PopUpModal from '../Modal/PopUpModal';
 
@@ -41,18 +41,26 @@ const TableItem = ({ data, index }: Props) => {
 
   }
 
-  const { category, title, amount, date } = data;
+  const { category, title, amount, date, type, budget } = data;
   const formattedDate = convertDate(date);
   return (
     <Box className={styles.itemWrapper} onClick={() => setModalOpen(true)}>
       <Flex alignItems="center">
-        <Box mr={5} display="flex" flexDir="column">
-          <span className={styles.category}>{formattedDate.dayOfWeek}</span>
-          <span>{formattedDate.formattedDate}</span>
+        <Box mr={5} display="flex" flexDir="column" width="100px">
+          <span className={styles.label}>{formattedDate.dayOfWeek}</span>
+          <span className={styles.date}>{formattedDate.formattedDate}</span>
         </Box>
-        <Box display="flex" flexDir="column">
-          <span className={styles.category}>{category}</span>
+        <Box mr={5} display="flex" flexDir="column" width="200px">
+          <span className={styles.label}>{category}</span>
           <span className={styles.title}>{title}</span>
+        </Box>
+        <Box mr={5} display="flex" flexDir="column" width="120px">
+          <span className={styles.label}>Expense Type</span>
+          <span>{type}</span>
+        </Box>
+        <Box display="flex" flexDir="column" width="120px">
+          <span className={styles.label}>Budget Type</span>
+          <span>{budget ? budget : "N/A"}</span>
         </Box>
       </Flex>
       <span className={amount > 0 ? styles.plusAmount : styles.minusAmount}>
