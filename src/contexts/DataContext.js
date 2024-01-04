@@ -1,7 +1,7 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
 const MyDataContext = createContext();
-import { transactions } from "@/data/dummyData/transactions";
+// import { transactions } from "@/data/dummyData/transactions";
 
 export const MyDataProvider = ({ children }) => {
   const [transactionsData, setTransactionsData] = useState([]);
@@ -25,13 +25,19 @@ export const MyDataProvider = ({ children }) => {
   const [totalNet, setTotalNet] = useState(0.0);
 
   useEffect(() => {
-    const sorted = transactions.sort(
-      (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-    );
-    setTransactionsData(sorted);
+    const lsData = localStorage.getItem("transactionsData");
+    if (lsData) {
+      setTransactionsData(JSON.parse(lsData));
+    }
   }, []);
 
   useEffect(() => {
+    if (transactionsData.length) {
+      localStorage.setItem(
+        "transactionsData",
+        JSON.stringify(transactionsData)
+      );
+    }
     const filteredRangeData = filterRange(transactionsData, startDate, endDate);
     setSortedData(filteredRangeData || []);
 
