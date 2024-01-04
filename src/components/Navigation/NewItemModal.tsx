@@ -50,7 +50,7 @@ const NewItemModal = ({ open, onClose }: Props) => {
 
   const submitHandler = () => {
     if (amount && selectedCategory.length && title.length) {
-      let thisAmount = itemType === "Income" ? parseInt(amount) : parseInt
+      let thisAmount = itemType === "Income" ? parseFloat(amount) : parseFloat
         (amount) * -1;
       const newItem = {
         type: itemType,
