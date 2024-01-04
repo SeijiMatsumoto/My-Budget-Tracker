@@ -41,7 +41,7 @@ interface Props {
   onClose: Function
 }
 
-const NewItemModalBody = ({
+const EditItemModalBody = ({
   itemType,
   setItemType,
   budgetType,
@@ -158,4 +158,4 @@ const NewItemModalBody = ({
   )
 }
 
-export default NewItemModalBody
+export default EditItemModalBody

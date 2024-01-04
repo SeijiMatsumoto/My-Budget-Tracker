@@ -1,0 +1,21 @@
+.itemWrapper {
+  border: 1px solid rgba(0, 0, 0, 0.065);
+  margin-top: -1px;
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  transition: 0.1s ease;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.049);
+  }
+}
+
+.plusAmount {
+  color: rgb(37, 37, 159);
+}
+
+.minusAmount {
+  color: rgb(132, 0, 0);
+}

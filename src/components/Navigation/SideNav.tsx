@@ -7,7 +7,7 @@ import Links from './Links';
 import { GiHummingbird } from "react-icons/gi";
 import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
 import { FaPlusCircle } from "react-icons/fa";
-import NewItemModal from './NewItemModal';
+import PopUpModal from '../Modal/PopUpModal';
 
 export default function SideNav() {
   const { menuExpanded, setMenuExpanded, newItemModalOpen, setNewItemModalOpen } = useMyNavigationContext();
@@ -31,7 +31,7 @@ export default function SideNav() {
         <Icon as={FaPlusCircle} />
         {menuExpanded ? <span>Add new expense</span> : null}
       </button>
-      <NewItemModal open={newItemModalOpen} onClose={() => setNewItemModalOpen(false)} />
+      <PopUpModal isNewItem={true} data={null} index={0} open={newItemModalOpen} onClose={() => setNewItemModalOpen(false)} />
     </header>
   )
 }

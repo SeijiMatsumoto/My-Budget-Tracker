@@ -26,9 +26,7 @@ export const MyDataProvider = ({ children }) => {
 
   useEffect(() => {
     const lsData = localStorage.getItem("transactionsData");
-    if (lsData) {
-      setTransactionsData(JSON.parse(lsData));
-    }
+    if (lsData) setTransactionsData(JSON.parse(lsData));
   }, []);
 
   useEffect(() => {
@@ -48,7 +46,6 @@ export const MyDataProvider = ({ children }) => {
     ];
 
     filteredRangeData.forEach((item) => {
-      console.log(item.budget);
       if (item.budget === "Need")
         budget[0].value = budget[0].value + item.amount * -1;
       else if (item.budget === "Want")
@@ -56,7 +53,7 @@ export const MyDataProvider = ({ children }) => {
       else if (item.budget === "Savings")
         budget[1].value = budget[1].value + item.amount * -1;
     });
-    console.log(filteredRangeData, budget);
+
     setBudgetData(budget);
   }, [transactionsData]);
 

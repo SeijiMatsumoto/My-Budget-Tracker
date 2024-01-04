@@ -18,6 +18,7 @@ import { useRouter } from 'next/navigation'
 import { convertDollarsToString } from '@/utils/convertDollars';
 
 interface Transaction {
+  id: string;
   title: string;
   amount: number;
   category: string;
@@ -62,9 +63,9 @@ function Transactions() {
               </Tr>
             </Thead>
             <Tbody>
-              {[...transactionsData].slice(0, 10).map((row: Transaction, i: number) => {
+              {[...transactionsData].slice(0, 10).map((row: Transaction) => {
                 return (
-                  <Tr key={row.title + i}>
+                  <Tr key={row.id}>
                     <Td>{row.type}</Td>
                     <Td>{row.title}</Td>
                     <Td>{row.budget}</Td>

@@ -7,26 +7,44 @@ import {
   ModalHeader,
   ModalFooter,
   Button,
-  useToast
+  useToast,
+  useDisclosure
 } from '@chakra-ui/react'
-import NewItemModalBody from './NewItemModalBody';
 import { useMyDataContext } from '@/contexts/DataContext';
+import { convertDate } from '@/utils/convertDate';
+import { generateRandomId } from '@/utils/idGenerator'
+import PopUpModalBody from './PopUpModalBody';
+import { positiveOrNegative } from '@/utils/convertDollars';
+import AreYouSure from './AreYouSure';
 
 type Props = {
+  isNewItem: boolean;
+  data: Transaction | null;
+  index: number;
   open: boolean;
   onClose: () => void;
 }
 
-const NewItemModal = ({ open, onClose }: Props) => {
-  const toast = useToast()
-  const [itemType, setItemType] = useState<string>('Transaction')
-  const [title, setTitle] = useState<string>("");
-  const [amount, setAmount] = useState<string>("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [budgetType, setBudgetType] = useState<string>("Need")
-  const { transactionsData, setTransactionsData } = useMyDataContext();
+interface Transaction {
+  id: string;
+  title: string;
+  amount: number;
+  category: string;
+  date: string;
+  type: string;
+  budget: string;
+}
+const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
+  const { isOpen, onOpen, onClose: onClosePopup } = useDisclosure();
 
+  const toast = useToast()
+  const [itemType, setItemType] = useState<string>(data?.type || "Transaction")
+  const [title, setTitle] = useState<string>(data?.title || "");
+  const [amount, setAmount] = useState<string>(positiveOrNegative(data?.amount) || "0");
+  const [selectedCategory, setSelectedCategory] = useState<string>(data?.category || "");
+  const [startDate, setStartDate] = useState<Date>(data && convertDate(data?.date) || new Date());
+  const [budgetType, setBudgetType] = useState<string>(data?.budget || "");
+  const { transactionsData, setTransactionsData } = useMyDataContext();
   const resetStates = () => {
     setItemType("Transaction");
     setTitle("");
@@ -54,6 +72,7 @@ const NewItemModal = ({ open, onClose }: Props) => {
       let thisAmount = itemType === "Income" ? parseFloat(amount) : parseFloat
         (amount) * -1;
       const newItem = {
+        id: `${generateRandomId()}-${title}`,
         type: itemType,
         title: title,
         amount: thisAmount,
@@ -61,10 +80,17 @@ const NewItemModal = ({ open, onClose }: Props) => {
         category: selectedCategory,
         date: formatDate(startDate)
       }
-      setTransactionsData([newItem, ...transactionsData])
+      if (isNewItem) {
+        setTransactionsData([newItem, ...transactionsData]);
+        resetStates();
+      } else {
+        const copy = transactionsData.slice();
+        copy[index] = newItem;
+        console.log(transactionsData, copy)
+        setTransactionsData(copy)
+      }
       showSuccess();
       onClose();
-      resetStates();
     } else {
       showError();
     }
@@ -72,7 +98,7 @@ const NewItemModal = ({ open, onClose }: Props) => {
 
   const showSuccess = () => {
     return toast({
-      title: 'Successfully added',
+      title: isNewItem ? 'Successfully added expense' : 'Successfully edited expense',
       position: "top",
       status: 'success',
       duration: 3000,
@@ -91,12 +117,18 @@ const NewItemModal = ({ open, onClose }: Props) => {
     })
   }
 
+  const deleteItem = () => {
+    const copy = transactionsData.filter((transaction: Transaction) => transaction.id !== data?.id);
+    setTransactionsData(copy)
+    onClosePopup()
+  }
+
   return (
     <Modal isOpen={open} onClose={onClose} size={'xl'} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Add New Expense</ModalHeader>
-        <NewItemModalBody
+        <ModalHeader>{isNewItem ? "Add New Expense" : "Edit Expense"}</ModalHeader>
+        <PopUpModalBody
           itemType={itemType}
           setItemType={setItemType}
           budgetType={budgetType}
@@ -113,14 +145,14 @@ const NewItemModal = ({ open, onClose }: Props) => {
           onClose={onClose}
         />
         <ModalFooter>
-          <Button variant="outline" mr={3} onClick={() => { onClose(); resetStates(); }}>Cancel</Button>
-          <Button colorScheme='telegram' onClick={submitHandler}>
-            Add
-          </Button>
+          <Button variant="outline" mr={3} onClick={onClose}>Cancel</Button>
+          {!isNewItem && <Button mr={3} colorScheme='red' onClick={onOpen}>Delete</Button>}
+          <Button colorScheme='telegram' onClick={submitHandler}>{isNewItem ? "Add" : "Save"}</Button>
+          <AreYouSure isOpen={isOpen} onClose={onClosePopup} deleteItem={deleteItem} />
         </ModalFooter>
       </ModalContent>
     </Modal>
   )
 }
 
-export default NewItemModal
+export default PopUpModal;

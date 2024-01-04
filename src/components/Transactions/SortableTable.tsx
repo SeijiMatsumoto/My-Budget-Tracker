@@ -1,21 +1,14 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import {
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-  Tfoot,
+  Box,
 } from '@chakra-ui/react'
 import styles from '@/styles/Transactions/transactions.module.scss'
 import { useMyDataContext } from '@/contexts/DataContext';
-import { convertDollarsToString } from '@/utils/convertDollars';
+import TableItem from './TableItem';
 
 interface Transaction {
+  id: string;
   title: string;
   amount: number;
   category: string;
@@ -75,45 +68,52 @@ const SortableTable = () => {
   }, [budgetType])
 
   return (
-    <TableContainer>
-      <Table variant="striped" size="sm">
-        <Thead>
-          <Tr>
-            <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'type')}>Type</Th>
-            <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'title')}>Title</Th>
-            <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'budget')}>Budget</Th>
-            <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'category')}>Category</Th>
-            <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'date')}>Date</Th>
-            <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'amount')}>Amount</Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {sortedData.map((row: Transaction, i: number) => {
-            return (
-              <Tr key={row.title + i}>
-                <Td>{row.type}</Td>
-                <Td>{row.title}</Td>
-                <Td>{row.budget}</Td>
-                <Td>{row.category}</Td>
-                <Td>{row.date}</Td>
-                <Td>{convertDollarsToString(row.amount)}</Td>
-              </Tr>
-            )
-          })}
-        </Tbody>
-        <Tfoot>
-          <Tr>
-            <Th>Total</Th>
-            <Th />
-            <Th />
-            <Th />
-            <Th />
-            <Th >${sortedData.reduce((sum: number, transaction: Transaction) => sum + transaction.amount, 0).toFixed(2) * -1}</Th>
-          </Tr>
-        </Tfoot>
-        <TableCaption>All Transactions from {startDate.toLocaleDateString()} to {endDate.toLocaleDateString()}</TableCaption>
-      </Table>
-    </TableContainer>
+    <Box className={styles.tableWrapper}>
+      {sortedData.map((row: Transaction, i: number) => {
+        return (
+          <TableItem key={row.title + i} data={row} index={i} />
+        )
+      })}
+    </Box>
+    // <TableContainer>
+    //   <Table variant="striped" size="sm">
+    //     <Thead>
+    //       <Tr>
+    //         <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'type')}>Type</Th>
+    //         <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'title')}>Title</Th>
+    //         <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'budget')}>Budget</Th>
+    //         <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'category')}>Category</Th>
+    //         <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'date')}>Date</Th>
+    //         <Th className={styles.colHeader} onClick={() => handleSort(sortConfig, setSortConfig, 'amount')}>Amount</Th>
+    //       </Tr>
+    //     </Thead>
+    //     <Tbody>
+    //       {sortedData.map((row: Transaction, i: number) => {
+    //         return (
+    //           <Tr key={row.title + i}>
+    //             <Td>{row.type}</Td>
+    //             <Td>{row.title}</Td>
+    //             <Td>{row.budget}</Td>
+    //             <Td>{row.category}</Td>
+    //             <Td>{row.date}</Td>
+    //             <Td>{convertDollarsToString(row.amount)}</Td>
+    //           </Tr>
+    //         )
+    //       })}
+    //     </Tbody>
+    //     <Tfoot>
+    //       <Tr>
+    //         <Th>Total</Th>
+    //         <Th />
+    //         <Th />
+    //         <Th />
+    //         <Th />
+    //         <Th >${sortedData.reduce((sum: number, transaction: Transaction) => sum + transaction.amount, 0).toFixed(2) * -1}</Th>
+    //       </Tr>
+    //     </Tfoot>
+    //     <TableCaption>All Transactions from {startDate.toLocaleDateString()} to {endDate.toLocaleDateString()}</TableCaption>
+    //   </Table>
+    // </TableContainer>
   )
 }
 

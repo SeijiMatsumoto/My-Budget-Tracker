@@ -9,31 +9,34 @@ import {
   Button,
   useToast
 } from '@chakra-ui/react'
-import NewItemModalBody from './NewItemModalBody';
 import { useMyDataContext } from '@/contexts/DataContext';
+import EditItemModalBody from './EditItemModalBody';
+import { convertDate } from '@/utils/convertDate';
 
 type Props = {
+  data: Transaction;
+  index: number;
   open: boolean;
   onClose: () => void;
 }
 
-const NewItemModal = ({ open, onClose }: Props) => {
+interface Transaction {
+  title: string;
+  amount: number;
+  category: string;
+  date: string;
+  type: string;
+  budget: string;
+}
+const EditItemModal = ({ data, index, open, onClose }: Props) => {
   const toast = useToast()
-  const [itemType, setItemType] = useState<string>('Transaction')
-  const [title, setTitle] = useState<string>("");
-  const [amount, setAmount] = useState<string>("");
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
-  const [startDate, setStartDate] = useState<Date>(new Date());
-  const [budgetType, setBudgetType] = useState<string>("Need")
+  const [itemType, setItemType] = useState<string>(data.type)
+  const [title, setTitle] = useState<string>(data.title);
+  const [amount, setAmount] = useState<string>(data.amount.toString());
+  const [selectedCategory, setSelectedCategory] = useState<string>(data.category);
+  const [startDate, setStartDate] = useState<Date>(convertDate(data.date));
+  const [budgetType, setBudgetType] = useState<string>(data.budget);
   const { transactionsData, setTransactionsData } = useMyDataContext();
-
-  const resetStates = () => {
-    setItemType("Transaction");
-    setTitle("");
-    setAmount("");
-    setSelectedCategory("");
-    setStartDate(new Date());
-  }
 
   useEffect(() => {
     if (itemType === "Savings") setBudgetType("Savings")
@@ -53,7 +56,7 @@ const NewItemModal = ({ open, onClose }: Props) => {
     if (amount && selectedCategory.length && title.length) {
       let thisAmount = itemType === "Income" ? parseFloat(amount) : parseFloat
         (amount) * -1;
-      const newItem = {
+      const editedItem = {
         type: itemType,
         title: title,
         amount: thisAmount,
@@ -61,10 +64,12 @@ const NewItemModal = ({ open, onClose }: Props) => {
         category: selectedCategory,
         date: formatDate(startDate)
       }
-      setTransactionsData([newItem, ...transactionsData])
+      const copy = transactionsData.slice();
+      console.log(transactionsData, copy)
+      copy[index] = editedItem;
+      setTransactionsData(copy)
       showSuccess();
       onClose();
-      resetStates();
     } else {
       showError();
     }
@@ -72,7 +77,7 @@ const NewItemModal = ({ open, onClose }: Props) => {
 
   const showSuccess = () => {
     return toast({
-      title: 'Successfully added',
+      title: 'Successfully edited',
       position: "top",
       status: 'success',
       duration: 3000,
@@ -95,8 +100,8 @@ const NewItemModal = ({ open, onClose }: Props) => {
     <Modal isOpen={open} onClose={onClose} size={'xl'} isCentered>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Add New Expense</ModalHeader>
-        <NewItemModalBody
+        <ModalHeader>Edit Expense</ModalHeader>
+        <EditItemModalBody
           itemType={itemType}
           setItemType={setItemType}
           budgetType={budgetType}
@@ -113,9 +118,9 @@ const NewItemModal = ({ open, onClose }: Props) => {
           onClose={onClose}
         />
         <ModalFooter>
-          <Button variant="outline" mr={3} onClick={() => { onClose(); resetStates(); }}>Cancel</Button>
+          <Button variant="outline" mr={3} onClick={onClose}>Cancel</Button>
           <Button colorScheme='telegram' onClick={submitHandler}>
-            Add
+            Save
           </Button>
         </ModalFooter>
       </ModalContent>
@@ -123,4 +128,4 @@ const NewItemModal = ({ open, onClose }: Props) => {
   )
 }
 
-export default NewItemModal
+export default EditItemModal;
