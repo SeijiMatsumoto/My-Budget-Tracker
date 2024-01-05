@@ -15,8 +15,6 @@ function TopNav() {
   const isMobile = useIsMobile();
   const [openModal, setOpenModal] = useState<boolean>(false);
 
-  if (!user) return null;
-
   return (
     <Flex
       className={styles.wrapper}
@@ -30,7 +28,7 @@ function TopNav() {
           {page}
         </Skeleton>
       </Heading>
-      <Image src={showPhoto ? user.photoURL : 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'} alt='profile image' h={isMobile ? 8 : 10} w={isMobile ? 8 : 10} borderRadius={50} objectFit='cover' cursor="pointer" onClick={() => setOpenModal(true)} backgroundColor="#D9D9D9" />
+      <Image src={showPhoto && user ? user.photoURL : 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png'} alt='profile image' h={isMobile ? 8 : 10} w={isMobile ? 8 : 10} borderRadius={50} objectFit='cover' cursor="pointer" onClick={() => setOpenModal(true)} backgroundColor="#D9D9D9" />
       <UserModal open={openModal} onClose={() => setOpenModal(false)} />
     </Flex>
   )

@@ -1,6 +1,5 @@
 "use client";
 import React, { useState } from 'react'
-import { useAuth } from '@/contexts/AuthContext';
 import { useMyNavigationContext } from '@/contexts/NavigationContext';
 import styles from '@/styles/Navigation/sideNav.module.scss'
 import mobileStyles from '@/styles/Navigation/bottomNav.module.scss'
@@ -14,12 +13,9 @@ import useIsMobile from '@/hooks/useIsMobile';
 import MobileLinks from './MobileLinks';
 
 export default function MainNav() {
-  const { user } = useAuth();
   const { menuExpanded, setMenuExpanded } = useMyNavigationContext();
   const [modalOpen, setModalOpen] = useState(false);
   const isMobile = useIsMobile();
-
-  if (!user) return null;
 
   const SideNav = () => {
     return (

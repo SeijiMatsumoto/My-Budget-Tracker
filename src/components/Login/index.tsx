@@ -23,11 +23,9 @@ const Login = () => {
       >
         <VStack spacing={4}>
           <Image src='https://i.imgur.com/1De81No.png' alt='logo' />
-          <Heading as="h3" size="lg">
-            Login
-          </Heading>
-          <Text>Connect to your account to see your data.</Text>
+          <Text mt={-5}>Take control of your spending</Text>
           <GoogleLoginButton />
+          <Text fontSize={10}>Connect to your account to see your data.</Text>
         </VStack>
       </Box>
     </Flex>

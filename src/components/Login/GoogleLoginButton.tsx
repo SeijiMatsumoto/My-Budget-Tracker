@@ -20,7 +20,7 @@ const GoogleLoginButton = () => {
     <Button onClick={handleGoogleLogin} isDisabled={user !== null}>
       {user ?
         'Already logged in'
-        : <Flex flexDir="row" alignItems="center"> <Icon as={FaGoogle} mr="10px" />Login with Google</Flex>}
+        : <Flex flexDir="row" alignItems="center"> <Icon as={FaGoogle} mr="10px" />Login / Register with Google</Flex>}
     </Button>
   );
 };
