@@ -20,7 +20,7 @@ type Props = {
 }
 
 const UserModal = ({ open, onClose }: Props) => {
-  const { user, showPhoto, setShowPhoto } = useAuth();
+  const { showPhoto, setShowPhoto } = useAuth();
 
   return (
     <Modal isOpen={open} onClose={onClose} size='sm' isCentered>
