@@ -16,6 +16,7 @@ import {
 } from '@chakra-ui/react'
 import { useRouter } from 'next/navigation'
 import { convertDollarsToString } from '@/utils/convertDollars';
+import NoData from '../shared/NoData';
 
 interface Transaction {
   id: string;
@@ -48,7 +49,7 @@ function Transactions() {
         </Button>
       </CardHeader>
       <CardBody className={styles.cardBody}>
-        <TableContainer>
+        {transactionsData ? <TableContainer>
           <Table variant="striped" size="sm">
             {transactionsData.length ? <TableCaption>Last 10 transactions</TableCaption>
               : <TableCaption>No transactions found.</TableCaption>}
@@ -77,7 +78,7 @@ function Transactions() {
               })}
             </Tbody>
           </Table>
-        </TableContainer>
+        </TableContainer> : <NoData />}
       </CardBody>
     </Card>
   )

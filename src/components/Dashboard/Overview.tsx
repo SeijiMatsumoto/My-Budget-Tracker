@@ -12,12 +12,11 @@ import {
   Flex,
   Grid
 } from '@chakra-ui/react';
-import { userData } from '@/data/dummyData/user';
 import AnimatedNumber from '@crossfox/react-animated-number';
-import useIsMobile from '@/hooks/useIsMobile'
+import { useAuth } from '@/contexts/AuthContext';
 
 const Overview = () => {
-  const isMobile = useIsMobile();
+  const { user } = useAuth();
   const { dataToShow, setSavedAmount, setSpentAmount, setIncomeAmount, totalNet, setTotalNet, getTotalAmount } = useMyDataContext();
 
   const date = new Date();
@@ -53,16 +52,14 @@ const Overview = () => {
     <Flex height="100%" mr={5} width={isMobile ? '100%' : '15%'} flexDir="column">
       <Card className={styles.smallCard} mb={5}>
         <CardHeader>
-          <Heading size="md">Hello, {userData.fullName.split(" ")[0]}!</Heading>
+          <Heading size="md">Hello, {user.displayName.split(" ")[0]}!</Heading>
         </CardHeader>
         <CardBody className={styles.cardBody}>
-          <Flex flexDir="column" height="100%" justifyContent="space-between">
-            <Grid width="100%" gridTemplateColumns={'1fr'}>
-              <Box textAlign="center">
-                <AnimatedNumber prefix="$" round={2} value={parseFloat(totalNet.toFixed(2))} className={styles.amount} />
-                <Heading size="sm" fontWeight="normal">remaining in {month}</Heading>
-              </Box>
-            </Grid>
+          <Flex flexDir="column" height="100%" justifyContent="center">
+            <Box textAlign="center" mb={5}>
+              <AnimatedNumber prefix="$" round={2} value={parseFloat(totalNet.toFixed(2))} className={styles.amount} />
+              <Heading size="sm" fontWeight="normal">remaining in {month}</Heading>
+            </Box>
             <Box className={styles.message}>
               {dataToShow.length && getMessage()}
             </Box>
@@ -71,8 +68,10 @@ const Overview = () => {
       </Card>
       <Card className={styles.calendar}>
         <Box className={styles.month}>{month}</Box>
-        <Box className={styles.day}>{date.getDate()}</Box>
-        <Text className={styles.text}>Days Left: {daysLeft}</Text>
+        <Flex flexDir="column" alignItems="center" justifyContent="center" height="100%">
+          <Text className={styles.day}>{date.getDate()}</Text>
+          <Text className={styles.text}>Days Left: {daysLeft}</Text>
+        </Flex>
       </Card>
     </Flex>
   )

@@ -7,6 +7,7 @@ import styles from '@/styles/Dashboard/dashboard.module.scss';
 import { useRouter } from 'next/navigation'
 import { useMyNavigationContext } from '@/contexts/NavigationContext';
 import { useMyDataContext } from '@/contexts/DataContext';
+import NoData from '../shared/NoData';
 
 function Budgets() {
   const date = new Date();
@@ -89,7 +90,7 @@ function Budgets() {
               height={chartHeight}
             />
           </Box>
-        </Flex> : <span>No data this month</span>}
+        </Flex> : <NoData />}
       </CardBody>
     </Card>
   )

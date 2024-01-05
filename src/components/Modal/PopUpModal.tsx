@@ -16,7 +16,8 @@ import { generateRandomId } from '@/utils/idGenerator'
 import PopUpModalBody from './PopUpModalBody';
 import { positiveOrNegative } from '@/utils/convertDollars';
 import AreYouSure from './AreYouSure';
-
+import { setDataInFirestore } from '@/data/useFirebase';
+import { useAuth } from '@/contexts/AuthContext'
 type Props = {
   isNewItem: boolean;
   data: Transaction | null;
@@ -35,6 +36,7 @@ interface Transaction {
   budget: string;
 }
 const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
+  const { user } = useAuth();
   const { isOpen, onOpen, onClose: onClosePopup } = useDisclosure();
 
   const toast = useToast()
@@ -84,10 +86,10 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
       if (isNewItem) {
         copy.push(newItem);
         copy.sort((a: Transaction, b: Transaction) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
-        setTransactionsData([...copy]);
+        setDataInFirestore(user, "transactions", setTransactionsData, [...copy]);
       } else {
         copy[index] = newItem;
-        setTransactionsData(copy)
+        setTransactionsData(user, "transactions", setTransactionsData, copy)
       }
       resetStates();
       showSuccess();

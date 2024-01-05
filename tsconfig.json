@@ -27,7 +27,9 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/contexts/NavigationContext.js"
+    "src/contexts/NavigationContext.js",
+    "src/contexts/DataContext.js",
+    "src/data/useFirebase.js"
   ],
   "exclude": ["node_modules"]
 }

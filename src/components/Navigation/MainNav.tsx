@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { useMyNavigationContext } from '@/contexts/NavigationContext';
 import styles from '@/styles/Navigation/sideNav.module.scss'
 import mobileStyles from '@/styles/Navigation/bottomNav.module.scss'
-import { Heading, Icon } from '@chakra-ui/react';
+import { Heading, Icon, Image } from '@chakra-ui/react';
 import Links from './Links';
 import { GiHummingbird } from "react-icons/gi";
 import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
@@ -21,9 +21,9 @@ export default function MainNav() {
     return (
       <header className={[styles.wrapper, menuExpanded ? styles.expanded : styles.collapsed].join(" ")}>
         <div className={[styles.top, menuExpanded ? styles.topExpanded : styles.topCollapsed].join(" ")}>
-          <Heading size={'md'} mt={"10px"} className={styles.heading}>
+          <Heading size={'md'} className={styles.heading}>
             <Icon as={GiHummingbird} className={styles.icon} />
-            {menuExpanded && "CJ Fin"}
+            {menuExpanded && <Image src="https://i.imgur.com/1De81No.png" alt="logo" width="100px" />}
           </Heading>
           <Links menuExpanded={menuExpanded} />
           <div className={styles.drawer} onClick={() => setMenuExpanded(!menuExpanded)}>

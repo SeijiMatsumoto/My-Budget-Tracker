@@ -18,6 +18,7 @@ import {
 } from '@chakra-ui/react'
 import { getWeeksInMonthWithDateRanges } from '@/utils/getDates'
 import { useMyDataContext } from '@/contexts/DataContext';
+import NoData from '../shared/NoData';
 
 interface DataByWeek {
   week: string;
@@ -98,7 +99,7 @@ function Spending() {
         </Heading>
       </CardHeader>
       <CardBody className={styles.cardBody}>
-        <TableContainer>
+        {dataToShow ? <TableContainer>
           <Table variant="striped" size={tableSize}>
             <TableCaption>Amount spent in {date.toLocaleString('en-US', { month: 'long' })}</TableCaption>
             <Thead>
@@ -124,7 +125,7 @@ function Spending() {
               </Tr>
             </Tfoot>
           </Table>
-        </TableContainer>
+        </TableContainer> : <NoData />}
       </CardBody>
     </Card>
   )
