@@ -9,7 +9,7 @@ export const MyNavigationProvider = ({ children }) => {
 
   useEffect(() => {
     const path = window.location.pathname;
-    if (path.length > 1) setPage(path.slice(1));
+    if (path.length > 1 && !path.includes("login")) setPage(path.slice(1));
     else setPage("Dashboard");
   }, []);
 

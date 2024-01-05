@@ -1,11 +1,23 @@
 "use client";
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { useAuth } from "./AuthContext";
+import { firestore } from "../../firebase";
+import {
+  getDoc,
+  doc,
+  setDoc,
+  collection,
+  serverTimestamp,
+} from "firebase/firestore";
+import { getDataFromFirestore } from "@/data/useFirebase";
+
 const MyDataContext = createContext();
 
 export const MyDataProvider = ({ children }) => {
+  const { user } = useAuth();
   const [transactionsData, setTransactionsData] = useState([]);
   const [dataToShow, setdataToShow] = useState([]);
-  const [budgetData, setBudgetData] = useState([]);
+  const [budgetData, setBudgetsData] = useState([]);
 
   const currentDate = new Date();
   const [startDate, setStartDate] = useState(
@@ -24,37 +36,13 @@ export const MyDataProvider = ({ children }) => {
   const [totalNet, setTotalNet] = useState(0.0);
 
   useEffect(() => {
-    const lsData = localStorage.getItem("transactionsData");
-    if (lsData) setTransactionsData(JSON.parse(lsData));
-  }, []);
-
-  useEffect(() => {
-    if (transactionsData.length) {
-      localStorage.setItem(
-        "transactionsData",
-        JSON.stringify(transactionsData)
-      );
-    }
     const filteredRangeData = filterRange(transactionsData, startDate, endDate);
     setdataToShow(filteredRangeData || []);
-
-    const budget = [
-      { id: 0, label: "Needs", budget: 3000, value: 0 },
-      { id: 1, label: "Wants", budget: 1500, value: 0 },
-      { id: 2, label: "Savings", budget: 1500, value: 0 },
-    ];
-
-    filteredRangeData.forEach((item) => {
-      if (item.budget === "Need")
-        budget[0].value = budget[0].value + item.amount * -1;
-      else if (item.budget === "Want")
-        budget[1].value = budget[1].value + item.amount * -1;
-      else if (item.budget === "Savings")
-        budget[1].value = budget[1].value + item.amount * -1;
-    });
-
-    setBudgetData(budget);
   }, [transactionsData]);
+
+  useEffect(() => {
+    if (user) getDataFromFirestore(user, setTransactionsData, setBudgetsData);
+  }, [user]);
 
   const handleSort = (sortConfig, setSortConfig, key) => {
     let direction = "asc";
