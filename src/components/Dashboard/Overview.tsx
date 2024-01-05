@@ -14,8 +14,10 @@ import {
 } from '@chakra-ui/react';
 import AnimatedNumber from '@crossfox/react-animated-number';
 import { useAuth } from '@/contexts/AuthContext';
+import useIsMobile from '@/hooks/useIsMobile';
 
 const Overview = () => {
+  const isMobile = useIsMobile();
   const { user } = useAuth();
   const { dataToShow, setSavedAmount, setSpentAmount, setIncomeAmount, totalNet, setTotalNet, getTotalAmount } = useMyDataContext();
 
