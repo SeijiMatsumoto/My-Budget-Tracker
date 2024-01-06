@@ -53,14 +53,14 @@ export const links = [
 
 export const mobileLinks = [
   {
+    title: "Calculators",
+    href: "/calculators",
+    icon: MdCalculate,
+  },
+  {
     title: "Budgets",
     href: "/budgets",
     icon: FaPiggyBank,
-  },
-  {
-    title: "Transactions",
-    href: "/transactions",
-    icon: MdAttachMoney,
   },
   {
     title: "Dashboard",
@@ -68,9 +68,9 @@ export const mobileLinks = [
     icon: MdDashboard,
   },
   {
-    title: "Calculators",
-    href: "/calculators",
-    icon: MdCalculate,
+    title: "Transactions",
+    href: "/transactions",
+    icon: MdAttachMoney,
   },
   {
     title: "Settings",

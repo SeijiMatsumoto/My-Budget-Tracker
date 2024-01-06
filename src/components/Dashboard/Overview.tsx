@@ -13,8 +13,10 @@ import {
 } from '@chakra-ui/react';
 import AnimatedNumber from '@crossfox/react-animated-number';
 import { useAuth } from '@/contexts/AuthContext';
+import useIsMobile from '@/hooks/useIsMobile';
 
 const Overview = () => {
+  const isMobile = useIsMobile();
   const { user } = useAuth();
   const { dataToShow, setSavedAmount, setSpentAmount, setIncomeAmount, totalNet, setTotalNet, getTotalAmount } = useMyDataContext();
 
@@ -48,7 +50,7 @@ const Overview = () => {
   }
 
   return (
-    <Flex height="100%" mr={5} width={'15%'} flexDir="column">
+    <Flex height="100%" mr={5} width={isMobile ? '100%' : '15%'} flexDir="column">
       <Card className={styles.smallCard} mb={5}>
         <CardHeader>
           <Heading size="md">Hello, {user.displayName.split(" ")[0]}!</Heading>
