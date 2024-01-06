@@ -9,8 +9,7 @@ import {
   Heading,
   Text,
   Box,
-  Flex,
-  Grid
+  Flex
 } from '@chakra-ui/react';
 import AnimatedNumber from '@crossfox/react-animated-number';
 import { useAuth } from '@/contexts/AuthContext';

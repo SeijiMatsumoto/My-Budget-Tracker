@@ -1,10 +1,14 @@
+import { Flex } from '@chakra-ui/react'
 import React from 'react'
+import BudgetSettings from './BudgetSettings/BudgetSettings'
+import Charts from './Charts'
 
-type Props = {}
-
-const Budgets = (props: Props) => {
+const Budgets = () => {
   return (
-    <div>index</div>
+    <Flex flexDir="row" height="100%">
+      <BudgetSettings />
+      <Charts />
+    </Flex>
   )
 }
 

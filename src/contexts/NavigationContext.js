@@ -5,9 +5,7 @@ const MyNavigationContext = createContext();
 
 export const MyNavigationProvider = ({ children }) => {
   const [page, setPage] = useState("");
-  const [menuExpanded, setMenuExpanded] = useState(
-    localStorage.getItem("menuExpanded") || true
-  );
+  const [menuExpanded, setMenuExpanded] = useState(true);
 
   useEffect(() => {
     const path = window.location.pathname;
@@ -15,9 +13,7 @@ export const MyNavigationProvider = ({ children }) => {
     else setPage("Dashboard");
 
     const expanded = localStorage.getItem("menuExpanded");
-    if (expanded == "false") {
-      setMenuExpanded(false);
-    }
+    setMenuExpanded(expanded == "false");
   }, []);
 
   useEffect(() => {
