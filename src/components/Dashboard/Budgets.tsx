@@ -41,7 +41,7 @@ function Budgets() {
   }
 
   const showBudgets = () => {
-    if (!budgetData.length) return false;
+    if (!budgetData || !budgetData.length) return false;
     if (budgetData[0].value !== 0 || budgetData[1].value !== 0 || budgetData[2].value !== 0) return true;
   }
 
@@ -51,7 +51,7 @@ function Budgets() {
         <Heading size="md">
           {date.toLocaleString('en-US', { month: 'long' })}'s Budget
         </Heading>
-        <Button variant="outline" backgroundColor='#0088cc' color="white" size="sm" onClick={clickHandler}>
+        <Button variant="outline" backgroundColor='#1975a3' color="white" size="sm" onClick={clickHandler}>
           Edit
         </Button>
       </CardHeader>

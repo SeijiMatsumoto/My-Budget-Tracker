@@ -44,7 +44,7 @@ function Transactions() {
         <Heading size="md">
           Recent Transactions
         </Heading>
-        <Button backgroundColor='#0088cc' color="white" size="sm" onClick={clickHandler}>
+        <Button backgroundColor='#1975a3' color="white" size="sm" onClick={clickHandler}>
           View All
         </Button>
       </CardHeader>
