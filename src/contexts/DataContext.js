@@ -21,6 +21,7 @@ export const MyDataProvider = ({ children }) => {
   const [transactionsData, setTransactionsData] = useState([]);
   const [dataToShow, setdataToShow] = useState([]);
   const [budgets, setBudgets] = useState([]);
+  const [categoriesData, setCategoriesData] = useState([]);
 
   const currentDate = new Date();
   const [startDate, setStartDate] = useState(
@@ -49,6 +50,7 @@ export const MyDataProvider = ({ children }) => {
         user,
         setTransactionsData,
         setBudgets,
+        setCategoriesData,
         returnToast,
         toast
       );
@@ -127,6 +129,8 @@ export const MyDataProvider = ({ children }) => {
         setBudgetType,
         budgets,
         setBudgets,
+        categoriesData,
+        setCategoriesData,
       }}
     >
       {children}

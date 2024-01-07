@@ -6,10 +6,16 @@ import {
   collection,
   serverTimestamp,
 } from "firebase/firestore";
+import {
+  incomeCategories,
+  savingsCategories,
+  transactionCategories,
+} from "./dummyData/categories";
 export const getDataFromFirestore = async (
   user,
   setTransactionsData,
   setBudgetsData,
+  setCategoriesData,
   returnToast,
   toast
 ) => {
@@ -20,6 +26,34 @@ export const getDataFromFirestore = async (
     const firestoreUserData = userDocSnapshot.data();
     setTransactionsData(firestoreUserData.transactionsData);
     setBudgetsData(firestoreUserData.budgetsData);
+    let categoriesData;
+    if (!firestoreUserData.categoriesData) {
+      categoriesData = [
+        {
+          type: "transaction",
+          data: transactionCategories,
+        },
+        {
+          type: "income",
+          data: incomeCategories,
+        },
+        {
+          type: "savings",
+          data: savingsCategories,
+        },
+      ];
+      await setDoc(userDocRef, {
+        displayName: user.displayName,
+        email: user.email,
+        createdAt: serverTimestamp(),
+        transactionsData: firestoreUserData.transactionsData,
+        budgetsData: firestoreUserData.budgetsData,
+        categoriesData: categoriesData,
+      });
+    } else {
+      categoriesData = firestoreUserData.categoriesData;
+    }
+    setCategoriesData(categoriesData);
   } else {
     await setDoc(userDocRef, {
       displayName: user.displayName,
@@ -27,6 +61,7 @@ export const getDataFromFirestore = async (
       createdAt: serverTimestamp(),
       transactionsData: [],
       budgetsData: [],
+      categoriesData: [],
     })
       .then(() => {
         returnToast(toast, true, "Successfully updated data");
@@ -58,6 +93,8 @@ export const setDataInFirestore = async (
       transactionsData:
         type === "transaction" ? data : firestoreUserData.transactionsData,
       budgetsData: type === "budget" ? data : firestoreUserData.budgetsData,
+      categoriesData:
+        type === "categories" ? data : firestoreUserData.categoriesData,
     })
       .then(() => {
         returnToast(toast, true, "Successfully updated data");

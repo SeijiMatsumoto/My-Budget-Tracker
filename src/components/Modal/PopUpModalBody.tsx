@@ -18,12 +18,12 @@ import {
   useToast,
 } from '@chakra-ui/react'
 import styles from '@/styles/Navigation/newItemModal.module.scss'
-import { transactionCategories, incomeCategories, savingsCategories } from '@/data/dummyData/categories'
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Link } from '@chakra-ui/next-js';
 import { useMyNavigationContext } from '@/contexts/NavigationContext';
 import { CloseIcon } from '@chakra-ui/icons'
+import { useMyDataContext } from '@/contexts/DataContext';
 
 interface Props {
   itemType: string;
@@ -62,6 +62,7 @@ const PopUpModalBody = ({
   submitHandler,
   onClose
 }: Props) => {
+  const { categoriesData } = useMyDataContext();
   const { setPage } = useMyNavigationContext();
   const tabs = ['Transaction', 'Savings', 'Income']
   const [tagValue, setTagValue] = useState<string>('');
@@ -107,6 +108,12 @@ const PopUpModalBody = ({
     setTags(tags.filter(tag => tag !== selectedTag))
   }
 
+  const getIndex = (type: string) => {
+    if (type === 'Transaction') return 0;
+    else if (type === 'Savings') return 1;
+    else return 2;
+  }
+
   const InnerBody = () => {
     return (
       <Flex flexDir="column">
@@ -137,17 +144,7 @@ const PopUpModalBody = ({
             </FormHelperText>
           </Flex>
           <Select placeholder='Select category' value={selectedCategory} onChange={(e: any) => setSelectedCategory(e.target.value)}>
-            {itemType === "Transaction" && transactionCategories.map(category => {
-              return (
-                <option key={category}>{category}</option>
-              )
-            })}
-            {itemType === "Income" && incomeCategories.map(category => {
-              return (
-                <option key={category}>{category}</option>
-              )
-            })}
-            {itemType === "Savings" && savingsCategories.map(category => {
+            {categoriesData[getIndex(itemType)].data.map((category: any) => {
               return (
                 <option key={category}>{category}</option>
               )

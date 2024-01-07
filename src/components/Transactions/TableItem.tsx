@@ -39,7 +39,6 @@ const TableItem = ({ data, index }: Props) => {
       dayOfWeek: dayOfWeek,
       formattedDate: formattedDateString
     };
-
   }
 
   const { category, title, amount, date, type, budget, tags } = data;
@@ -51,7 +50,7 @@ const TableItem = ({ data, index }: Props) => {
           <span className={styles.label}>{formattedDate.dayOfWeek}</span>
           <span className={styles.date}>{formattedDate.formattedDate}</span>
         </Box>
-        <Box mr={5} display="flex" flexDir="column" justifyContent="center" width="20%">
+        <Box mr={5} display="flex" flexDir="column" justifyContent="center" width="25%">
           <span className={styles.label}>{category}</span>
           <span className={styles.title}>{title}</span>
         </Box>
@@ -63,7 +62,7 @@ const TableItem = ({ data, index }: Props) => {
           <span className={styles.label}>Budget Type</span>
           <span>{budget ? budget : "N/A"}</span>
         </Box>
-        <Box display="flex" flexDir="column" justifyContent="center" width="40%">
+        <Box display="flex" flexDir="column" justifyContent="center" width="35%">
           <span className={styles.label}>Tags</span>
           {tags && tags.length ?
             <Flex flexWrap="wrap">
