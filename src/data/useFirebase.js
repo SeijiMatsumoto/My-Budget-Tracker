@@ -41,8 +41,8 @@ export const setDataInFirestore = async (user, type, setData, data) => {
       email: user.email,
       createdAt: serverTimestamp(),
       transactionsData:
-        type === "transactions" ? data : firestoreUserData.transactionsData,
-      budgetsData: type === "budgets" ? data : firestoreUserData.budgetsData,
+        type === "transaction" ? data : firestoreUserData.transactionsData,
+      budgetsData: type === "budget" ? data : firestoreUserData.budgetsData,
     });
     setData(data);
   }

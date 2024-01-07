@@ -85,12 +85,11 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
       const copy = transactionsData.slice();
       if (isNewItem) {
         copy.push(newItem);
-        copy.sort((a: Transaction, b: Transaction) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
-        setDataInFirestore(user, "transactions", setTransactionsData, [...copy]);
       } else {
         copy[index] = newItem;
-        setTransactionsData(user, "transactions", setTransactionsData, copy)
       }
+      copy.sort((a: Transaction, b: Transaction) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
+      setDataInFirestore(user, itemType.toLowerCase(), setTransactionsData, copy);
       resetStates();
       showSuccess();
       onClose();
@@ -122,7 +121,7 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
 
   const deleteItem = () => {
     const copy = transactionsData.filter((transaction: Transaction) => transaction.id !== data?.id);
-    setTransactionsData(copy)
+    setDataInFirestore(user, itemType, setTransactionsData, copy)
     onClosePopup()
   }
 
