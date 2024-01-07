@@ -10,14 +10,17 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { getDataFromFirestore } from "@/data/useFirebase";
+import { returnToast } from "@/utils/returnToast";
+import { useToast } from "@chakra-ui/react";
 
 const MyDataContext = createContext();
 
 export const MyDataProvider = ({ children }) => {
-  const { user } = useAuth();
+  const toast = useToast();
+  const { user, loading } = useAuth();
   const [transactionsData, setTransactionsData] = useState([]);
   const [dataToShow, setdataToShow] = useState([]);
-  const [budgetData, setBudgetsData] = useState([]);
+  const [budgets, setBudgets] = useState([]);
 
   const currentDate = new Date();
   const [startDate, setStartDate] = useState(
@@ -41,7 +44,14 @@ export const MyDataProvider = ({ children }) => {
   }, [transactionsData]);
 
   useEffect(() => {
-    if (user) getDataFromFirestore(user, setTransactionsData, setBudgetsData);
+    if (user)
+      getDataFromFirestore(
+        user,
+        setTransactionsData,
+        setBudgets,
+        returnToast,
+        toast
+      );
   }, [user]);
 
   const handleSort = (sortConfig, setSortConfig, key) => {
@@ -115,7 +125,8 @@ export const MyDataProvider = ({ children }) => {
         getTotalAmount,
         budgetType,
         setBudgetType,
-        budgetData,
+        budgets,
+        setBudgets,
       }}
     >
       {children}

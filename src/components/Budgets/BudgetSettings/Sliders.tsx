@@ -1,7 +1,6 @@
 "use client"
 import {
   Box,
-  Text,
   Flex,
   Heading,
   Slider,
@@ -9,7 +8,6 @@ import {
   SliderFilledTrack,
   SliderThumb,
   SliderMark,
-  Input,
 } from '@chakra-ui/react'
 
 type Props = {
@@ -20,7 +18,6 @@ type Props = {
 }
 
 const Sliders = ({ title, value, index, onChange }: Props) => {
-
   const labelStyles = {
     mt: '2',
     ml: '-2.5',

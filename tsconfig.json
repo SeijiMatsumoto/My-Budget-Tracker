@@ -30,7 +30,8 @@
     "src/contexts/NavigationContext.js",
     "src/contexts/DataContext.js",
     "src/data/useFirebase.js",
-    "src/contexts/SettingsContext.js"
+    "src/contexts/SettingsContext.js",
+    "src/utils/returnToast.js"
   ],
   "exclude": ["node_modules"]
 }

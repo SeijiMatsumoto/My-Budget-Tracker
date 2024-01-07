@@ -6,11 +6,12 @@ import {
   collection,
   serverTimestamp,
 } from "firebase/firestore";
-
 export const getDataFromFirestore = async (
   user,
   setTransactionsData,
-  setBudgetsData
+  setBudgetsData,
+  returnToast,
+  toast
 ) => {
   const userId = user.uid;
   const userDocRef = doc(firestore, "users", userId);
@@ -26,11 +27,25 @@ export const getDataFromFirestore = async (
       createdAt: serverTimestamp(),
       transactionsData: [],
       budgetsData: [],
-    });
+    })
+      .then(() => {
+        returnToast(toast, true, "Successfully updated data");
+      })
+      .catch((err) => {
+        returnToast(toast, false, "Failed to udpate data");
+        console.log(err);
+      });
   }
 };
 
-export const setDataInFirestore = async (user, type, setData, data) => {
+export const setDataInFirestore = async (
+  user,
+  type,
+  setData,
+  data,
+  returnToast,
+  toast
+) => {
   const userId = user.uid;
   const userDocRef = doc(firestore, "users", userId);
   const userDocSnapshot = await getDoc(userDocRef);
@@ -43,7 +58,14 @@ export const setDataInFirestore = async (user, type, setData, data) => {
       transactionsData:
         type === "transaction" ? data : firestoreUserData.transactionsData,
       budgetsData: type === "budget" ? data : firestoreUserData.budgetsData,
-    });
+    })
+      .then(() => {
+        returnToast(toast, true, "Successfully updated data");
+      })
+      .catch((err) => {
+        returnToast(toast, false, "Failed to udpate data");
+        console.log(err);
+      });
     setData(data);
   }
 };

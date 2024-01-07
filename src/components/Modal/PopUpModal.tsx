@@ -18,6 +18,7 @@ import { positiveOrNegative } from '@/utils/convertDollars';
 import AreYouSure from './AreYouSure';
 import { setDataInFirestore } from '@/data/useFirebase';
 import { useAuth } from '@/contexts/AuthContext'
+import { returnToast } from '@/utils/returnToast';
 type Props = {
   isNewItem: boolean;
   data: Transaction | null;
@@ -92,7 +93,7 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
         copy[index] = newItem;
       }
       copy.sort((a: Transaction, b: Transaction) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
-      setDataInFirestore(user, itemType.toLowerCase(), setTransactionsData, copy);
+      setDataInFirestore(user, itemType.toLowerCase(), setTransactionsData, copy, returnToast, toast);
       resetStates();
       showSuccess(isNewItem ? 'Successfully added expense' : 'Successfully edited expense');
       onClose();
@@ -124,7 +125,7 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
 
   const deleteItem = () => {
     const copy = transactionsData.filter((transaction: Transaction) => transaction.id !== data?.id);
-    setDataInFirestore(user, itemType.toLowerCase(), setTransactionsData, copy)
+    setDataInFirestore(user, itemType.toLowerCase(), setTransactionsData, copy, returnToast, toast)
     showSuccess("Successfully deleted item")
     onClosePopup()
   }
