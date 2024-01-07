@@ -31,10 +31,9 @@ interface Transaction {
   type: string;
 }
 
-interface TransactionWithDate {
-  amount: number;
-  date: Date;
-  type: string;
+interface WeeklySum {
+  week: string;
+  totalAmount: number;
 }
 
 function Spending() {
@@ -52,44 +51,29 @@ function Spending() {
     else setTableSize("sm")
   }, [])
 
-  const getWeek = (date: Date): string => {
-    const year = date.getFullYear();
-    const day = date.getDate();
-
-    const firstDayOfYear = new Date(year, 0, 1);
-    const daysOffset = firstDayOfYear.getDay() - 1;
-    const startOfWeek = new Date(year, 0, 1 - daysOffset);
-
-    const weekNumber = Math.ceil(((day - startOfWeek.getDate()) + 1) / 7);
-    return `${year}-W${String(weekNumber).padStart(2, '0')}`;
-  }
-
   useEffect(() => {
-    const transactionsWithDate: TransactionWithDate[] = dataToShow.map((transaction: Transaction) => ({
-      ...transaction,
-      date: new Date(transaction.date),
-    }));
-
-    const weeklySum: DataByWeek[] = transactionsWithDate.reduce((result: DataByWeek[], transaction: TransactionWithDate) => {
-      if (transaction.type === "Transaction") {
-        const parsedDate: Date = new Date(transaction.date);
-        const week = getWeek(parsedDate);
-        const existingWeek = result.find((item) => item.week === week);
-        if (existingWeek) {
-          existingWeek.totalAmount += transaction.amount;
-        } else {
-          result.push({
-            week,
-            totalAmount: transaction.amount,
-          });
-        }
-      }
-
-      return result;
-    }, []);
-
-    setDataByWeek(weeklySum);
+    if (dataToShow.length) {
+      console.log(sumAmountsByWeek(dataToShow))
+    }
   }, [dataToShow])
+
+  function sumAmountsByWeek(transactions: Transaction[]) {
+    const weeklySums: WeeklySum[] = [];
+    transactions.forEach(transaction => {
+      const date = new Date(transaction.date);
+      const startOfWeek = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
+      const weekKey = startOfWeek.toISOString().split('T')[0];
+      const existingWeekIndex = weeklySums.findIndex((week: WeeklySum) => week.week === weekKey);
+
+      if (existingWeekIndex !== -1) {
+        weeklySums[existingWeekIndex].totalAmount += transaction.amount;
+      } else {
+        weeklySums.unshift({ week: weekKey, totalAmount: transaction.amount });
+      }
+    });
+
+    setDataByWeek(weeklySums);
+  }
 
   return (
     <Card className={styles.card}>
