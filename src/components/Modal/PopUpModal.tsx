@@ -129,8 +129,6 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
     onClosePopup()
   }
 
-  console.log(data)
-
   return (
     <Modal isOpen={open} onClose={onClose} size={'xl'} isCentered>
       <ModalOverlay />

@@ -19,17 +19,14 @@ const Filters = () => {
             <Heading size="xs" mb={3}>Date Range</Heading>
             <DateRange />
           </Box>
-          <Box mb={10} display="flex" flexDir="row">
-            <Box mr={5} width="50%">
-              <Heading size="xs" mb={3}>Expense Type</Heading>
-              <Type />
-            </Box>
-            <Box width="50%">
-              <Heading size="xs" mb={3}>Budget Type</Heading>
-              <Budget />
-            </Box>
+          <Box mb={10}>
+            <Heading size="xs" mb={3}>Expense Type</Heading>
+            <Type />
           </Box>
-
+          <Box>
+            <Heading size="xs" mb={3}>Budget Type</Heading>
+            <Budget />
+          </Box>
         </Flex>
       </CardBody>
     </Card>
