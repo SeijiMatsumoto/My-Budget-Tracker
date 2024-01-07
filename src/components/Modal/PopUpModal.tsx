@@ -34,6 +34,7 @@ interface Transaction {
   date: string;
   type: string;
   budget: string;
+  tags: string[];
 }
 const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
   const { user } = useAuth();
@@ -46,6 +47,7 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
   const [selectedCategory, setSelectedCategory] = useState<string>(data?.category || "");
   const [startDate, setStartDate] = useState<Date>(data && convertDate(data?.date) || new Date());
   const [budgetType, setBudgetType] = useState<string>(data?.budget || "");
+  const [tags, setTags] = useState<string[]>(data?.tags || []);
   const { transactionsData, setTransactionsData } = useMyDataContext();
   const resetStates = () => {
     setItemType("Transaction");
@@ -80,7 +82,8 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
         amount: thisAmount,
         budget: budgetType,
         category: selectedCategory,
-        date: formatDate(startDate)
+        date: formatDate(startDate),
+        tags: tags
       }
       const copy = transactionsData.slice();
       if (isNewItem) {
@@ -91,16 +94,16 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
       copy.sort((a: Transaction, b: Transaction) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
       setDataInFirestore(user, itemType.toLowerCase(), setTransactionsData, copy);
       resetStates();
-      showSuccess();
+      showSuccess(isNewItem ? 'Successfully added expense' : 'Successfully edited expense');
       onClose();
     } else {
       showError();
     }
   }
 
-  const showSuccess = () => {
+  const showSuccess = (message: string) => {
     return toast({
-      title: isNewItem ? 'Successfully added expense' : 'Successfully edited expense',
+      title: message,
       position: "top",
       status: 'success',
       duration: 3000,
@@ -121,9 +124,12 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
 
   const deleteItem = () => {
     const copy = transactionsData.filter((transaction: Transaction) => transaction.id !== data?.id);
-    setDataInFirestore(user, itemType, setTransactionsData, copy)
+    setDataInFirestore(user, itemType.toLowerCase(), setTransactionsData, copy)
+    showSuccess("Successfully deleted item")
     onClosePopup()
   }
+
+  console.log(data)
 
   return (
     <Modal isOpen={open} onClose={onClose} size={'xl'} isCentered>
@@ -143,6 +149,8 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
           setSelectedCategory={setSelectedCategory}
           startDate={startDate}
           setStartDate={setStartDate}
+          tags={tags}
+          setTags={setTags}
           submitHandler={submitHandler}
           onClose={onClose}
         />

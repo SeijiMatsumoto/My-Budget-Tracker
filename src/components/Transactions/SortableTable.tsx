@@ -21,6 +21,7 @@ interface Transaction {
   date: string;
   type: string;
   budget: string;
+  tags: string[];
 }
 
 interface SortConfig {
@@ -50,7 +51,8 @@ const SortableTable = ({ sortConfig }: Props) => {
       const searchOutput =
         transactionsData.filter((transaction: Transaction) =>
           transaction.title.toLowerCase().includes(searchInput.toLowerCase()) ||
-          transaction.category.toLowerCase().includes(searchInput.toLowerCase()));
+          transaction.category.toLowerCase().includes(searchInput.toLowerCase()) ||
+          (transaction.tags && transaction.tags.find(tag => tag.toLowerCase().includes(searchInput.toLowerCase()))));
       setdataToShow(filterRange(searchOutput, startDate, endDate));
     } else {
       setdataToShow(filterRange(transactionsData, startDate, endDate));

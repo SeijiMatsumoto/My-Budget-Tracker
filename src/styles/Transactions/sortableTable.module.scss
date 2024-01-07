@@ -17,12 +17,16 @@
   color: rgb(37, 123, 159);
   font-weight: 500;
   font-size: 14px;
+  display: flex;
+  flex-direction: column;
 }
 
 .minusAmount {
   color: rgb(132, 0, 0);
   font-weight: 500;
   font-size: 14px;
+  display: flex;
+  flex-direction: column;
 }
 
 .label {
@@ -37,4 +41,15 @@
 .title {
   font-weight: bold;
   font-size: 15px;
+}
+
+.tag {
+  padding: 1px 4px;
+  margin-right: 8px;
+  margin-bottom: 5px;
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  background-color: #0088cc;
+  color: white;
+  cursor: default;
 }

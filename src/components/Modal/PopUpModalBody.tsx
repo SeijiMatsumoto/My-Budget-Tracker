@@ -1,10 +1,9 @@
 "use client";
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   ModalBody,
   FormControl,
   FormLabel,
-  FormErrorMessage,
   FormHelperText,
   RadioGroup,
   HStack,
@@ -15,7 +14,8 @@ import {
   Select,
   Box,
   Flex,
-  Tabs, TabList, TabPanels, Tab, TabPanel,
+  Tabs, TabList, TabPanels, Tab, TabPanel, Button,
+  useToast,
 } from '@chakra-ui/react'
 import styles from '@/styles/Navigation/newItemModal.module.scss'
 import { transactionCategories, incomeCategories, savingsCategories } from '@/data/dummyData/categories'
@@ -23,6 +23,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Link } from '@chakra-ui/next-js';
 import { useMyNavigationContext } from '@/contexts/NavigationContext';
+import { CloseIcon } from '@chakra-ui/icons'
 
 interface Props {
   itemType: string;
@@ -37,6 +38,8 @@ interface Props {
   setSelectedCategory: Function;
   startDate: any;
   setStartDate: Function;
+  tags: string[];
+  setTags: Function;
   submitHandler: any;
   onClose: Function
 }
@@ -54,11 +57,15 @@ const PopUpModalBody = ({
   setSelectedCategory,
   startDate,
   setStartDate,
+  tags,
+  setTags,
   submitHandler,
   onClose
 }: Props) => {
   const { setPage } = useMyNavigationContext();
   const tabs = ['Transaction', 'Savings', 'Income']
+  const [tagValue, setTagValue] = useState<string>('');
+  const toast = useToast()
 
   useEffect(() => {
     if (itemType === 'Income') {
@@ -71,36 +78,58 @@ const PopUpModalBody = ({
     onClose();
   }
 
+  const addTag = () => {
+    if (tags.includes(tagValue)) {
+      return toast({
+        title: "Tag already exists",
+        position: "bottom",
+        status: 'error',
+        duration: 3000,
+        isClosable: true,
+      })
+    } else {
+      if (tags.length >= 5) {
+        return toast({
+          title: "Limit of 5 tags",
+          position: "bottom",
+          status: 'error',
+          duration: 3000,
+          isClosable: true,
+        })
+      } else {
+        setTags([...tags, tagValue]);
+        setTagValue("");
+      }
+    }
+  }
+
+  const removeTag = (selectedTag: string) => {
+    setTags(tags.filter(tag => tag !== selectedTag))
+  }
+
   const InnerBody = () => {
     return (
       <Flex flexDir="column">
-        <Box mb="20px">
+        <Box mb={5}>
           <FormLabel fontWeight="bold">Date</FormLabel>
           <DatePicker
             className={styles.datePicker}
             selected={startDate}
             onChange={(date: Date) => setStartDate(date)} />
         </Box>
-        {itemType !== "Income" ? <Box mb="20px">
+        {itemType === "Transaction" ? <Box mb={5}>
           <FormLabel fontWeight="bold">Budget Type</FormLabel>
           <RadioGroup
             value={budgetType}
             onChange={setBudgetType}
           >
             <HStack spacing='24px'>
-              {itemType === "Transaction" ? <Radio value='Need'>Need (50%)</Radio> : null}
-              {itemType === "Transaction" ? <Radio value='Want'>Want (30%)</Radio> : null}
-              {itemType === "Savings" ? <Radio value='Savings' defaultChecked>Savings (20%)</Radio> : null}
+              <Radio value='Need'>Need (50%)</Radio>
+              <Radio value='Want'>Want (30%)</Radio>
             </HStack>
           </RadioGroup>
         </Box> : null}
-        <Box mb="20px">
-          <FormLabel fontWeight="bold">Title</FormLabel>
-          <InputGroup>
-            <Input placeholder='Enter title' value={title} onChange={(e) => setTitle(e.target.value)} autoComplete='off' />
-          </InputGroup>
-        </Box>
-        <Box mb="20px">
+        <Box mb={5}>
           <Flex justifyContent="space-between" alignItems="center">
             <FormLabel fontWeight="bold">Category</FormLabel>
             <FormHelperText position="relative" top="-2px">
@@ -125,7 +154,13 @@ const PopUpModalBody = ({
             })}
           </Select>
         </Box>
-        <Box>
+        <Box mb={5}>
+          <FormLabel fontWeight="bold">Title</FormLabel>
+          <InputGroup>
+            <Input placeholder='Enter title' value={title} onChange={(e) => setTitle(e.target.value)} autoComplete='off' />
+          </InputGroup>
+        </Box>
+        <Box mb={5}>
           <FormLabel fontWeight="bold">{itemType} amount</FormLabel>
           <InputGroup>
             <InputLeftElement
@@ -137,6 +172,25 @@ const PopUpModalBody = ({
             </InputLeftElement>
             <Input placeholder='Enter amount' value={amount} onChange={(e: any) => setAmount(e.target.value)} autoComplete='off' />
           </InputGroup>
+        </Box>
+        <Box>
+          <FormLabel fontWeight="bold">Tags</FormLabel>
+          <InputGroup mb={2}>
+            <Input mr={2} placeholder="Add up to 5 tags" value={tagValue} onChange={(e: any) => setTagValue(e.target.value)} autoComplete='off' />
+            <Button onClick={addTag}>Add</Button>
+          </InputGroup>
+          <Flex flexWrap="wrap">
+            {
+              tags.map((tag: string) => {
+                return (
+                  <Box className={styles.tag} onClick={() => removeTag(tag)}>
+                    {tag}
+                    <CloseIcon ml="5px" fontSize="6px" />
+                  </Box>
+                )
+              })
+            }
+          </Flex>
         </Box>
       </Flex>
     )
@@ -150,7 +204,7 @@ const PopUpModalBody = ({
             {tabs.map(tab => <Tab key={tab + 'tab'}>{tab}</Tab>)}
           </TabList>
           <TabPanels>
-            {tabs.map(tab => <TabPanel key={tab + 'tabPanel'}>{InnerBody()}</TabPanel>)}
+            {tabs.map(tab => <TabPanel key={tab + 'tabPanel'} pt={0}>{InnerBody()}</TabPanel>)}
           </TabPanels>
         </Tabs>
       </FormControl>

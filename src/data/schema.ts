@@ -16,4 +16,5 @@ interface Transaction {
   date: string;
   type: string;
   budget: string;
+  labels: string[];
 }
