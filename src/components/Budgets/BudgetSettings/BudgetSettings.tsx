@@ -1,3 +1,4 @@
+"use client"
 import {
   Box,
   Card,
@@ -5,28 +6,28 @@ import {
   CardHeader,
   Flex,
   Heading,
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-  SliderMark,
+  Button,
 } from '@chakra-ui/react'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import SplitBudget from './SplitBudget'
+import { useMySettingsContext } from '@/contexts/SettingsContext'
 
 const BudgetSettings = () => {
+  const { budgets } = useMySettingsContext();
+  const [disabled, setDisabled] = useState<boolean>(false);
+
   return (
     <Card width="30%" mr={5}>
-      <CardHeader>
+      <CardHeader display="flex" justifyContent="space-between">
         <Heading size="md">Adjust Budgets</Heading>
+        <Button disabled={disabled}>Save</Button>
       </CardHeader>
-      <CardBody>
+      <CardBody overflow-y="scroll">
         <Flex flexDir="column">
           <SplitBudget />
           <Flex>
             <Heading size="sm">Categories</Heading>
             <Box>
-
             </Box>
           </Flex>
         </Flex>
