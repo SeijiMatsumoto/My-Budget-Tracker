@@ -1,5 +1,5 @@
 "use client"
-import React from 'react'
+import React, { useState } from 'react'
 import CanvasJSReact from '@canvasjs/react-charts';
 import { Flex } from '@chakra-ui/react';
 
@@ -14,9 +14,10 @@ interface DataPoint {
   percentage: number;
 }
 
-const CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
 const PieChart = ({ type, dataPoints }: Props) => {
+  const CanvasJSChart = CanvasJSReact.CanvasJSChart;
+
   const options = {
     exportEnabled: true,
     animationEnabled: true,

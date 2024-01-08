@@ -1,10 +1,11 @@
 "use client";
 import { Flex } from '@chakra-ui/react'
 import React, { useState, useEffect } from 'react'
-import PieChart from './PieChart'
+import dynamic from 'next/dynamic'
 import CategoriesList from './CategoriesList'
-import useIsMobile from '@/hooks/useIsMobile'
 import { useMyDataContext } from '@/contexts/DataContext';
+
+const PieChart = dynamic(() => import("./PieChart"))
 
 interface Props {
   type: string;
@@ -28,7 +29,6 @@ interface DataPoint {
 }
 
 const ThreeStats = ({ type }: Props) => {
-  const isMobile = useIsMobile();
   const { dataToShow } = useMyDataContext();
   const [dataPoints, setDataPoints] = useState<DataPoint[]>([]);
 
@@ -77,10 +77,9 @@ const ThreeStats = ({ type }: Props) => {
     return result;
   }
 
-
   return (
     <Flex flexDir='column' overflow="scroll">
-      <PieChart type={type} dataPoints={dataPoints} />
+      {dataPoints.length ? <PieChart type={type} dataPoints={dataPoints} /> : null}
       <CategoriesList type={type} dataPoints={dataPoints} />
     </Flex>
   )
