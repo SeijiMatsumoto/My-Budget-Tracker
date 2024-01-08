@@ -95,21 +95,10 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
       copy.sort((a: Transaction, b: Transaction) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
       setDataInFirestore(user, itemType.toLowerCase(), setTransactionsData, copy, returnToast, toast);
       resetStates();
-      showSuccess(isNewItem ? 'Successfully added expense' : 'Successfully edited expense');
       onClose();
     } else {
       showError();
     }
-  }
-
-  const showSuccess = (message: string) => {
-    return toast({
-      title: message,
-      position: "top",
-      status: 'success',
-      duration: 3000,
-      isClosable: true,
-    })
   }
 
   const showError = () => {
@@ -126,7 +115,6 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
   const deleteItem = () => {
     const copy = transactionsData.filter((transaction: Transaction) => transaction.id !== data?.id);
     setDataInFirestore(user, itemType.toLowerCase(), setTransactionsData, copy, returnToast, toast)
-    showSuccess("Successfully deleted item")
     onClosePopup()
   }
 

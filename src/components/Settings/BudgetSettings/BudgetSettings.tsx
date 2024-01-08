@@ -13,19 +13,12 @@ import SplitBudget from './SplitBudget'
 const BudgetSettings = () => {
 
   return (
-    <Card width="30%" mr={5}>
+    <Card width="100%" mr={5}>
       <CardHeader>
         <Heading size="md">Adjust Budgets</Heading>
       </CardHeader>
       <CardBody overflow-y="scroll">
-        <Flex flexDir="column">
-          <SplitBudget />
-          <Flex>
-            <Heading size="sm">Categories</Heading>
-            <Box>
-            </Box>
-          </Flex>
-        </Flex>
+        <SplitBudget />
       </CardBody>
     </Card>
   )

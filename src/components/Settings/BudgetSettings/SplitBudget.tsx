@@ -41,10 +41,11 @@ const SplitBudget = () => {
   }
 
   return (
-    <Flex flexDir="column" mb={10}>
-      <Heading size="sm">Split Budget</Heading>
+    <Flex flexDir="column">
+      <Heading size="sm" mb={2}>Split Budget</Heading>
       <Text fontSize="12px"><b>Note:</b> The most ideal split is 50/30/20.</Text>
-      <Flex flexDir="column" mb={7}>
+      <Text fontSize="12px">The ratio will be taken from the amount of income you get this month.</Text>
+      <Flex flexDir="column" mb={10}>
         <Flex width="100%" padding={1} mt={3} mb={0} flexDir="column" alignItems="center" justifyContent="center">
           <Text fontSize="2vw">Total: {sum}%</Text>
           {sum === 100 ? <Text>You're all set!</Text> : <Text>Adjust the sliders so they add up to 100%.</Text>}

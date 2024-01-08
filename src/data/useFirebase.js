@@ -11,6 +11,7 @@ import {
   savingsCategories,
   transactionCategories,
 } from "./dummyData/categories";
+
 export const getDataFromFirestore = async (
   user,
   setTransactionsData,
@@ -34,12 +35,12 @@ export const getDataFromFirestore = async (
           data: transactionCategories,
         },
         {
-          type: "income",
-          data: incomeCategories,
-        },
-        {
           type: "savings",
           data: savingsCategories,
+        },
+        {
+          type: "income",
+          data: incomeCategories,
         },
       ];
       await setDoc(userDocRef, {
@@ -91,7 +92,9 @@ export const setDataInFirestore = async (
       email: user.email,
       createdAt: serverTimestamp(),
       transactionsData:
-        type === "transaction" ? data : firestoreUserData.transactionsData,
+        type === "transaction" || type === "income" || type === "savings"
+          ? data
+          : firestoreUserData.transactionsData,
       budgetsData: type === "budget" ? data : firestoreUserData.budgetsData,
       categoriesData:
         type === "categories" ? data : firestoreUserData.categoriesData,

@@ -1,10 +1,13 @@
 import React from 'react'
+import BudgetSettings from './BudgetSettings/BudgetSettings'
 
 type Props = {}
 
 function Settings({ }: Props) {
   return (
-    <div>Settings</div>
+    <div>
+      <BudgetSettings />
+    </div>
   )
 }
 

@@ -6,7 +6,8 @@ import {
   MdMoney,
   MdSettings,
 } from "react-icons/md";
-import { FaPiggyBank, FaPlusCircle } from "react-icons/fa";
+import { FaPlusCircle } from "react-icons/fa";
+import { IoStatsChart } from "react-icons/io5";
 
 export const links = [
   {
@@ -23,9 +24,9 @@ export const links = [
         icon: MdAttachMoney,
       },
       {
-        title: "Budgets",
-        href: "/budgets",
-        icon: FaPiggyBank,
+        title: "Stats",
+        href: "/stats",
+        icon: IoStatsChart,
       },
     ],
   },
@@ -58,9 +59,9 @@ export const mobileLinks = [
     icon: MdCalculate,
   },
   {
-    title: "Budgets",
-    href: "/budgets",
-    icon: FaPiggyBank,
+    title: "Stats",
+    href: "/stats",
+    icon: IoStatsChart,
   },
   {
     title: "Dashboard",

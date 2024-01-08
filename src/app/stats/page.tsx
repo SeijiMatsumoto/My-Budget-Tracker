@@ -1,9 +1,9 @@
-import Budgets from '@/components/Budgets'
+import Stats from '@/components/Stats'
 import React from 'react'
 
 function page() {
   return (
-    <Budgets />
+    <Stats />
   )
 }
 
