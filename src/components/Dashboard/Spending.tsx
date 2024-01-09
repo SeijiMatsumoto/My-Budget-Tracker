@@ -53,13 +53,15 @@ function Spending() {
 
   useEffect(() => {
     if (dataToShow.length) {
+      console.log(dataToShow)
       console.log(sumAmountsByWeek(dataToShow))
     }
   }, [dataToShow])
 
   function sumAmountsByWeek(transactions: Transaction[]) {
     const weeklySums: WeeklySum[] = [];
-    transactions.forEach(transaction => {
+    transactions.forEach((transaction: Transaction) => {
+      if (transaction.type !== "Transaction") return;
       const date = new Date(transaction.date);
       const startOfWeek = new Date(date.getFullYear(), date.getMonth(), date.getDate() - date.getDay());
       const weekKey = startOfWeek.toISOString().split('T')[0];
