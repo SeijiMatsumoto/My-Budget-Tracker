@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import CategoriesList from './CategoriesList'
 import { useMyDataContext } from '@/contexts/DataContext';
+import styles from '@/styles/Stats/stats.module.scss'
 
 const PieChart = dynamic(() => import("./PieChart"))
 
@@ -78,7 +79,7 @@ const ThreeStats = ({ type }: Props) => {
   }
 
   return (
-    <Flex flexDir='column' overflow="scroll">
+    <Flex flexDir='column' className={styles.fullHeight} justifyContent={"space-evenly"}>
       {dataPoints.length ? <PieChart type={type} dataPoints={dataPoints} /> : null}
       <CategoriesList type={type} dataPoints={dataPoints} />
     </Flex>

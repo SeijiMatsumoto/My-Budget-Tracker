@@ -4,6 +4,7 @@ import {
   Card, CardBody, Tabs, TabList, TabPanels, Tab, TabPanel
 } from '@chakra-ui/react'
 import ThreeStats from './ThreeStats';
+import styles from '@/styles/Stats/stats.module.scss'
 
 const DataOverview = () => {
   const tabs = ['Transactions', 'Savings', 'Income', 'Budget'];
@@ -24,15 +25,15 @@ const DataOverview = () => {
   }
 
   return (
-    <Card width="100%" height="100%">
-      <Tabs isFitted variant="enclosed">
+    <Card width="100%" className={styles.fullHeight}>
+      <Tabs isFitted variant="enclosed" className={styles.fullHeight}>
         <TabList>
           {tabs.map((tab: string) => <Tab key={tab + 'tabPanelTab'}>{tab}</Tab>)}
         </TabList>
-        <TabPanels>
+        <TabPanels className={styles.fullHeight}>
           {tabs.map(tab => (
-            <TabPanel key={tab + 'tabPanelStat'} pt={0}>
-              <CardBody overflow="scroll">
+            <TabPanel key={tab + 'tabPanelStat'} pt={0} className={styles.fullHeight}>
+              <CardBody className={styles.cardBody}>
                 {renderTab(tab)}
               </CardBody>
             </TabPanel>))}

@@ -17,8 +17,8 @@ const CategoriesList = ({ dataPoints }: Props) => {
   dataPoints.sort((a: DataPoint, b: DataPoint) => b.y - a.y);
 
   return (
-    <Flex width="100%" justifyContent="center">
-      <Flex width="60%" flexDir="column" overflow="scroll" borderTop='1px solid rgba(0, 0, 0, 0.065)'>
+    <Flex width="100%" height="50%" justifyContent="center">
+      <Flex width="60%" flexDir="column" borderTop='1px solid rgba(0, 0, 0, 0.065)'>
         {dataPoints.map((point: DataPoint) => (
           <Flex justifyContent="space-between" alignItems="center" className={styles.itemWrapper}>
             <Flex>

@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import CanvasJSReact from '@canvasjs/react-charts';
 import { Flex } from '@chakra-ui/react';
+import styles from '@/styles/Stats/stats.module.scss'
 
 type Props = {
   type: string;
@@ -33,12 +34,12 @@ const PieChart = ({ type, dataPoints }: Props) => {
       indexLabelFontSize: 16,
       indexLabel: "{label} - {percentage}%",
       dataPoints: dataPoints
-    }]
+    }],
   }
 
   return (
-    <Flex width="100%" mb={5} justifyContent="center">
-      <CanvasJSChart options={options} />
+    <Flex width="100%" height="50%" mb={10} justifyContent="center" alignItems="center">
+      <CanvasJSChart options={options} className={styles.chart} />
     </Flex>
   )
 }

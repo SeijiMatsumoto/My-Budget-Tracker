@@ -13,3 +13,15 @@
 
 .sum {
 }
+
+.fullHeight {
+  height: 100%;
+}
+
+.cardBody {
+  overflow-y: scroll;
+  height: 100%;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
