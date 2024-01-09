@@ -51,13 +51,6 @@ function Spending() {
     else setTableSize("sm")
   }, [])
 
-  useEffect(() => {
-    if (dataToShow.length) {
-      console.log(dataToShow)
-      console.log(sumAmountsByWeek(dataToShow))
-    }
-  }, [dataToShow])
-
   function sumAmountsByWeek(transactions: Transaction[]) {
     const weeklySums: WeeklySum[] = [];
     transactions.forEach((transaction: Transaction) => {
