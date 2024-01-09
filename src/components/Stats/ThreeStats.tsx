@@ -23,15 +23,9 @@ interface Transaction {
   tags: string[];
 }
 
-interface DataPoint {
-  y: number;
-  label: string;
-  percentage: number;
-}
-
 const ThreeStats = ({ type }: Props) => {
   const { dataToShow } = useMyDataContext();
-  const [dataPoints, setDataPoints] = useState<DataPoint[]>([]);
+  const [dataPoints, setDataPoints] = useState<Array<[string, any]>>([]);
 
   useEffect(() => {
     if (dataToShow.length) {
@@ -39,47 +33,33 @@ const ThreeStats = ({ type }: Props) => {
     }
   }, [dataToShow])
 
-  useEffect(() => {
-    console.log('Datapoints', dataToShow, dataPoints)
-  }, [dataPoints])
+  function transformData(originalData: Transaction[], type: string): Array<[string, any]> {
+    const categorySums: Record<string, number> = {};
 
-  function transformData(originalData: Transaction[], type: string): DataPoint[] {
-    const transformedData: Record<string, { sum: number, percentage: number }> = {};
     originalData.forEach(item => {
       const category = item.category;
       let amount = item.amount;
       const itemType = item.type;
+      if (type !== itemType) return;
 
-      if (itemType !== "Income") {
+      if (item.type !== "Income") {
         amount = amount * -1;
       }
 
-      if (type === itemType) {
-        if (transformedData[category]) {
-          transformedData[category].sum += amount;
-        } else {
-          transformedData[category] = { sum: amount, percentage: 0 };
-        }
+      if (categorySums[category]) {
+        categorySums[category] += amount;
+      } else {
+        categorySums[category] = amount;
       }
     });
 
-    const totalSum = Object.values(transformedData).reduce((acc, category) => acc + category.sum, 0);
-
-    Object.keys(transformedData).forEach(category => {
-      transformedData[category].percentage = (transformedData[category].sum / totalSum) * 100;
-    });
-
-    const result: DataPoint[] = Object.keys(transformedData).map(label => ({
-      y: transformedData[label].sum,
-      label: label,
-      percentage: parseFloat(transformedData[label].percentage.toFixed(1)),
-    }));
+    const result: Array<[string, any]> = [['Category', 'Total amount'], ...Object.entries(categorySums)];
 
     return result;
   }
 
   return (
-    <Flex flexDir='column' className={styles.fullHeight} justifyContent={"space-evenly"}>
+    <Flex flexDir='column' className={styles.fullHeight} alignItems="center" justifyContent="center">
       {dataPoints.length ? <PieChart type={type} dataPoints={dataPoints} /> : null}
       <CategoriesList type={type} dataPoints={dataPoints} />
     </Flex>

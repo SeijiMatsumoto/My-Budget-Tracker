@@ -1,45 +1,27 @@
 "use client"
-import React, { useState } from 'react'
-import CanvasJSReact from '@canvasjs/react-charts';
+import React from 'react'
 import { Flex } from '@chakra-ui/react';
-import styles from '@/styles/Stats/stats.module.scss'
+import { Chart } from "react-google-charts";
 
 type Props = {
   type: string;
-  dataPoints: DataPoint[];
+  dataPoints: Array<[string, any]>;
 }
-
-interface DataPoint {
-  y: number;
-  label: string;
-  percentage: number;
-}
-
 
 const PieChart = ({ type, dataPoints }: Props) => {
-  const CanvasJSChart = CanvasJSReact.CanvasJSChart;
-
   const options = {
-    exportEnabled: true,
-    animationEnabled: true,
-    title: {
-      text: `${type} Breakdown`
-    },
-    data: [{
-      type: "pie",
-      startAngle: 90,
-      toolTipContent: '<b>{label}</b>: {percentage}%',
-      showInLegend: "true",
-      legendText: "{label}",
-      indexLabelFontSize: 16,
-      indexLabel: "{label} - {percentage}%",
-      dataPoints: dataPoints
-    }],
-  }
+    title: type,
+  };
 
   return (
-    <Flex width="100%" height="50%" mb={10} justifyContent="center" alignItems="center">
-      <CanvasJSChart options={options} className={styles.chart} />
+    <Flex width="100%" height="50%" mb={10} justifyContent="center" alignItems="center" border="1px solid black">
+      <Chart
+        chartType="PieChart"
+        data={dataPoints}
+        options={options}
+        width={"600px"}
+        height={"100%"}
+      />
     </Flex>
   )
 }

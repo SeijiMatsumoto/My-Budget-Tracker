@@ -32,7 +32,7 @@ const DataOverview = () => {
         </TabList>
         <TabPanels className={styles.fullHeight}>
           {tabs.map(tab => (
-            <TabPanel key={tab + 'tabPanelStat'} pt={0} className={styles.fullHeight}>
+            <TabPanel key={tab + 'tabPanelStat'} pt={0} className={styles.tabPanel}>
               <CardBody className={styles.cardBody}>
                 {renderTab(tab)}
               </CardBody>
