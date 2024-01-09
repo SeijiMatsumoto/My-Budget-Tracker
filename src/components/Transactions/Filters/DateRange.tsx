@@ -1,34 +1,39 @@
 "use client"
-import { Flex, Radio, RadioGroup, Stack } from '@chakra-ui/react'
+import {
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  Button,
+  Flex
+} from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { DatePicker, InputGroup } from 'rsuite';
 import 'rsuite/dist/rsuite.min.css';
 import styles from '@/styles/Transactions/transactions.module.scss'
 import { useMyDataContext } from '@/contexts/DataContext';
+import { FaChevronDown } from "react-icons/fa";
 
 const DateRange = () => {
   const currentDate = new Date();
-
-  const [radioValue, setValue] = useState<string>('month')
-  const { startDate, endDate, setStartDate, setEndDate } = useMyDataContext();
-
+  const { startDate, endDate, setStartDate, setEndDate, rangeType, setRangeType } = useMyDataContext();
 
   useEffect(() => {
     const year = currentDate.getFullYear();
     const month = currentDate.getMonth();
     const day = currentDate.getDate();
 
-    if (radioValue === "year") {
+    if (rangeType === "Year") {
       const firstDayOfYear = new Date(year, 0, 1);
       const lastDayOfYear = new Date(year, 11, 31);
       setStartDate(firstDayOfYear);
       setEndDate(lastDayOfYear);
-    } else if (radioValue === "month") {
+    } else if (rangeType === "Month") {
       const firstOfMonth = new Date(year, month, 1);
       const endOfMonth = new Date(year, month + 1, 0);
       setStartDate(firstOfMonth);
       setEndDate(endOfMonth)
-    } else if (radioValue === "week") {
+    } else if (rangeType === "Week") {
       const currentDayOfWeek = currentDate.getDay();
       const daysUntilFirstDay = currentDayOfWeek === 0 ? 0 : 1 - currentDayOfWeek;
       const firstDayOfWeek = new Date(year, month, day + daysUntilFirstDay);
@@ -37,41 +42,40 @@ const DateRange = () => {
       setStartDate(firstDayOfWeek);
       setEndDate(lastDayOfWeek)
     }
-  }, [radioValue])
+  }, [rangeType])
 
   return (
-    <Flex flexDir="column">
-      <RadioGroup onChange={setValue} value={radioValue} mb={3}>
-        <Stack dir="column">
-          <Radio value="year">This Year</Radio>
-          <Radio value="month">This Month</Radio>
-          <Radio value="week">This Week</Radio>
-          <Radio value="custom">Custom Range</Radio>
-        </Stack>
-      </RadioGroup>
-      <InputGroup style={{ width: '100%' }}>
+    <Flex>
+      <Menu matchWidth>
+        <MenuButton as={Button} rightIcon={<FaChevronDown />} width="100%">
+          {rangeType}
+        </MenuButton>
+        <MenuList>
+          <MenuItem onClick={() => setRangeType("Month")}>Month</MenuItem>
+          <MenuItem onClick={() => setRangeType('Year')}>Year</MenuItem>
+          <MenuItem onClick={() => setRangeType('Week')}>Week</MenuItem>
+          <MenuItem onClick={() => setRangeType('Custom')}>Custom</MenuItem>
+        </MenuList>
+      </Menu>
+      <InputGroup style={{ width: '300px', height: '40px', marginLeft: '8px' }}>
         <DatePicker
           format="MM-dd-yyyy"
           block
-          appearance="default"
+          appearance="subtle"
           style={{ width: '50%' }}
           value={startDate}
-          onChangeCalendarDate={(date: Date) => setStartDate(date)}
+          onChangeCalendarDate={(date: Date) => { setRangeType("Custom"); setStartDate(date) }}
           className={styles.datePicker}
-          onClean={() => setValue('month')}
-          disabled={radioValue !== "custom"}
         />
         <InputGroup.Addon>to</InputGroup.Addon>
         <DatePicker
           format="MM-dd-yyyy"
           block
-          appearance="default"
+          appearance="subtle"
           style={{ width: '50%' }}
           value={endDate}
-          onChangeCalendarDate={(date: Date) => setEndDate(date)}
+          onChangeCalendarDate={(date: Date) => { setRangeType("Custom"); setEndDate(date) }}
           className={styles.datePicker}
-          onClean={() => setValue('month')}
-          disabled={radioValue !== "custom"}
         />
       </InputGroup>
     </Flex>

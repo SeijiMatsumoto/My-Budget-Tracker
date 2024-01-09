@@ -15,10 +15,10 @@ const Type = () => {
   const { type, setType } = useMyDataContext();
 
   return (
-    <Box>
+    <Box mr={4}>
       <Menu>
         <MenuButton as={Button} rightIcon={<FaChevronDown />} width="100%">
-          {type}
+          {type === 'All' ? 'Expense type' : type}
         </MenuButton>
         <MenuList>
           <MenuItem onClick={() => setType("All")}>All</MenuItem>

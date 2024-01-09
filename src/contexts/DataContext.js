@@ -30,6 +30,7 @@ export const MyDataProvider = ({ children }) => {
   const [endDate, setEndDate] = useState(
     new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
   );
+  const [rangeType, setRangeType] = useState("Month");
   const [searchInput, setSearchInput] = useState("");
   const [type, setType] = useState("All");
   const [budgetType, setBudgetType] = useState("All");
@@ -131,6 +132,8 @@ export const MyDataProvider = ({ children }) => {
         setBudgets,
         categoriesData,
         setCategoriesData,
+        rangeType,
+        setRangeType,
       }}
     >
       {children}

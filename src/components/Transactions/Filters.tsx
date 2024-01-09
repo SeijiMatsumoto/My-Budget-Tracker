@@ -1,35 +1,46 @@
 "use client";
 import React from 'react'
 import DateRange from './Filters/DateRange'
-import { Box, Card, CardBody, CardHeader, Flex, Heading } from '@chakra-ui/react';
+import { CardHeader, Flex } from '@chakra-ui/react';
 import Type from './Filters/Type';
 import Budget from './Filters/Budget';
-import styles from '@/styles/Transactions/transactions.module.scss'
+import Search from './Filters/Search';
+import SortButton from './Filters/SortButton';
+import { useMyDataContext } from '@/contexts/DataContext';
 
-const Filters = () => {
+interface SortConfig {
+  key: keyof Transaction | null;
+  direction: 'asc' | 'desc';
+}
+
+interface Transaction {
+  id: string;
+  title: string;
+  amount: number;
+  category: string;
+  date: string;
+  type: string;
+  budget: string;
+}
+
+interface Props {
+  sortConfig: SortConfig;
+  setSortConfig: Function;
+}
+
+const Filters = ({ sortConfig, setSortConfig }: Props) => {
+  const { handleSort } = useMyDataContext();
 
   return (
-    <Card height="100%">
-      <CardHeader>
-        <Heading size="md">Filters</Heading>
-      </CardHeader>
-      <CardBody className={styles.cardBody}>
-        <Flex flexDir="column">
-          <Box mb={10}>
-            <Heading size="xs" mb={3}>Date Range</Heading>
-            <DateRange />
-          </Box>
-          <Box mb={10}>
-            <Heading size="xs" mb={3}>Expense Type</Heading>
-            <Type />
-          </Box>
-          <Box>
-            <Heading size="xs" mb={3}>Budget Type</Heading>
-            <Budget />
-          </Box>
-        </Flex>
-      </CardBody>
-    </Card>
+    <CardHeader justifyContent="space-between" display="flex" flexDir="row">
+      <DateRange />
+      <Flex mb={3}>
+        <Search />
+        <Type />
+        <Budget />
+        <SortButton sortConfig={sortConfig} setSortConfig={setSortConfig} handleSort={handleSort} />
+      </Flex>
+    </CardHeader>
   )
 }
 

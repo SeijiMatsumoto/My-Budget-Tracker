@@ -33,7 +33,7 @@ const SortButton = ({ handleSort, sortConfig, setSortConfig }: Props) => {
   }
 
   return (
-    <Box mb={3} display="flex" justifyContent="flex-end">
+    <Box mr={4}>
       <Menu>
         <MenuButton as={Button} rightIcon={<FaChevronDown />}>
           {sortType ? `Sort by ${sortType}` : "Sort"}

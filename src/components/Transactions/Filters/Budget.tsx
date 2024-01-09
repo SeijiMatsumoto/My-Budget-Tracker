@@ -14,10 +14,10 @@ const Budget = () => {
   const { budgetType, setBudgetType } = useMyDataContext();
 
   return (
-    <Box>
+    <Box mr={4}>
       <Menu>
         <MenuButton as={Button} rightIcon={<FaChevronDown />} width="100%">
-          {budgetType}
+          {budgetType === 'All' ? 'Budget type' : budgetType}
         </MenuButton>
         <MenuList>
           <MenuItem onClick={() => setBudgetType("All")}>All</MenuItem>
