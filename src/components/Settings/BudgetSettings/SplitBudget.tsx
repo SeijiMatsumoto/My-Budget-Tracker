@@ -5,7 +5,6 @@ import {
   Heading,
   useToast,
   Spinner,
-  Box
 } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useMyDataContext } from '@/contexts/DataContext'
@@ -41,8 +40,8 @@ const SplitBudget = () => {
   }
 
   return (
-    <Flex flexDir="column">
-      <Heading size="sm" mb={2}>Split Budget</Heading>
+    <Flex flexDir="column" mb={10}>
+      <Heading size="md" mb={2} fontWeight="normal">Split Budget Settings</Heading>
       <Text fontSize="12px"><b>Note:</b> The most ideal split is 50/30/20.</Text>
       <Text fontSize="12px">The ratio will be taken from the amount of income you get this month.</Text>
       <Flex flexDir="column" mb={10}>
@@ -57,8 +56,11 @@ const SplitBudget = () => {
           )) : <Flex width="100%" justifyContent="center" ><Spinner /></Flex>
         }
       </Flex>
-      <Button disabled={sum !== 100 || loading} variant="contained" onClick={submitHandler}>Update</Button>
-    </Flex>)
+      <Flex justifyContent="center">
+        <Button disabled={sum !== 100 || loading} variant="outlined" onClick={submitHandler}>Update Budgets</Button>
+      </Flex>
+    </Flex>
+  )
 }
 
 export default SplitBudget

@@ -1,26 +1,25 @@
 import {
-  Box,
   Card,
   CardBody,
-  CardHeader,
-  Flex,
-  Heading,
-  Button,
 } from '@chakra-ui/react'
 import React from 'react'
 import SplitBudget from './SplitBudget'
+import styles from '@/styles/Settings/settings.module.scss'
+import Categories from '../CategoriesSettings/Categories'
+import Recurring from '../RecurringSettings/Recurring'
 
 const BudgetSettings = () => {
 
   return (
-    <Card width="100%" mr={5}>
-      <CardHeader>
-        <Heading size="md">Adjust Budgets</Heading>
-      </CardHeader>
-      <CardBody overflow-y="scroll">
-        <SplitBudget />
-      </CardBody>
-    </Card>
+    <div className={styles.wrapper}>
+      <Card className={styles.card}>
+        <CardBody overflow-y="scroll">
+          <SplitBudget />
+          <Categories />
+          <Recurring />
+        </CardBody>
+      </Card>
+    </div>
   )
 }
 
