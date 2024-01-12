@@ -24,6 +24,7 @@ export const MyDataProvider = ({ children }) => {
   const [transactionsData, setTransactionsData] = useState([]);
   const [budgetsData, setBudgetsData] = useState([]);
   const [categoriesData, setCategoriesData] = useState([]);
+  const [recurringData, setRecurringData] = useState([]);
 
   const currentDate = new Date();
   const firstDayOfMonth = new Date(
@@ -152,6 +153,8 @@ export const MyDataProvider = ({ children }) => {
         rangeType,
         setRangeType,
         currentMonthData,
+        recurringData,
+        setRecurringData,
       }}
     >
       {children}
