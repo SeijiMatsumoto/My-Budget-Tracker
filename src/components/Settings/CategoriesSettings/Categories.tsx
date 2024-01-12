@@ -77,7 +77,7 @@ const Categories = () => {
                               <Button
                                 colorScheme="telegram"
                                 width="100%"
-                                variant="outline"
+                                variant="solid"
                               >Add new {categoryType.type.toLowerCase()} category</Button>
                             </PopoverTrigger>
                             <PopoverContent>

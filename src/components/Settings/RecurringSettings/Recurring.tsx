@@ -5,10 +5,10 @@ import {
   Heading,
   useToast,
   Spinner,
+  Button
 } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useMyDataContext } from '@/contexts/DataContext'
-import { Button } from '@mui/material'
 import { setDataInFirestore } from '@/data/useFirebase'
 import { useAuth } from '@/contexts/AuthContext'
 import { returnToast } from '@/utils/returnToast'
@@ -31,7 +31,7 @@ const Recurring = () => {
     <Flex flexDir="column" mb={10}>
       <Heading size="md" fontWeight="normal" mb={2}>Recurring Items</Heading>
       <Flex justifyContent="center">
-        <Button variant="outlined" onClick={submitHandler}>Update Recurring</Button>
+        <Button variant="outline" colorScheme="telegram" onClick={submitHandler}>Save Recurring</Button>
       </Flex>
     </Flex>
   )

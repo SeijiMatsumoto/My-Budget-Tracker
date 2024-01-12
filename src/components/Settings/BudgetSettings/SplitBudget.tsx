@@ -5,11 +5,11 @@ import {
   Heading,
   useToast,
   Spinner,
+  Button
 } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { useMyDataContext } from '@/contexts/DataContext'
 import Sliders from './Sliders'
-import { Button } from '@mui/material'
 import { setDataInFirestore } from '@/data/useFirebase'
 import { useAuth } from '@/contexts/AuthContext'
 import { returnToast } from '@/utils/returnToast'
@@ -57,7 +57,7 @@ const SplitBudget = () => {
         }
       </Flex>
       <Flex justifyContent="center">
-        <Button disabled={sum !== 100 || loading} variant="outlined" onClick={submitHandler}>Update Budgets</Button>
+        <Button disabled={sum !== 100 || loading} variant="outline" colorScheme="telegram" onClick={submitHandler}>Save Budgets</Button>
       </Flex>
     </Flex>
   )
