@@ -140,7 +140,7 @@ function Budgets() {
                 width={chartWidth}
                 height={chartHeight}
               />
-              <Text fontSize="12px" ml={5}>Based on this month's income of ${income.toFixed(2)}</Text>
+              <Text fontSize="12px" ml={5}>Based on this month's net `income of ${income.toFixed(2)}</Text>
             </Box> : null}
         </Flex>
       </CardBody>
