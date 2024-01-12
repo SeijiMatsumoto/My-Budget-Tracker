@@ -1,6 +1,5 @@
 "use client"
 import {
-  Text,
   Flex,
   Heading,
   useToast,
@@ -11,15 +10,24 @@ import {
   AccordionPanel,
   AccordionIcon,
   Box,
-  StylesProvider,
+  Button,
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverHeader,
+  PopoverBody,
+  FormControl,
+  Input,
+  useDisclosure
 } from '@chakra-ui/react'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useMyDataContext } from '@/contexts/DataContext'
-import { Button } from '@mui/material'
 import { setDataInFirestore } from '@/data/useFirebase'
 import { useAuth } from '@/contexts/AuthContext'
 import { returnToast } from '@/utils/returnToast'
-import styles from '@/styles/Settings/settings.module.scss'
+import Category from './Category'
 
 interface Category {
   type: string;
@@ -28,15 +36,19 @@ interface Category {
 
 const Categories = () => {
   const toast = useToast();
-  const { user, loading } = useAuth();
+  const { user } = useAuth();
   const { categoriesData, setCategoriesData } = useMyDataContext();
+  const [newCategoryInput, setNewCategoryInput] = useState<string>('');
 
-  const changeHandler = (value: number, index: number) => {
-
-  }
-
-  const submitHandler = () => {
-    setDataInFirestore(user, "categories", setCategoriesData, categoriesData, returnToast, toast)
+  const submitHandler = (index: number) => {
+    const temp = categoriesData.slice();
+    if (!temp[index].data.includes(newCategoryInput)) {
+      temp[index].data.unshift(newCategoryInput);
+      setDataInFirestore(user, "categories", setCategoriesData, temp, returnToast, toast)
+    } else {
+      returnToast(toast, false, 'Category already exists in ' + categoriesData[index].type)
+    }
+    setNewCategoryInput("");
   }
 
   return (
@@ -59,11 +71,33 @@ const Categories = () => {
                         </AccordionButton>
                       </h2>
                       <AccordionPanel >
+                        <Box mb={5}>
+                          <Popover>
+                            <PopoverTrigger>
+                              <Button
+                                colorScheme="telegram"
+                                width="100%"
+                                variant="outline"
+                              >Add new {categoryType.type.toLowerCase()} category</Button>
+                            </PopoverTrigger>
+                            <PopoverContent>
+                              <PopoverArrow />
+                              <PopoverCloseButton />
+                              <PopoverHeader>New category</PopoverHeader>
+                              <PopoverBody>
+                                <FormControl onSubmit={() => submitHandler(index)}>
+                                  <Flex flexDir="row">
+                                    <Input value={newCategoryInput} onChange={(e) => setNewCategoryInput(e.target.value)} mr={3} />
+                                    <Button onClick={() => submitHandler(index)}>Add</Button>
+                                  </Flex>
+                                </FormControl>
+                              </PopoverBody>
+                            </PopoverContent>
+                          </Popover>
+                        </Box>
                         {categoryType.data.map((category: string, i: number) => {
                           return (
-                            <Flex key={category + i} flexDir="column">
-                              {category}
-                            </Flex>
+                            <Category category={category} index={index} innerIndex={i} />
                           )
                         })}
                       </AccordionPanel>
@@ -74,7 +108,6 @@ const Categories = () => {
               : <Spinner />
           }
         </Flex>
-        <Button variant="outlined" onClick={submitHandler}>Update Categories</Button>
       </Flex>
     </Flex>
   )
