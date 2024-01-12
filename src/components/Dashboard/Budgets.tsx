@@ -117,6 +117,7 @@ function Budgets() {
                 sx={{
                   [`& .${pieArcLabelClasses.root}`]: {
                     fill: 'white',
+                    fontSize: '12px'
                   },
                 }}
                 width={chartWidth}
