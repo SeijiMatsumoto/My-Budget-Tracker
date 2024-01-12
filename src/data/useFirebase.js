@@ -69,7 +69,7 @@ export const getDataFromFirestore = async (
       })
       .catch((err) => {
         returnToast(toast, false, "Failed to udpate data");
-        console.log(err);
+        console.error(err);
       });
   }
 };
@@ -104,7 +104,7 @@ export const setDataInFirestore = async (
       })
       .catch((err) => {
         returnToast(toast, false, "Failed to udpate data");
-        console.log(err);
+        console.error(err);
       });
     setData(data);
   }

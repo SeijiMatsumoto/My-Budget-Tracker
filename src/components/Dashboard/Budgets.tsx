@@ -66,7 +66,6 @@ function Budgets() {
       const transformedArray: TransformedData[] = currentMonthData.reduce((accumulator: TransformedData[], currentItem: Transaction) => {
         const budget = currentItem.budget;
         if (currentItem.type === "Income") {
-          console.log(currentItem);
           setIncome(prev => prev + currentItem.amount);
         }
 
@@ -90,14 +89,9 @@ function Budgets() {
         const order = ["Needs", "Wants", "Savings"];
         return order.indexOf(a.label) - order.indexOf(b.label);
       });
-      console.log(orderedArray)
       setChartData(orderedArray)
     }
   }, [currentMonthData])
-
-  console.log('Budget', budgetsData)
-  console.log('Chart', chartData)
-  console.log('Income', income)
 
   return (
     <Card ml={5} className={styles.card}>

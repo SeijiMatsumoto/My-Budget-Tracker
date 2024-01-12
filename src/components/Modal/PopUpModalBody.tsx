@@ -167,7 +167,7 @@ const PopUpModalBody = ({
             >
               $
             </InputLeftElement>
-            <Input placeholder='Enter amount' value={amount} onChange={(e: any) => setAmount(e.target.value)} autoComplete='off' />
+            <Input placeholder='Enter amount' value={parseFloat(amount).toFixed(2) || 0.00} onChange={(e: any) => setAmount(e.target.value)} autoComplete='off' />
           </InputGroup>
         </Box>
         <Box>
