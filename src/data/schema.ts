@@ -18,3 +18,8 @@ interface Transaction {
   budget: string;
   labels: string[];
 }
+
+interface Category {
+  type: string;
+  data: string[];
+}
