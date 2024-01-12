@@ -19,8 +19,7 @@ import {
   PopoverHeader,
   PopoverBody,
   FormControl,
-  Input,
-  useDisclosure
+  Input
 } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { useMyDataContext } from '@/contexts/DataContext'
