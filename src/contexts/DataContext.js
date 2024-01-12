@@ -18,18 +18,27 @@ const MyDataContext = createContext();
 export const MyDataProvider = ({ children }) => {
   const toast = useToast();
   const { user, loading } = useAuth();
-  const [transactionsData, setTransactionsData] = useState([]);
+
   const [dataToShow, setdataToShow] = useState([]);
-  const [budgets, setBudgets] = useState([]);
+  const [currentMonthData, setCurrentMonthData] = useState([]);
+  const [transactionsData, setTransactionsData] = useState([]);
+  const [budgetsData, setBudgetsData] = useState([]);
   const [categoriesData, setCategoriesData] = useState([]);
 
   const currentDate = new Date();
-  const [startDate, setStartDate] = useState(
-    new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
+  const firstDayOfMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1
   );
-  const [endDate, setEndDate] = useState(
-    new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
+  const lastDayOfMonth = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 1,
+    0
   );
+
+  const [startDate, setStartDate] = useState(new Date(firstDayOfMonth));
+  const [endDate, setEndDate] = useState(new Date(lastDayOfMonth));
   const [rangeType, setRangeType] = useState("Month");
   const [searchInput, setSearchInput] = useState("");
   const [type, setType] = useState("All");
@@ -43,6 +52,14 @@ export const MyDataProvider = ({ children }) => {
   useEffect(() => {
     const filteredRangeData = filterRange(transactionsData, startDate, endDate);
     setdataToShow(filteredRangeData || []);
+
+    const currentMonth = filterRange(
+      transactionsData,
+      firstDayOfMonth,
+      lastDayOfMonth
+    );
+
+    setCurrentMonthData(currentMonth);
   }, [transactionsData]);
 
   useEffect(() => {
@@ -50,7 +67,7 @@ export const MyDataProvider = ({ children }) => {
       getDataFromFirestore(
         user,
         setTransactionsData,
-        setBudgets,
+        setBudgetsData,
         setCategoriesData,
         returnToast,
         toast
@@ -128,12 +145,13 @@ export const MyDataProvider = ({ children }) => {
         getTotalAmount,
         budgetType,
         setBudgetType,
-        budgets,
-        setBudgets,
+        budgetsData,
+        setBudgetsData,
         categoriesData,
         setCategoriesData,
         rangeType,
         setRangeType,
+        currentMonthData,
       }}
     >
       {children}

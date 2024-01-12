@@ -23,21 +23,21 @@ interface Budget {
 const SplitBudget = () => {
   const toast = useToast();
   const { user, loading } = useAuth();
-  const { budgets, setBudgets } = useMyDataContext();
+  const { budgetsData, setBudgetsData } = useMyDataContext();
   const [sum, setSum] = useState<number>(100);
 
   useEffect(() => {
-    setSum(budgets.reduce((accumulator: number, item: Budget) => accumulator + item.value, 0));
-  }, [budgets])
+    setSum(budgetsData.reduce((accumulator: number, item: Budget) => accumulator + item.value, 0));
+  }, [budgetsData])
 
   const changeHandler = (value: number, index: number) => {
-    const budgetsCopy = budgets.slice();
+    const budgetsCopy = budgetsData.slice();
     budgetsCopy[index].value = value;
-    setBudgets(budgetsCopy)
+    setBudgetsData(budgetsCopy)
   }
 
   const submitHandler = () => {
-    setDataInFirestore(user, "budget", setBudgets, budgets, returnToast, toast)
+    setDataInFirestore(user, "budget", setBudgetsData, budgetsData, returnToast, toast)
   }
 
   return (
@@ -51,7 +51,7 @@ const SplitBudget = () => {
           {sum === 100 ? <Text>You're all set!</Text> : <Text>Adjust the sliders so they add up to 100%.</Text>}
         </Flex>
         {
-          !loading ? budgets.map((budget: Budget, index: number) =>
+          !loading ? budgetsData.map((budget: Budget, index: number) =>
           (
             <Sliders key={budget.title + index} title={budget.title} value={budget.value} index={index} onChange={changeHandler} />
           )) : <Flex width="100%" justifyContent="center" ><Spinner /></Flex>
