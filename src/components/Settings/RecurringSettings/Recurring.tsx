@@ -13,15 +13,10 @@ import { setDataInFirestore } from '@/data/useFirebase'
 import { useAuth } from '@/contexts/AuthContext'
 import { returnToast } from '@/utils/returnToast'
 
-interface Budget {
-  title: string;
-  value: number;
-}
-
 const Recurring = () => {
   const toast = useToast();
   const { user, loading } = useAuth();
-  const { categoriesData, setCategoriesData } = useMyDataContext();
+  const { recurringData, setRecurringData } = useMyDataContext();
 
 
   const changeHandler = (value: number, index: number) => {
@@ -29,7 +24,7 @@ const Recurring = () => {
   }
 
   const submitHandler = () => {
-    setDataInFirestore(user, "categories", setCategoriesData, categoriesData, returnToast, toast)
+    setDataInFirestore(user, "categories", setRecurringData, recurringData, returnToast, toast)
   }
 
   return (
