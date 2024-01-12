@@ -105,8 +105,8 @@ function Spending() {
             </Tbody>
             <Tfoot>
               <Tr>
-                <Th>Total Spent</Th>
-                <Th isNumeric fontSize="16px">${(dataByWeek.reduce((a: number, b: DataByWeek) => a + b.totalAmount, 0) * -1).toFixed(2)}</Th>
+                <Th fontSize="16px">Total Spent</Th>
+                <Th isNumeric fontSize="20px">${(dataByWeek.reduce((a: number, b: DataByWeek) => a + b.totalAmount, 0) * -1).toFixed(2)}</Th>
               </Tr>
             </Tfoot>
           </Table>
