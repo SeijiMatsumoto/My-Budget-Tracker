@@ -43,6 +43,8 @@ function Budgets() {
   useEffect(() => {
     getWidth();
     getHeight();
+    getChartData();
+    setIncome(0);
   }, [])
 
   const getWidth = () => {
@@ -60,10 +62,11 @@ function Budgets() {
     router.push('/settings');
   }
 
-  console.log(
-    'Charts Data:', chartData, 'Budgets Data:', budgetsData)
-
   useEffect(() => {
+    getChartData();
+  }, [currentMonthData])
+
+  const getChartData = () => {
     if (currentMonthData.length) {
       const transformedArray: TransformedData[] = currentMonthData.reduce((accumulator: TransformedData[], currentItem: Transaction) => {
         const budget = currentItem.budget;
@@ -87,12 +90,10 @@ function Budgets() {
 
         return accumulator;
       }, []);
-
       [transformedArray[0], transformedArray[2]] = [transformedArray[2], transformedArray[0]];
-
       setChartData(transformedArray)
     }
-  }, [currentMonthData])
+  }
 
   return (
     <Card ml={5} className={styles.card}>
