@@ -14,7 +14,7 @@ const PieChart = ({ type, dataPoints }: Props) => {
   };
 
   return (
-    <Flex width="100%" height="50%" mb={10} justifyContent="center" alignItems="center" border="1px solid black">
+    <Flex width="100%" height="50%" mb={10} justifyContent="center" alignItems="center">
       <Chart
         chartType="PieChart"
         data={dataPoints}
