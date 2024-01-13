@@ -7,7 +7,6 @@ import styles from '@/styles/Dashboard/dashboard.module.scss';
 import { useRouter } from 'next/navigation'
 import { useMyNavigationContext } from '@/contexts/NavigationContext';
 import { useMyDataContext } from '@/contexts/DataContext';
-import NoData from '../shared/NoData';
 
 interface Transaction {
   date: string;
@@ -61,6 +60,9 @@ function Budgets() {
     router.push('/settings');
   }
 
+  console.log(
+    'Charts Data:', chartData, 'Budgets Data:', budgetsData)
+
   useEffect(() => {
     if (currentMonthData.length) {
       const transformedArray: TransformedData[] = currentMonthData.reduce((accumulator: TransformedData[], currentItem: Transaction) => {
@@ -85,11 +87,10 @@ function Budgets() {
 
         return accumulator;
       }, []);
-      const orderedArray = transformedArray.sort((a, b) => {
-        const order = ["Needs", "Wants", "Savings"];
-        return order.indexOf(a.label) - order.indexOf(b.label);
-      });
-      setChartData(orderedArray)
+
+      [transformedArray[0], transformedArray[2]] = [transformedArray[2], transformedArray[0]];
+
+      setChartData(transformedArray)
     }
   }, [currentMonthData])
 
