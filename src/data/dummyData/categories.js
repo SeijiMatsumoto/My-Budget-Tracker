@@ -26,3 +26,9 @@ export const transactionCategories = [
 export const incomeCategories = ["Salary", "Allowance", "Gift", "Other"];
 
 export const savingsCategories = ["401k", "Ally Bank", "Roth IRA"];
+
+export const categoriesDefaultData = [
+  transactionCategories,
+  incomeCategories,
+  savingsCategories,
+];
