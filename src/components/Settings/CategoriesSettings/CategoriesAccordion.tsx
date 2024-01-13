@@ -56,7 +56,7 @@ const CategoriesAccordion = () => {
             <h2>
               <AccordionButton>
                 <Box as="span" flex='1' textAlign='left'>
-                  {categoryType.type.slice(0, 1).toUpperCase() + categoryType.type.slice(1)} Categories
+                  {categoryType.type.slice(0, 1).toUpperCase() + categoryType.type.slice(1)} categories
                 </Box>
                 <AccordionIcon />
               </AccordionButton>
