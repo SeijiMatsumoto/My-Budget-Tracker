@@ -1,11 +1,15 @@
 "use client"
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Box,
   CardBody,
+  Flex,
+  Heading,
+  Switch,
   Text,
 } from '@chakra-ui/react'
 import styles from '@/styles/Transactions/transactions.module.scss'
+import styles2 from '@/styles/Transactions/sortableTable.module.scss'
 import { useMyDataContext } from '@/contexts/DataContext';
 import TableItem from './TableItem';
 
@@ -29,8 +33,31 @@ interface SortConfig {
   direction: 'asc' | 'desc';
 }
 
+interface DataByDate {
+  date: string;
+  transactions: Transaction[];
+}
+
 const SortableTable = ({ sortConfig }: Props) => {
   const { transactionsData, dataToShow, setdataToShow, sortByKey, filterRange, startDate, endDate, searchInput, type, budgetType } = useMyDataContext();
+  const [dataByDate, setDataByDate] = useState<DataByDate[]>([]);
+  const [isCondensed, setIsCondensed] = useState<boolean>(false);
+  const [load, setLoad] = useState<boolean>(true);
+
+  useEffect(() => {
+    const lsValue = localStorage.getItem("isCondensed");
+    if (lsValue) {
+      setIsCondensed(JSON.parse(lsValue))
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!load) {
+      localStorage.setItem("isCondensed", JSON.stringify(isCondensed));
+    } else {
+      setLoad(false);
+    }
+  }, [isCondensed])
 
   useEffect(() => {
     setdataToShow([...dataToShow].sort((a, b) => {
@@ -77,12 +104,70 @@ const SortableTable = ({ sortConfig }: Props) => {
     }
   }, [budgetType])
 
+  useEffect(() => {
+    if (dataToShow.length) {
+      const separatedByDate = dataToShow.reduce((acc: any, transaction: Transaction) => {
+        const transactionDate = transaction.date;
+        const existingEntry = acc.find((entry: Transaction) => entry.date === transactionDate);
+
+        if (existingEntry) {
+          existingEntry.transactions.push(transaction);
+        } else {
+          acc.push({
+            date: transactionDate,
+            transactions: [transaction]
+          });
+        }
+
+        return acc;
+      }, []);
+
+      console.log(separatedByDate);
+      setDataByDate(separatedByDate);
+    }
+
+  }, [dataToShow])
+
+  const convertDate = (dateString: string) => {
+    const dateParts = dateString.split('-');
+    const formattedDate = new Date(`${dateParts[0]}/${dateParts[1]}/${dateParts[2]}`);
+
+    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const monthsOfYear = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+    const dayOfWeek = daysOfWeek[formattedDate.getDay()];
+    const month = monthsOfYear[formattedDate.getMonth()];
+
+    const formattedDateString = `${month} ${formattedDate.getDate()}, ${formattedDate.getFullYear()}`;
+    return {
+      dayOfWeek: dayOfWeek,
+      formattedDate: formattedDateString
+    };
+  }
+
   return (
     <CardBody overflow="scroll" className={styles.cardBody} pt={0}>
+      <Flex>
+        <Text fontSize="12px" mr={1} mb={2}>Condensed</Text>
+        <Switch size='sm' isChecked={isCondensed} onChange={() => setIsCondensed(!isCondensed)} />
+      </Flex>
       <Box className={styles.tableWrapper}>
-        {dataToShow.length ? dataToShow.map((row: Transaction, i: number) => {
+        {dataByDate.length ? dataByDate.map((eachDay: DataByDate, i: number) => {
+          const formattedDate = convertDate(eachDay.date);
+          const inputDate = new Date(eachDay.date);
+          const upcoming = inputDate > new Date();
           return (
-            <TableItem key={row.title + i} data={row} index={i} />
+            <Flex flexDir="column" key={eachDay.date + i}>
+              <Flex className={styles.dateWrapper} padding={isCondensed ? 2 : 3}>
+                {upcoming && <span>Upcoming</span>}
+                <Text fontWeight="bold">{`${formattedDate.dayOfWeek}, ${formattedDate.formattedDate}`}</Text>
+              </Flex>
+              {eachDay.transactions.map((transaction: Transaction) => {
+                return (
+                  <TableItem data={transaction} index={i} isCondensed={isCondensed} convertDate={convertDate} />
+                )
+              })}
+            </Flex>
           )
         }) : <Text>There are no transactions recorded yet.</Text>}
       </Box>

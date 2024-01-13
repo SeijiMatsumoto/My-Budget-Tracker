@@ -49,7 +49,7 @@ function Budgets() {
 
   const getWidth = () => {
     const width = window.innerWidth;
-    setChartWidth(width < 1920 ? 200 : 300);
+    setChartWidth(width < 1920 ? 280 : 350);
   }
 
   const getHeight = () => {
@@ -139,10 +139,9 @@ function Budgets() {
                   { data: [chartData[0].value, chartData[1].value, chartData[2].value], label: "Spent", valueFormatter },
                   { data: [budgetsData[0].value / 100 * income, budgetsData[1].value / 100 * income, budgetsData[2].value / 100 * income], label: "Budget", valueFormatter },
                 ]}
-                width={chartWidth}
                 height={chartHeight}
               />
-              <Text fontSize="12px" ml={5}>Based on this month's net `income of ${income.toFixed(2)}</Text>
+              <Text fontSize="12px" ml={5}>Based on this month's net income of ${income.toFixed(2)}</Text>
             </Box> : null}
         </Flex>
       </CardBody>

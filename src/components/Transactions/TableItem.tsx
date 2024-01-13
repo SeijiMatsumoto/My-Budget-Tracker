@@ -19,32 +19,17 @@ interface Transaction {
 type Props = {
   data: Transaction;
   index: number;
+  isCondensed: boolean;
+  convertDate: Function;
 }
 
-const TableItem = ({ data, index }: Props) => {
+const TableItem = ({ data, index, isCondensed, convertDate }: Props) => {
   const [modalOpen, setModalOpen] = useState(false);
-
-  const convertDate = (dateString: string) => {
-    const dateParts = dateString.split('-');
-    const formattedDate = new Date(`${dateParts[0]}/${dateParts[1]}/${dateParts[2]}`);
-
-    const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const monthsOfYear = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-    const dayOfWeek = daysOfWeek[formattedDate.getDay()];
-    const month = monthsOfYear[formattedDate.getMonth()];
-
-    const formattedDateString = `${month} ${formattedDate.getDate()}, ${formattedDate.getFullYear()}`;
-    return {
-      dayOfWeek: dayOfWeek,
-      formattedDate: formattedDateString
-    };
-  }
 
   const { category, title, amount, date, type, budget, tags } = data;
   const formattedDate = convertDate(date);
   return (
-    <Box className={styles.itemWrapper} onClick={() => setModalOpen(true)} width="100%">
+    <Box className={styles.itemWrapper} padding={isCondensed ? '5px 20px' : '20px'} onClick={() => setModalOpen(true)} width="100%">
       <Flex alignItems="center" width="92%">
         <Box mr={5} display="flex" flexDir="column" justifyContent="center" width="10%">
           <span className={styles.label}>{formattedDate.dayOfWeek}</span>
