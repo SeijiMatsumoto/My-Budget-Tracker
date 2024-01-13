@@ -6,55 +6,29 @@ import {
   collection,
   serverTimestamp,
 } from "firebase/firestore";
-import {
-  incomeCategories,
-  savingsCategories,
-  transactionCategories,
-} from "./dummyData/categories";
+import { categoriesDefaultData } from "./dummyData/categories";
 
 export const getDataFromFirestore = async (
   user,
   setTransactionsData,
   setBudgetsData,
   setCategoriesData,
+  setRecurringData,
   returnToast,
   toast
 ) => {
   const userId = user.uid;
   const userDocRef = doc(firestore, "users", userId);
   const userDocSnapshot = await getDoc(userDocRef);
+
   if (userDocSnapshot.exists()) {
     const firestoreUserData = userDocSnapshot.data();
-    setTransactionsData(firestoreUserData.transactionsData);
-    setBudgetsData(firestoreUserData.budgetsData);
-    let categoriesData;
-    if (!firestoreUserData.categoriesData) {
-      categoriesData = [
-        {
-          type: "transaction",
-          data: transactionCategories,
-        },
-        {
-          type: "savings",
-          data: savingsCategories,
-        },
-        {
-          type: "income",
-          data: incomeCategories,
-        },
-      ];
-      await setDoc(userDocRef, {
-        displayName: user.displayName,
-        email: user.email,
-        createdAt: serverTimestamp(),
-        transactionsData: firestoreUserData.transactionsData,
-        budgetsData: firestoreUserData.budgetsData,
-        categoriesData: categoriesData,
-      });
-    } else {
-      categoriesData = firestoreUserData.categoriesData;
-    }
-    setCategoriesData(categoriesData);
+    setTransactionsData(firestoreUserData.transactionsData || []);
+    setBudgetsData(firestoreUserData.budgetsData || []);
+    setCategoriesData(
+      firestoreUserData.categoriesData || categoriesDefaultData
+    );
+    setRecurringData(firestoreUserData.recurringData || []);
   } else {
     await setDoc(userDocRef, {
       displayName: user.displayName,
@@ -98,6 +72,8 @@ export const setDataInFirestore = async (
       budgetsData: type === "budget" ? data : firestoreUserData.budgetsData,
       categoriesData:
         type === "categories" ? data : firestoreUserData.categoriesData,
+      recurringData:
+        type === "recurring" ? data : firestoreUserData.recurringData,
     })
       .then(() => {
         returnToast(toast, true, "Successfully updated data");

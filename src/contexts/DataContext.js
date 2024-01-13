@@ -70,6 +70,7 @@ export const MyDataProvider = ({ children }) => {
         setTransactionsData,
         setBudgetsData,
         setCategoriesData,
+        setRecurringData,
         returnToast,
         toast
       );
