@@ -56,6 +56,8 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
     setAmount("");
     setSelectedCategory("");
     setStartDate(new Date());
+    setTags([]);
+    setBudgetType("");
   }
 
   useEffect(() => {
@@ -140,6 +142,7 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
           setTags={setTags}
           submitHandler={submitHandler}
           onClose={onClose}
+          isNewItem={isNewItem}
         />
         <ModalFooter>
           <Button variant="outline" mr={3} onClick={onClose}>Cancel</Button>

@@ -41,7 +41,8 @@ interface Props {
   tags: string[];
   setTags: Function;
   submitHandler: any;
-  onClose: Function
+  onClose: Function;
+  isNewItem: boolean;
 }
 
 const PopUpModalBody = ({
@@ -60,7 +61,8 @@ const PopUpModalBody = ({
   tags,
   setTags,
   submitHandler,
-  onClose
+  onClose,
+  isNewItem
 }: Props) => {
   const { categoriesData } = useMyDataContext();
   const { setPage } = useMyNavigationContext();
@@ -167,7 +169,7 @@ const PopUpModalBody = ({
             >
               $
             </InputLeftElement>
-            <Input placeholder='Enter amount' value={amount} onChange={(e: any) => setAmount(e.target.value)} autoComplete='off' />
+            <Input placeholder='Enter amount' value={isNewItem ? amount : parseFloat(amount).toFixed(2)} onChange={(e: any) => setAmount(e.target.value)} autoComplete='off' />
           </InputGroup>
         </Box>
         <Box>
