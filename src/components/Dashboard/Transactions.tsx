@@ -64,7 +64,7 @@ function Transactions() {
               </Tr>
             </Thead>
             <Tbody>
-              {[...transactionsData].slice(0, 10).map((row: Transaction) => {
+              {[...transactionsData.filter((transaction: Transaction) => transaction.type === "Transaction")].slice(0, 10).map((row: Transaction) => {
                 return (
                   <Tr key={row.id}>
                     <Td>{row.type}</Td>
