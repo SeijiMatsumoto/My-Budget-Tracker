@@ -6,7 +6,8 @@ import {
   collection,
   serverTimestamp,
 } from "firebase/firestore";
-import { categoriesDefaultData } from "./dummyData/categories";
+import { defaultCategoriesData } from "./defaultData/categories";
+import { defaultRecurring } from "./defaultData/recurring";
 
 export const getDataFromFirestore = async (
   user,
@@ -26,9 +27,9 @@ export const getDataFromFirestore = async (
     setTransactionsData(firestoreUserData.transactionsData || []);
     setBudgetsData(firestoreUserData.budgetsData || []);
     setCategoriesData(
-      firestoreUserData.categoriesData || categoriesDefaultData
+      firestoreUserData.categoriesData || defaultCategoriesData
     );
-    setRecurringData(firestoreUserData.recurringData || []);
+    setRecurringData(firestoreUserData.recurringData || defaultRecurring);
   } else {
     await setDoc(userDocRef, {
       displayName: user.displayName,
@@ -36,7 +37,8 @@ export const getDataFromFirestore = async (
       createdAt: serverTimestamp(),
       transactionsData: [],
       budgetsData: [],
-      categoriesData: [],
+      categoriesData: defaultCategoriesData,
+      recurringData: defaultRecurringData,
     })
       .then(() => {
         returnToast(toast, true, "Successfully updated data");
@@ -69,11 +71,16 @@ export const setDataInFirestore = async (
         type === "transaction" || type === "income" || type === "savings"
           ? data
           : firestoreUserData.transactionsData,
-      budgetsData: type === "budget" ? data : firestoreUserData.budgetsData,
+      budgetsData:
+        type === "budget" ? data : firestoreUserData.budgetsData || [],
       categoriesData:
-        type === "categories" ? data : firestoreUserData.categoriesData,
+        type === "categories"
+          ? data
+          : firestoreUserData.categoriesData || defaultCategoriesData,
       recurringData:
-        type === "recurring" ? data : firestoreUserData.recurringData,
+        type === "recurring"
+          ? data
+          : firestoreUserData.recurringData || defaultRecurring,
     })
       .then(() => {
         returnToast(toast, true, "Successfully updated data");

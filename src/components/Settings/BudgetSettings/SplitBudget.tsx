@@ -58,7 +58,7 @@ const SplitBudget = () => {
             }
           </Flex>
           <Flex justifyContent="center">
-            <Button disabled={sum !== 100 || loading} variant="outline" colorScheme="telegram" onClick={submitHandler}>Save Budgets</Button>
+            <Button disabled={sum !== 100 || loading} variant="outline" colorScheme="telegram" onClick={submitHandler}>Save budget</Button>
           </Flex>
         </> : <Flex width="100%" justifyContent="center" ><Spinner /></Flex>}
     </Flex>
