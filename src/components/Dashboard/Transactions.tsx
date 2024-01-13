@@ -69,7 +69,7 @@ function Transactions() {
                   <Tr key={row.id}>
                     <Td>{row.type}</Td>
                     <Td>{row.title}</Td>
-                    <Td>{row.budget}</Td>
+                    <Td>{row.budget || 'N/A'}</Td>
                     <Td>{row.category}</Td>
                     <Td>{row.date}</Td>
                     <Td>{convertDollarsToString(row.amount)}</Td>
