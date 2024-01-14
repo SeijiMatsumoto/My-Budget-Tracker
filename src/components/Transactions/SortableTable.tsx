@@ -12,6 +12,7 @@ import styles from '@/styles/Transactions/transactions.module.scss'
 import styles2 from '@/styles/Transactions/sortableTable.module.scss'
 import { useMyDataContext } from '@/contexts/DataContext';
 import TableItem from './TableItem';
+import useLocalStorage from '@/hooks/useLocalStorage'
 
 type Props = {
   sortConfig: SortConfig
@@ -41,23 +42,7 @@ interface DataByDate {
 const SortableTable = ({ sortConfig }: Props) => {
   const { transactionsData, dataToShow, setdataToShow, sortByKey, filterRange, startDate, endDate, searchInput, type, budgetType } = useMyDataContext();
   const [dataByDate, setDataByDate] = useState<DataByDate[]>([]);
-  const [isCondensed, setIsCondensed] = useState<boolean>(false);
-  const [load, setLoad] = useState<boolean>(true);
-
-  useEffect(() => {
-    const lsValue = localStorage.getItem("isCondensed");
-    if (lsValue) {
-      setIsCondensed(JSON.parse(lsValue))
-    }
-  }, [])
-
-  useEffect(() => {
-    if (!load) {
-      localStorage.setItem("isCondensed", JSON.stringify(isCondensed));
-    } else {
-      setLoad(false);
-    }
-  }, [isCondensed])
+  const [isCondensed, setStoredValue] = useLocalStorage<any>('isCondensed', false);
 
   useEffect(() => {
     setdataToShow([...dataToShow].sort((a, b) => {
@@ -128,6 +113,10 @@ const SortableTable = ({ sortConfig }: Props) => {
 
   }, [dataToShow])
 
+  const handleUpdate = () => {
+    setStoredValue(!isCondensed)
+  }
+
   const convertDate = (dateString: string) => {
     const dateParts = dateString.split('-');
     const formattedDate = new Date(`${dateParts[0]}/${dateParts[1]}/${dateParts[2]}`);
@@ -149,7 +138,7 @@ const SortableTable = ({ sortConfig }: Props) => {
     <CardBody overflow="scroll" className={styles.cardBody} pt={0}>
       <Flex>
         <Text fontSize="12px" mr={1} mb={2}>Condensed</Text>
-        <Switch size='sm' isChecked={isCondensed} onChange={() => setIsCondensed(!isCondensed)} />
+        <Switch size='sm' isChecked={isCondensed} onChange={handleUpdate} />
       </Flex>
       <Box className={styles.tableWrapper}>
         {dataByDate.length ? dataByDate.map((eachDay: DataByDate, i: number) => {
