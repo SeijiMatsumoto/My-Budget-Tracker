@@ -5,7 +5,6 @@ import React from 'react'
 import SplitBudget from './BudgetSettings/SplitBudget'
 import styles from '@/styles/Settings/settings.module.scss'
 import Categories from './CategoriesSettings/Categories'
-import Recurring from './RecurringSettings/Recurring'
 
 function Settings() {
   return (
@@ -13,7 +12,6 @@ function Settings() {
       <Flex flexDir="column" className={styles.card}>
         <SplitBudget />
         <Categories />
-        <Recurring />
       </Flex>
     </div>)
 }

@@ -16,6 +16,7 @@ import {
   Flex,
   Tabs, TabList, TabPanels, Tab, TabPanel, Button,
   useToast,
+  Checkbox
 } from '@chakra-ui/react'
 import styles from '@/styles/Navigation/newItemModal.module.scss'
 import DatePicker from "react-datepicker";
@@ -43,6 +44,10 @@ interface Props {
   submitHandler: any;
   onClose: Function;
   isNewItem: boolean;
+  frequency: string;
+  setFrequency: Function;
+  isRecurring: boolean,
+  setIsRecurring: Function;
 }
 
 const PopUpModalBody = ({
@@ -62,13 +67,17 @@ const PopUpModalBody = ({
   setTags,
   submitHandler,
   onClose,
-  isNewItem
+  isNewItem,
+  frequency,
+  setFrequency,
+  isRecurring,
+  setIsRecurring
 }: Props) => {
+  const toast = useToast()
   const { categoriesData } = useMyDataContext();
   const { setPage } = useMyNavigationContext();
-  const tabs = ['Transaction', 'Savings', 'Income']
   const [tagValue, setTagValue] = useState<string>('');
-  const toast = useToast()
+  const tabs = ['Transaction', 'Savings', 'Income']
 
   useEffect(() => {
     if (itemType === 'Income') {
@@ -119,13 +128,37 @@ const PopUpModalBody = ({
   const InnerBody = () => {
     return (
       <Flex flexDir="column">
-        <Box mb={5}>
+        {/* Date */}
+        <Box>
           <FormLabel fontWeight="bold">Date</FormLabel>
           <DatePicker
             className={styles.datePicker}
             selected={startDate}
             onChange={(date: Date) => setStartDate(date)} />
+          <Flex width="100%" justifyContent="flex-end" alignItems="center">
+            <label htmlFor="recurring-checkbox" style={{ marginRight: "5px" }}>Recurring</label>
+            <input
+              id="recurring-checkbox"
+              type="checkbox"
+              checked={isRecurring}
+              onChange={(e) => { console.log(e); setIsRecurring(!isRecurring) }}
+              style={{ position: 'relative', top: '2px' }}
+            />
+          </Flex>
         </Box>
+        {/* Recurring */}
+        {isRecurring &&
+          <Box mb={5}>
+            <FormLabel fontWeight="bold">Recurring</FormLabel>
+            <Select placeholder="Select frequency" onChange={(e) => setFrequency(e.target.value)} value={frequency}>
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+              <option value="annually">Annually</option>
+            </Select>
+          </Box>
+        }
+        {/* Budget type */}
         {itemType === "Transaction" ? <Box mb={5}>
           <FormLabel fontWeight="bold">Budget Type</FormLabel>
           <RadioGroup
@@ -138,6 +171,7 @@ const PopUpModalBody = ({
             </HStack>
           </RadioGroup>
         </Box> : null}
+        {/* Category */}
         <Box mb={5}>
           <Flex justifyContent="space-between" alignItems="center">
             <FormLabel fontWeight="bold">Category</FormLabel>
@@ -153,12 +187,14 @@ const PopUpModalBody = ({
             })}
           </Select>
         </Box>
+        {/* Title */}
         <Box mb={5}>
           <FormLabel fontWeight="bold">Title</FormLabel>
           <InputGroup>
             <Input placeholder='Enter title' value={title} onChange={(e) => setTitle(e.target.value)} autoComplete='off' />
           </InputGroup>
         </Box>
+        {/* Amount */}
         <Box mb={5}>
           <FormLabel fontWeight="bold">{itemType} amount</FormLabel>
           <InputGroup>
@@ -169,9 +205,10 @@ const PopUpModalBody = ({
             >
               $
             </InputLeftElement>
-            <Input placeholder='Enter amount' value={isNewItem ? amount : parseFloat(amount).toFixed(2)} onChange={(e: any) => setAmount(e.target.value)} autoComplete='off' />
+            <Input placeholder='Enter amount' value={amount} onChange={(e: any) => setAmount(e.target.value)} autoComplete='off' />
           </InputGroup>
         </Box>
+        {/* Tags */}
         <Box>
           <FormLabel fontWeight="bold">Tags</FormLabel>
           <InputGroup mb={2}>

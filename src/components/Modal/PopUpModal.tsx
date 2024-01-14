@@ -38,10 +38,11 @@ interface Transaction {
   tags: string[];
 }
 const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
+  const toast = useToast()
   const { user } = useAuth();
   const { isOpen, onOpen, onClose: onClosePopup } = useDisclosure();
+  const { transactionsData, setTransactionsData } = useMyDataContext();
 
-  const toast = useToast()
   const [itemType, setItemType] = useState<string>(data?.type || "Transaction")
   const [title, setTitle] = useState<string>(data?.title || "");
   const [amount, setAmount] = useState<string>(positiveOrNegative(data?.amount) || "");
@@ -49,7 +50,10 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
   const [startDate, setStartDate] = useState<Date>(data && convertDate(data?.date) || new Date());
   const [budgetType, setBudgetType] = useState<string>(data?.budget || "");
   const [tags, setTags] = useState<string[]>(data?.tags || []);
-  const { transactionsData, setTransactionsData } = useMyDataContext();
+  const [frequency, setFrequency] = useState<string>('');
+  const [isRecurring, setIsRecurring] = useState<boolean>(false);
+  const [futureDates, setFutureDates] = useState<Date[]>([]);
+
   const resetStates = () => {
     setItemType("Transaction");
     setTitle("");
@@ -57,7 +61,9 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
     setSelectedCategory("");
     setStartDate(new Date());
     setTags([]);
-    setBudgetType("");
+    setFrequency("");
+    setIsRecurring(false);
+    setFutureDates([]);
   }
 
   useEffect(() => {
@@ -78,46 +84,106 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
     if (amount && selectedCategory.length && title.length) {
       let thisAmount = itemType === "Income" ? parseFloat(amount) : parseFloat
         (amount) * -1;
-      const newItem = {
-        id: `${generateRandomId()}-${title}`,
-        type: itemType,
-        title: title,
-        amount: thisAmount,
-        budget: budgetType,
-        category: selectedCategory,
-        date: formatDate(startDate),
-        tags: tags
-      }
       const copy = transactionsData.slice();
-      if (isNewItem) {
-        copy.push(newItem);
+
+      if (futureDates.length) {
+        for (let futureDate of futureDates) {
+          const newItem = {
+            id: `${generateRandomId()}-${title}`,
+            type: itemType,
+            title: title,
+            amount: thisAmount,
+            budget: budgetType,
+            category: selectedCategory,
+            date: formatDate(futureDate),
+            tags: tags,
+            recurring: isRecurring,
+            frequency: frequency
+          }
+          if (isNewItem) {
+            copy.push(newItem);
+          } else {
+            copy[index] = newItem;
+          }
+          copy.sort((a: Transaction, b: Transaction) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
+        }
       } else {
-        copy[index] = newItem;
+        const newItem = {
+          id: `${generateRandomId()}-${title}`,
+          type: itemType,
+          title: title,
+          amount: thisAmount,
+          budget: budgetType,
+          category: selectedCategory,
+          date: formatDate(startDate),
+          tags: tags,
+          recurring: isRecurring,
+          frequency: frequency
+        }
+        if (isNewItem) {
+          copy.push(newItem);
+        } else {
+          copy[index] = newItem;
+        }
+        copy.sort((a: Transaction, b: Transaction) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
       }
-      copy.sort((a: Transaction, b: Transaction) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
+
       setDataInFirestore(user, itemType.toLowerCase(), setTransactionsData, copy, returnToast, toast);
       resetStates();
       onClose();
     } else {
-      showError();
+      returnToast(toast, false, 'Please fill in all details.');
     }
-  }
-
-  const showError = () => {
-    return toast({
-      title: 'Invalid input',
-      description: "Please fill in all details.",
-      position: "top",
-      status: 'error',
-      duration: 3000,
-      isClosable: true,
-    })
   }
 
   const deleteItem = () => {
     const copy = transactionsData.filter((transaction: Transaction) => transaction.id !== data?.id);
     setDataInFirestore(user, itemType.toLowerCase(), setTransactionsData, copy, returnToast, toast)
     onClosePopup()
+  }
+
+  useEffect(() => {
+    if (isRecurring && frequency.length) {
+      setFutureDates(getFutureDates());
+    }
+  }, [frequency, startDate])
+
+  const getFutureDates = () => {
+    const dates = [];
+    let currentDate = new Date(startDate);
+
+    switch (frequency) {
+      case 'daily':
+        for (let day = 0; day < 365; day++) {
+          dates.push(new Date(currentDate));
+          currentDate.setDate(currentDate.getDate() + 1);
+        }
+        break;
+      case 'weekly':
+        for (let week = 0; week < 52; week++) {
+          dates.push(new Date(currentDate));
+          currentDate.setDate(currentDate.getDate() + 7);
+        }
+        break;
+      case 'monthly':
+        for (let year = 0; year < 2; year++) {
+          for (let month = 0; month < 12; month++) {
+            dates.push(new Date(currentDate));
+            currentDate.setMonth(currentDate.getMonth() + 1);
+          }
+        }
+        break;
+      case 'annually':
+        for (let year = 0; year < 5; year++) {
+          dates.push(new Date(currentDate));
+          currentDate.setFullYear(currentDate.getFullYear() + 1);
+        }
+        break;
+      default:
+        throw new Error('Invalid frequency');
+    }
+
+    return dates;
   }
 
   return (
@@ -143,6 +209,10 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
           submitHandler={submitHandler}
           onClose={onClose}
           isNewItem={isNewItem}
+          frequency={frequency}
+          setFrequency={setFrequency}
+          isRecurring={isRecurring}
+          setIsRecurring={setIsRecurring}
         />
         <ModalFooter>
           <Button variant="outline" mr={3} onClick={onClose}>Cancel</Button>

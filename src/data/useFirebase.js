@@ -7,14 +7,12 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { defaultCategoriesData } from "./defaultData/categories";
-import { defaultRecurring } from "./defaultData/recurring";
 
 export const getDataFromFirestore = async (
   user,
   setTransactionsData,
   setBudgetsData,
   setCategoriesData,
-  setRecurringData,
   returnToast,
   toast
 ) => {
@@ -24,12 +22,12 @@ export const getDataFromFirestore = async (
 
   if (userDocSnapshot.exists()) {
     const firestoreUserData = userDocSnapshot.data();
+    console.log(firestoreUserData);
     setTransactionsData(firestoreUserData.transactionsData || []);
     setBudgetsData(firestoreUserData.budgetsData || []);
     setCategoriesData(
       firestoreUserData.categoriesData || defaultCategoriesData
     );
-    setRecurringData(firestoreUserData.recurringData || defaultRecurring);
   } else {
     await setDoc(userDocRef, {
       displayName: user.displayName,
@@ -38,7 +36,6 @@ export const getDataFromFirestore = async (
       transactionsData: [],
       budgetsData: [],
       categoriesData: defaultCategoriesData,
-      recurringData: defaultRecurringData,
     })
       .then(() => {
         returnToast(toast, true, "Successfully updated data");
@@ -77,10 +74,6 @@ export const setDataInFirestore = async (
         type === "categories"
           ? data
           : firestoreUserData.categoriesData || defaultCategoriesData,
-      recurringData:
-        type === "recurring"
-          ? data
-          : firestoreUserData.recurringData || defaultRecurring,
     })
       .then(() => {
         returnToast(toast, true, "Successfully updated data");
