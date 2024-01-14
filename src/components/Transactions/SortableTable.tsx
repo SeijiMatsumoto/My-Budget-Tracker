@@ -4,15 +4,14 @@ import {
   Box,
   CardBody,
   Flex,
-  Heading,
   Switch,
   Text,
 } from '@chakra-ui/react'
 import styles from '@/styles/Transactions/transactions.module.scss'
-import styles2 from '@/styles/Transactions/sortableTable.module.scss'
 import { useMyDataContext } from '@/contexts/DataContext';
 import TableItem from './TableItem';
 import useLocalStorage from '@/hooks/useLocalStorage'
+import DateHeader from './DateHeader'
 
 type Props = {
   sortConfig: SortConfig
@@ -37,6 +36,7 @@ interface SortConfig {
 interface DataByDate {
   date: string;
   transactions: Transaction[];
+  totalAmount: number;
 }
 
 const SortableTable = ({ sortConfig }: Props) => {
@@ -97,10 +97,12 @@ const SortableTable = ({ sortConfig }: Props) => {
 
         if (existingEntry) {
           existingEntry.transactions.push(transaction);
+          existingEntry.totalAmount += transaction.amount;
         } else {
           acc.push({
             date: transactionDate,
-            transactions: [transaction]
+            transactions: [transaction],
+            totalAmount: transaction.amount
           });
         }
 
@@ -142,15 +144,9 @@ const SortableTable = ({ sortConfig }: Props) => {
       </Flex>
       <Box className={styles.tableWrapper}>
         {dataByDate.length ? dataByDate.map((eachDay: DataByDate, i: number) => {
-          const formattedDate = convertDate(eachDay.date);
-          const inputDate = new Date(eachDay.date);
-          const upcoming = inputDate > new Date();
           return (
             <Flex flexDir="column" key={eachDay.date + i}>
-              <Flex className={styles.dateWrapper} padding={isCondensed ? 2 : 3}>
-                {upcoming && <span>Upcoming</span>}
-                <Text fontWeight="bold">{`${formattedDate.dayOfWeek}, ${formattedDate.formattedDate}`}</Text>
-              </Flex>
+              <DateHeader isCondensed={isCondensed} convertDate={convertDate} eachDay={eachDay} />
               {eachDay.transactions.map((transaction: Transaction) => {
                 return (
                   <TableItem data={transaction} index={i} isCondensed={isCondensed} convertDate={convertDate} />

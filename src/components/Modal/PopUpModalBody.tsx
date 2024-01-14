@@ -141,7 +141,7 @@ const PopUpModalBody = ({
               id="recurring-checkbox"
               type="checkbox"
               checked={isRecurring}
-              onChange={(e) => { console.log(e); setIsRecurring(!isRecurring) }}
+              onChange={() => setIsRecurring(!isRecurring)}
               style={{ position: 'relative', top: '2px' }}
             />
           </Flex>

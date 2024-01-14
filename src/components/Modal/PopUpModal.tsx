@@ -87,7 +87,9 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
       const copy = transactionsData.slice();
       const itemIndex = copy.findIndex((each: Transaction) => each.id === data?.id)
       if (isRecurring && futureDates.length) {
-        for (let futureDate of futureDates) {
+        for (let i = 0; i < futureDates.length; i++) {
+          if (!isNewItem && i === 0) continue;
+          const futureDate = futureDates[i];
           const newItem = {
             id: `${generateRandomId()}-${title}`,
             type: itemType,
@@ -100,13 +102,9 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
             recurring: isRecurring,
             frequency: frequency
           }
-          if (isNewItem) {
-            copy.push(newItem);
-          } else {
-            copy[itemIndex] = newItem;
-          }
-          copy.sort((a: Transaction, b: Transaction) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
+          copy.push(newItem);
         }
+        copy.sort((a: Transaction, b: Transaction) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
       } else {
         const newItem = {
           id: isNewItem ? `${generateRandomId()}-${title}` : data?.id,
