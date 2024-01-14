@@ -37,6 +37,7 @@ interface Transaction {
   budget: string;
   tags: string[];
 }
+
 const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
   const toast = useToast()
   const { user } = useAuth();
@@ -82,11 +83,10 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
 
   const submitHandler = () => {
     if (amount && selectedCategory.length && title.length) {
-      let thisAmount = itemType === "Income" ? parseFloat(amount) : parseFloat
-        (amount) * -1;
+      let thisAmount = itemType === "Income" ? parseFloat(amount) : parseFloat(amount) * -1;
       const copy = transactionsData.slice();
-
-      if (futureDates.length) {
+      const itemIndex = copy.findIndex((each: Transaction) => each.id === data?.id)
+      if (isRecurring && futureDates.length) {
         for (let futureDate of futureDates) {
           const newItem = {
             id: `${generateRandomId()}-${title}`,
@@ -103,13 +103,13 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
           if (isNewItem) {
             copy.push(newItem);
           } else {
-            copy[index] = newItem;
+            copy[itemIndex] = newItem;
           }
           copy.sort((a: Transaction, b: Transaction) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
         }
       } else {
         const newItem = {
-          id: `${generateRandomId()}-${title}`,
+          id: isNewItem ? `${generateRandomId()}-${title}` : data?.id,
           type: itemType,
           title: title,
           amount: thisAmount,
@@ -123,13 +123,13 @@ const PopUpModal = ({ isNewItem, data, index, open, onClose }: Props) => {
         if (isNewItem) {
           copy.push(newItem);
         } else {
-          copy[index] = newItem;
+          copy[itemIndex] = newItem;
         }
         copy.sort((a: Transaction, b: Transaction) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
       }
 
       setDataInFirestore(user, itemType.toLowerCase(), setTransactionsData, copy, returnToast, toast);
-      resetStates();
+      isNewItem && resetStates();
       onClose();
     } else {
       returnToast(toast, false, 'Please fill in all details.');
