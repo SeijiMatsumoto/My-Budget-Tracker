@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import { Box, Flex, Text } from '@chakra-ui/react'
 import styles from '@/styles/Transactions/sortableTable.module.scss'
@@ -6,6 +7,8 @@ type Props = {
   isCondensed: boolean;
   convertDate: Function;
   eachDay: DataByDate;
+  isFirstUpcoming: boolean;
+  setIsFirstUpcoming: Function;
 }
 
 interface DataByDate {
@@ -26,17 +29,19 @@ interface Transaction {
 }
 
 
-const DateHeader = ({ isCondensed, convertDate, eachDay }: Props) => {
+const DateHeader = ({ isCondensed, convertDate, eachDay, isFirstUpcoming, setIsFirstUpcoming }: Props) => {
   const formattedDate = convertDate(eachDay.date);
   const inputDate = new Date(eachDay.date);
   const upcoming = inputDate > new Date();
+
+
 
   return (
     <Box className={styles.dateWrapper} padding={isCondensed ? '5px 20px' : '20px'} width="100%">
       <Flex alignItems="center" width="92%">
         <Box mr={5} display="flex" flexDir="column" justifyContent="center" width="10%">
-          {upcoming && <span>Upcoming</span>}
-          <Text fontWeight="bold">{`${formattedDate.dayOfWeek}, ${formattedDate.formattedDate}`}</Text>
+          {upcoming && <Text fontWeight="bold">Upcoming</Text>}
+          {!upcoming && <Text fontWeight="bold">{`${formattedDate.dayOfWeek}, ${formattedDate.formattedDate}`}</Text>}
         </Box>
         <Box mr={5} width="25%" />
         <Box mr={5} width="15%" />
@@ -44,7 +49,7 @@ const DateHeader = ({ isCondensed, convertDate, eachDay }: Props) => {
         <Box width="35%" />
       </Flex>
       <Flex width="8%">
-        <Text color={eachDay.totalAmount > 0 ? 'rgb(7, 218, 94)' : 'rgb(207, 17, 17)'}>${eachDay.totalAmount.toFixed(2)}</Text>
+        {!upcoming && <Text color={eachDay.totalAmount > 0 ? 'rgb(106, 255, 168)' : 'rgb(253, 162, 162)'}>${eachDay.totalAmount.toFixed(2)}</Text>}
       </Flex>
     </Box>)
 }

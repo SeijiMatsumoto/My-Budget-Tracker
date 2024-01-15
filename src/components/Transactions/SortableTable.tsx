@@ -43,6 +43,7 @@ const SortableTable = ({ sortConfig }: Props) => {
   const { transactionsData, dataToShow, setdataToShow, sortByKey, filterRange, startDate, endDate, searchInput, type, budgetType } = useMyDataContext();
   const [dataByDate, setDataByDate] = useState<DataByDate[]>([]);
   const [isCondensed, setStoredValue] = useLocalStorage<any>('isCondensed', false);
+  const [isFirstUpcoming, setIsFirstUpcoming] = useState<boolean>(true);
 
   useEffect(() => {
     setdataToShow([...dataToShow].sort((a, b) => {
@@ -146,7 +147,7 @@ const SortableTable = ({ sortConfig }: Props) => {
         {dataByDate.length ? dataByDate.map((eachDay: DataByDate, i: number) => {
           return (
             <Flex flexDir="column" key={eachDay.date + i}>
-              <DateHeader isCondensed={isCondensed} convertDate={convertDate} eachDay={eachDay} />
+              <DateHeader isCondensed={isCondensed} convertDate={convertDate} eachDay={eachDay} isFirstUpcoming={isFirstUpcoming} setIsFirstUpcoming={setIsFirstUpcoming} />
               {eachDay.transactions.map((transaction: Transaction) => {
                 return (
                   <TableItem data={transaction} index={i} isCondensed={isCondensed} convertDate={convertDate} />
