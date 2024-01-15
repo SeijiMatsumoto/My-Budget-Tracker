@@ -140,7 +140,7 @@ const SortableTable = ({ sortConfig }: Props) => {
   }
 
   return (
-    <CardBody overflow="scroll" className={styles.cardBody} pt={0} p={isMobile ? 0 : 'auto'}>
+    <CardBody overflow="scroll" className={styles.cardBody} pt={0} p={isMobile ? 0 : '1.25rem'}>
       <Flex>
         <Text fontSize="12px" mr={1} mb={2}>Condensed</Text>
         <Switch size='sm' isChecked={isCondensed} onChange={handleUpdate} />
