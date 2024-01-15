@@ -1,5 +1,5 @@
 "use client"
-import { Box, Button, Menu, MenuButton, MenuList, MenuItem } from '@chakra-ui/react'
+import { Box, Button, Menu, MenuButton, MenuList, MenuItem, Heading } from '@chakra-ui/react'
 import React, { useState } from 'react'
 import { FaChevronDown } from "react-icons/fa";
 
@@ -7,6 +7,7 @@ type Props = {
   handleSort: Function;
   sortConfig: SortConfig;
   setSortConfig: Function;
+  isDrawer: boolean;
 }
 
 interface SortConfig {
@@ -24,18 +25,19 @@ interface Transaction {
   budget: string;
 }
 
-const SortButton = ({ handleSort, sortConfig, setSortConfig }: Props) => {
+const SortButton = ({ handleSort, sortConfig, setSortConfig, isDrawer }: Props) => {
   const [sortType, setSortType] = useState<string | null>(null);
 
-  const sortAction = (type: string) => {
+  const sortAction: any = (type: string) => {
     handleSort(sortConfig, setSortConfig, type);
     setSortType(type[0].toUpperCase() + type.slice(1));
   }
 
   return (
-    <Box mr={4}>
+    <Box mr={isDrawer ? 0 : 4}>
+      {isDrawer && <Heading size="md" mb={1}>Sort by</Heading>}
       <Menu>
-        <MenuButton as={Button} rightIcon={<FaChevronDown />}>
+        <MenuButton as={Button} rightIcon={<FaChevronDown />} width="100%">
           {sortType ? `Sort by ${sortType}` : "Sort"}
         </MenuButton>
         <MenuList>

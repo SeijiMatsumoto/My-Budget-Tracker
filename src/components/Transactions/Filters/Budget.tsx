@@ -6,15 +6,22 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  Button
+  Button,
+  Heading
 } from '@chakra-ui/react'
 import { useMyDataContext } from '@/contexts/DataContext';
 import { FaChevronDown } from "react-icons/fa";
-const Budget = () => {
+
+interface Props {
+  isDrawer: boolean;
+}
+
+const Budget = ({ isDrawer }: Props) => {
   const { budgetType, setBudgetType } = useMyDataContext();
 
   return (
-    <Box mr={4}>
+    <Box mr={isDrawer ? 0 : 4} mb={isDrawer ? 5 : 0}>
+      {isDrawer && <Heading size="md" mb={1}>Budget Type</Heading>}
       <Menu>
         <MenuButton as={Button} rightIcon={<FaChevronDown />} width="100%">
           {budgetType === 'All' ? 'Budget type' : budgetType}

@@ -12,6 +12,7 @@ import { useMyDataContext } from '@/contexts/DataContext';
 import TableItem from './TableItem';
 import useLocalStorage from '@/hooks/useLocalStorage'
 import DateHeader from './DateHeader'
+import useIsMobile from '@/hooks/useIsMobile';
 
 type Props = {
   sortConfig: SortConfig
@@ -40,6 +41,7 @@ interface DataByDate {
 }
 
 const SortableTable = ({ sortConfig }: Props) => {
+  const isMobile = useIsMobile();
   const { transactionsData, dataToShow, setdataToShow, sortByKey, filterRange, startDate, endDate, searchInput, type, budgetType } = useMyDataContext();
   const [dataByDate, setDataByDate] = useState<DataByDate[]>([]);
   const [isCondensed, setStoredValue] = useLocalStorage<any>('isCondensed', false);
@@ -138,7 +140,7 @@ const SortableTable = ({ sortConfig }: Props) => {
   }
 
   return (
-    <CardBody overflow="scroll" className={styles.cardBody} pt={0}>
+    <CardBody overflow="scroll" className={styles.cardBody} pt={0} p={isMobile ? 0 : 'auto'}>
       <Flex>
         <Text fontSize="12px" mr={1} mb={2}>Condensed</Text>
         <Switch size='sm' isChecked={isCondensed} onChange={handleUpdate} />

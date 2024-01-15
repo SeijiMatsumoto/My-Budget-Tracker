@@ -5,7 +5,8 @@ import {
   MenuList,
   MenuItem,
   Button,
-  Flex
+  Flex,
+  Heading
 } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { DatePicker, InputGroup } from 'rsuite';
@@ -14,7 +15,11 @@ import styles from '@/styles/Transactions/transactions.module.scss'
 import { useMyDataContext } from '@/contexts/DataContext';
 import { FaChevronDown } from "react-icons/fa";
 
-const DateRange = () => {
+interface Props {
+  isDrawer: boolean;
+}
+
+const DateRange = ({ isDrawer }: Props) => {
   const currentDate = new Date();
   const { startDate, endDate, setStartDate, setEndDate, rangeType, setRangeType } = useMyDataContext();
 
@@ -45,7 +50,8 @@ const DateRange = () => {
   }, [rangeType])
 
   return (
-    <Flex>
+    <Flex mb={isDrawer ? 5 : 0} flexDir={isDrawer ? "column" : "row"}>
+      {isDrawer && <Heading size="md" mb={1}>Date Range</Heading>}
       <Menu matchWidth>
         <MenuButton as={Button} rightIcon={<FaChevronDown />} width="100%">
           {rangeType}
@@ -57,7 +63,7 @@ const DateRange = () => {
           <MenuItem onClick={() => setRangeType('Custom')}>Custom</MenuItem>
         </MenuList>
       </Menu>
-      <InputGroup style={{ width: '300px', height: '40px', marginLeft: '8px' }}>
+      <InputGroup style={{ width: isDrawer ? '100%' : '300px', height: '40px', marginLeft: isDrawer ? '0' : '8px' }}>
         <DatePicker
           format="MM-dd-yyyy"
           block
