@@ -16,7 +16,8 @@ import {
   Flex,
   Tabs, TabList, TabPanels, Tab, TabPanel, Button,
   useToast,
-  Checkbox
+  Checkbox,
+  Icon
 } from '@chakra-ui/react'
 import styles from '@/styles/Navigation/newItemModal.module.scss'
 import DatePicker from "react-datepicker";
@@ -25,6 +26,8 @@ import { Link } from '@chakra-ui/next-js';
 import { useMyNavigationContext } from '@/contexts/NavigationContext';
 import { CloseIcon } from '@chakra-ui/icons'
 import { useMyDataContext } from '@/contexts/DataContext';
+import { FaCalculator } from "react-icons/fa6";
+import Calculator from '../shared/Calculator';
 
 interface Props {
   itemType: string;
@@ -77,6 +80,7 @@ const PopUpModalBody = ({
   const { categoriesData } = useMyDataContext();
   const { setPage } = useMyNavigationContext();
   const [tagValue, setTagValue] = useState<string>('');
+  const [showCalc, setShowCalc] = useState<boolean>(false);
   const tabs = ['Transaction', 'Savings', 'Income']
 
   useEffect(() => {
@@ -197,16 +201,20 @@ const PopUpModalBody = ({
         {/* Amount */}
         <Box mb={5}>
           <FormLabel fontWeight="bold">{itemType} amount</FormLabel>
-          <InputGroup>
-            <InputLeftElement
-              pointerEvents='none'
-              color={amount ? 'black' : 'gray.300'}
-              fontSize='1.2em'
-            >
-              $
-            </InputLeftElement>
-            <Input placeholder='Enter amount' value={amount} onChange={(e: any) => setAmount(e.target.value)} autoComplete='off' />
-          </InputGroup>
+          <Flex flexDir="row">
+            <InputGroup mr={2}>
+              <InputLeftElement
+                pointerEvents='none'
+                color={amount ? 'black' : 'gray.300'}
+                fontSize='1.2em'
+              >
+                $
+              </InputLeftElement>
+              <Input placeholder='Enter amount' value={amount} onChange={(e: any) => setAmount(e.target.value)} autoComplete='off' />
+            </InputGroup>
+            <Button onClick={() => setShowCalc(!showCalc)}><Icon as={FaCalculator} /></Button>
+          </Flex>
+          {showCalc && <Calculator setAmount={setAmount} />}
         </Box>
         {/* Tags */}
         <Box>
