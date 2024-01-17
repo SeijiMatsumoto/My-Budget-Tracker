@@ -31,7 +31,7 @@ interface Transaction {
 function Transactions() {
   const router = useRouter()
   const { setPage } = useMyNavigationContext();
-  const { transactionsData } = useMyDataContext();
+  const { currentMonthData } = useMyDataContext();
 
   const clickHandler = () => {
     setPage('Transactions');
@@ -49,9 +49,9 @@ function Transactions() {
         </Button>
       </CardHeader>
       <CardBody className={styles.cardBody}>
-        {transactionsData ? <TableContainer>
+        {currentMonthData ? <TableContainer>
           <Table variant="striped" size="sm">
-            {transactionsData.length ? <TableCaption>Last 10 transactions</TableCaption>
+            {currentMonthData.length ? <TableCaption>Last 10 transactions</TableCaption>
               : <TableCaption>No transactions found.</TableCaption>}
             <Thead>
               <Tr>
@@ -64,7 +64,7 @@ function Transactions() {
               </Tr>
             </Thead>
             <Tbody>
-              {[...transactionsData.filter((transaction: Transaction) => transaction.type === "Transaction")].slice(0, 10).map((row: Transaction) => {
+              {[...currentMonthData.filter((transaction: Transaction) => transaction.type === "Transaction")].slice(0, 10).map((row: Transaction) => {
                 return (
                   <Tr key={row.id}>
                     <Td>{row.type}</Td>

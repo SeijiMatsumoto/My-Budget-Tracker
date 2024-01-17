@@ -6,6 +6,7 @@ import Spending from './Spending'
 import Budgets from './Budgets'
 import Overview from './Overview'
 import useIsMobile from '@/hooks/useIsMobile'
+import Calculator from '../shared/Calculator'
 
 const Dashboard = () => {
   const isMobile = useIsMobile();

@@ -37,7 +37,7 @@ interface WeeklySum {
 }
 
 function Spending() {
-  const { dataToShow } = useMyDataContext();
+  const { currentMonthData } = useMyDataContext();
   const [tableSize, setTableSize] = useState<string>("sm");
   const [dataByWeek, setDataByWeek] = useState<DataByWeek[]>([]);
 
@@ -51,10 +51,10 @@ function Spending() {
   }, [])
 
   useEffect(() => {
-    if (dataToShow.length) {
-      sumAmountsByWeek(dataToShow)
+    if (currentMonthData.length) {
+      sumAmountsByWeek(currentMonthData)
     }
-  }, [dataToShow])
+  }, [currentMonthData])
 
   function sumAmountsByWeek(transactions: Transaction[]) {
     const weeklySums: WeeklySum[] = [];
@@ -83,7 +83,7 @@ function Spending() {
         </Heading>
       </CardHeader>
       <CardBody className={styles.cardBody}>
-        {dataToShow ? <TableContainer>
+        {currentMonthData ? <TableContainer>
           <Table variant="striped" size={tableSize}>
             <TableCaption>Amount spent in {date.toLocaleString('en-US', { month: 'long' })}</TableCaption>
             <Thead>

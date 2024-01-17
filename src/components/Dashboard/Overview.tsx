@@ -18,7 +18,7 @@ import useIsMobile from '@/hooks/useIsMobile';
 const Overview = () => {
   const isMobile = useIsMobile();
   const { user } = useAuth();
-  const { dataToShow, setSavedAmount, setSpentAmount, setIncomeAmount, totalNet, setTotalNet, getTotalAmount } = useMyDataContext();
+  const { currentMonthData, setSavedAmount, setSpentAmount, setIncomeAmount, totalNet, setTotalNet, getTotalAmount } = useMyDataContext();
 
   const date = new Date();
   const month = date.toLocaleString('en-US', { month: 'long' });
@@ -26,7 +26,7 @@ const Overview = () => {
   const daysLeft = Math.ceil((lastDayOfMonth.valueOf() - date.valueOf()) / (1000 * 60 * 60 * 24));
 
   useEffect(() => {
-    if (dataToShow.length) {
+    if (currentMonthData.length) {
       const totalSavings = getTotalAmount("Savings") * -1;
       const totalSpent = getTotalAmount("Transaction") * -1;
       const totalIncome = getTotalAmount("Income");
@@ -35,7 +35,7 @@ const Overview = () => {
       setIncomeAmount(totalIncome);
       setTotalNet(totalIncome - totalSavings - totalSpent);
     }
-  }, [dataToShow])
+  }, [currentMonthData])
 
   const getMessage = () => {
     if (totalNet < 0) {
@@ -62,7 +62,7 @@ const Overview = () => {
               <Heading size="sm" fontWeight="normal">remaining in {month}</Heading>
             </Box>
             <Box className={styles.message}>
-              {dataToShow.length && getMessage()}
+              {currentMonthData.length && getMessage()}
             </Box>
           </Flex>
         </CardBody>
