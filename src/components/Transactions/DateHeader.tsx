@@ -29,12 +29,10 @@ interface Transaction {
 }
 
 
-const DateHeader = ({ isCondensed, convertDate, eachDay, isFirstUpcoming, setIsFirstUpcoming }: Props) => {
+const DateHeader = ({ isCondensed, convertDate, eachDay }: Props) => {
   const formattedDate = convertDate(eachDay.date);
   const inputDate = new Date(eachDay.date);
   const upcoming = inputDate > new Date();
-
-
 
   return (
     <Box className={styles.dateWrapper} padding={isCondensed ? '5px 20px' : '20px'} width="100%">
@@ -49,7 +47,7 @@ const DateHeader = ({ isCondensed, convertDate, eachDay, isFirstUpcoming, setIsF
         <Box width="35%" />
       </Flex>
       <Flex width="8%">
-        {!upcoming && <Text color={eachDay.totalAmount > 0 ? 'rgb(106, 255, 168)' : 'rgb(253, 162, 162)'}>${eachDay.totalAmount.toFixed(2)}</Text>}
+        {!upcoming && <Text color={eachDay.totalAmount > 0 ? 'rgb(37, 123, 159)' : 'rgb(182, 0, 0)'}>${eachDay.totalAmount.toFixed(2)}</Text>}
       </Flex>
     </Box>)
 }
