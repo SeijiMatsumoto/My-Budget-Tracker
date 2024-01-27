@@ -61,18 +61,33 @@ const SortableTable = ({ sortConfig }: Props) => {
     setdataToShow(filteredData);
   }, [startDate, endDate])
 
+  const debounce = (cb: Function, delay = 1000) => {
+    let timeout: any;
+
+    return (...args: any) => {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => {
+        cb(...args);
+      }, delay)
+    }
+  }
+
   useEffect(() => {
     if (searchInput.length) {
-      const searchOutput =
-        transactionsData.filter((transaction: Transaction) =>
-          transaction.title.toLowerCase().includes(searchInput.toLowerCase()) ||
-          transaction.category.toLowerCase().includes(searchInput.toLowerCase()) ||
-          (transaction.tags && transaction.tags.find(tag => tag.toLowerCase().includes(searchInput.toLowerCase()))));
-      setdataToShow(filterRange(searchOutput, startDate, endDate));
+      updateSearchResults();
     } else {
       setdataToShow(filterRange(transactionsData, startDate, endDate));
     }
   }, [searchInput])
+
+  const updateSearchResults = debounce(() => {
+    const searchOutput =
+      transactionsData.filter((transaction: Transaction) =>
+        transaction.title.toLowerCase().includes(searchInput.toLowerCase()) ||
+        transaction.category.toLowerCase().includes(searchInput.toLowerCase()) ||
+        (transaction.tags && transaction.tags.find(tag => tag.toLowerCase().includes(searchInput.toLowerCase()))));
+    setdataToShow(filterRange(searchOutput, startDate, endDate));
+  })
 
   useEffect(() => {
     if (type === "All") {
