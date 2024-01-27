@@ -31,11 +31,7 @@ const TableItem = ({ data, index, isCondensed, convertDate }: Props) => {
   return (
     <Box className={styles.itemWrapper} padding={isCondensed ? '5px 20px' : '20px'} onClick={() => setModalOpen(true)} width="100%">
       <Flex alignItems="center" width="92%">
-        <Box mr={5} display="flex" flexDir="column" justifyContent="center" width="10%">
-          <span className={styles.label}>{formattedDate.dayOfWeek}</span>
-          <span className={styles.date}>{formattedDate.formattedDate}</span>
-        </Box>
-        <Box mr={5} display="flex" flexDir="column" justifyContent="center" width="25%">
+        <Box mr={5} display="flex" flexDir="column" justifyContent="center" width="35%">
           <span className={styles.label}>{category}</span>
           <span className={styles.title}>{title}</span>
         </Box>

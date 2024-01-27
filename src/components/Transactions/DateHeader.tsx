@@ -37,11 +37,10 @@ const DateHeader = ({ isCondensed, convertDate, eachDay }: Props) => {
   return (
     <Box className={styles.dateWrapper} padding={isCondensed ? '5px 20px' : '20px'} width="100%">
       <Flex alignItems="center" width="92%">
-        <Box mr={5} display="flex" flexDir="column" justifyContent="center" width="10%">
+        <Box mr={5} display="flex" flexDir="column" justifyContent="center" width="35%">
           {upcoming && <Text fontWeight="bold">Upcoming</Text>}
           {!upcoming && <Text fontWeight="bold">{`${formattedDate.dayOfWeek}, ${formattedDate.formattedDate}`}</Text>}
         </Box>
-        <Box mr={5} width="25%" />
         <Box mr={5} width="15%" />
         <Box width="15%" />
         <Box width="35%" />
