@@ -1,0 +1,32 @@
+.itemWrapper {
+  padding: 20px;
+  margin-top: -1px;
+}
+
+.percentage {
+}
+
+.label {
+  margin: 0 !important;
+}
+
+.sum {
+}
+
+.fullHeight {
+  height: 100%;
+}
+
+.tabPanel {
+  height: 100%;
+  width: 100%;
+}
+
+.cardBody {
+  overflow-y: scroll;
+  height: 100%;
+  width: 100%;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

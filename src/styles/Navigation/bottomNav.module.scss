@@ -1,0 +1,31 @@
+.wrapper {
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+  background-color: #1975a3;
+  z-index: 10;
+}
+
+.menuLink {
+  color: white;
+  text-align: center;
+  width: 20%;
+}
+
+.icon {
+  font-size: 25px;
+  border-right: rgba(255, 255, 255, 0.222);
+  color: rgba(255, 255, 255, 0.616);
+}
+
+.label {
+  font-size: 9px;
+}
+
+.active {
+  font-weight: bold;
+  text-decoration: none !important;
+  * {
+    color: white !important;
+  }
+}

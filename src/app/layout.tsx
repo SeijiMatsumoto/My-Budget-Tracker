@@ -2,8 +2,9 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
-import SideNav from '@/components/SideNav/SideNav'
-import TopNav from '@/components/TopNav/TopNav'
+import MainNav from '@/components/Navigation/MainNav'
+import TopNav from '@/components/Navigation/TopNav'
+import { Box } from '@chakra-ui/react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,16 +19,20 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <div>
-      <Providers>
-        <SideNav />
-        <div>
-          <TopNav />
-          <body className={inter.className}>
-            {children}
-          </body>
-        </div>
-      </Providers>
-    </div>
+    <html lang="en">
+      <body>
+        <Providers>
+          <MainNav />
+          <div>
+            <TopNav />
+            <main className={inter.className}>
+              <Box m={5} height={"calc(100vh - 120px)"}>
+                {children}
+              </Box>
+            </main>
+          </div>
+        </Providers>
+      </body>
+    </html>
   )
 }

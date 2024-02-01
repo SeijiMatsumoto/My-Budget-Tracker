@@ -1,0 +1,52 @@
+.cardBody {
+  &::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(212, 210, 210);
+  }
+  overflow-y: scroll;
+}
+
+.colHeader {
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+.datePicker {
+  * {
+    color: black !important;
+  }
+}
+
+.overviewGrid {
+  @media screen and (max-width: 1439px) {
+  }
+  &::-webkit-scrollbar {
+    width: 8px;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: rgb(212, 210, 210);
+  }
+}
+
+.amount {
+  font-size: 2vw;
+}
+
+.filterWrapper {
+  @media screen and (max-width: 1919px) {
+    width: 35% !important;
+  }
+}
+
+.tableWrapper {
+  width: 100% !important;
+  border-radius: 3px;
+  overflow: hidden;
+  border-top: 1px solid rgba(0, 0, 0, 0.065);
+}
